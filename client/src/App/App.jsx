@@ -2,12 +2,14 @@
 import { useState } from 'react'
 import './App.css'
 import Dashboard from '../Layouts/Dashboard/dashboard'
+import Login from '../Layouts/Login/Login'
 
 function App() {
 
   return (
     <>
-      <Dashboard/>
+      <Login/>
+      {/* <Dashboard/> */}
     </>
   )
 }
