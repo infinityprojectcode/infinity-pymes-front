@@ -1,3 +1,5 @@
 server/.env
+server/.env.example
+server/.env.test
 server/node_modules
 client/node_modules
