@@ -1,7 +1,5 @@
-node_modules
-build
-coverage
-.vscode
-.DS_STORE
-.env
-tmp
+node_modules/
+schema.sql
+server/.vercel
+.vercel
+.env 
