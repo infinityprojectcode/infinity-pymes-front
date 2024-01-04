@@ -1,4 +1,4 @@
-function Header () {
+function Header() {
 
     return (
         <div className="w-full top-0 left-0 right-0 h-14">
@@ -16,7 +16,7 @@ function Header () {
                         </li>
                         <li className="p-1">
                             Configuración
-                        </li>  
+                        </li>
                         <li className="p-1">
                             Inicio
                         </li>
@@ -28,7 +28,7 @@ function Header () {
                         </li>
                         <li className="p-1">
                             Configuración
-                        </li>                       
+                        </li>
                     </ul>
                 </nav>
             </header>

@@ -11,7 +11,7 @@ function Login() {
                 <div className='flex min-h-fit w-[30rem] glass-efect'>
                     <section className='h-full w-full rounded-[1.7rem] border border-white p-4 '>
                         <div className='grid w-full place-content-center'>
-                            <div className='w-full'>    
+                            <div className='w-full'>
                                 <h1 className='text-center text-3xl decoration-inherit font-medium '>
                                     Inicia Sesion
                                 </h1>
