@@ -1,15 +1,16 @@
 /* eslint-disable no-debugger */
-import Header from "../../Layouts/header/Header";
-import Footer from "../../Layouts/footer/Footer";
+import Sidebar from "../../Layouts/sidebar/sidebar";
+import HomeTemplate from "../../Layouts/homeTemplate/home-template";
 
-function Dashboard() {
+export default function dashboard() {
     return (
         <>
-            <div className="w-full h-screen">
-                <p>Dashboard</p>
+            <div className="w-full h-screen flex">
+                <Sidebar />
+                <HomeTemplate>
+                    <h1>Dasboard</h1>
+                </HomeTemplate>
             </div>
         </>
     )
 }
-
-export default Dashboard;

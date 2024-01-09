@@ -1,11 +1,17 @@
+import Sidebar from './../../Layouts/sidebar/sidebar'
+import HomeTemplate from './../../Layouts/homeTemplate/home-template'
 
-function Home (){ 
+function home() {
     return (
         <>
-        
+            <div className="w-full h-screen flex">
+                <Sidebar />
+                <HomeTemplate>
+                    <h1>Home</h1>
+                </HomeTemplate>
+            </div>
         </>
-    );
+    )
 }
 
-
-export default Home;
+export default home
