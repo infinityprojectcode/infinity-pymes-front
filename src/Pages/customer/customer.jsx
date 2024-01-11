@@ -6,7 +6,7 @@ export default function customer() {
     <div className="w-full h-screen flex">
       <Sidebar />
       <HomeTemplate>
-        <h1>Customers</h1>
+        <h1 className='text-100'>Customers</h1>
       </HomeTemplate>
     </div>
   )

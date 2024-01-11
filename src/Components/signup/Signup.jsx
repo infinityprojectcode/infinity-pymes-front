@@ -14,7 +14,7 @@ function Signup() {
                         <div className='grid w-full place-content-center'>
                             <div className='w-full mb-4'>
                                 <h1 className=' text-white text-center text-3xl decoration-inherit font-medium '>
-                                    Registrar
+                                    Registrate
                                 </h1>
                             </div>
                             <div className='grid m-2'>

@@ -9,7 +9,7 @@ export default function Begin() {
             <div className='relative flex flex-col items-center w-2/5 bg-white'>
                 <div className='flex flex-col items-center justify-around w-full h-full p-8'>
                     <section className='pl-4 pr-4'>
-                        <h1 className='text-4xl font-bold pb-2'> Iniciar Sesion</h1>
+                        <h1 className='text-4xl font-bold pb-2'> Iniciar sesión</h1>
                         <div className='pb-2'>
                             <p className='text-2xl font-light'>
                                 Inicia sesión en tu cuenta.

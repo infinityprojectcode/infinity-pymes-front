@@ -7,7 +7,7 @@ export default function inventory() {
       <div className="w-full h-screen flex">
         <Sidebar />
         <HomeTemplate>
-          <h1>Inventory</h1>
+          <h1 className='text-100'>Inventory</h1>
         </HomeTemplate>
       </div>
     </>

@@ -8,7 +8,7 @@ export default function dashboard() {
             <div className="w-full h-screen flex">
                 <Sidebar />
                 <HomeTemplate>
-                    <h1>Dasboard</h1>
+                    <h1 className='text-100'>Dasboard</h1>
                 </HomeTemplate>
             </div>
         </>
