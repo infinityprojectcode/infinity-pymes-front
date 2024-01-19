@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import ImagenFondo from '../../assets/ImagenConVector.jpg'
 
 export default function Begin() {
@@ -32,12 +33,12 @@ export default function Begin() {
                                 <input type='password' id='password' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full outline-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-4 p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='password' required />
                             </div>
                             <div className='flex items-start mb-6'>
-                                <a href='#' className='text-gray-800 hover:text-blue-700 '>
+                                <Link to='#' className='text-gray-800 hover:text-blue-700'>
                                     Olvidaste tu contraseña?
-                                </a>
-                                <a href='/signup' className='ml-auto text-gray-800 hover:text-blue-700'>
+                                </Link>
+                                <Link to='/signup' className='ml-auto text-gray-800 hover:text-blue-700'>
                                     Registrate
-                                </a>
+                                </Link>
                             </div>
                             <div className='flex items-start mb-6'>
                                 <div className='flex items-center h-5'>

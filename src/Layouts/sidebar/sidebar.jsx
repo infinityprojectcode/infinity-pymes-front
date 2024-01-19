@@ -12,13 +12,13 @@ export default function Sidebar() {
                     </h1>
                 </div>
                 <div className='flex flex-col h-full gap-4'>
-                    {routes.map((item, index) => (
-                        <Link key={index} className='text-200' to={item.route}>
-                            <div key={item.id} className='w-full h-16 p-4 flex flex-row justify-center hover:bg-white hover:cursor-pointer hover:text-black font-semibold'>
-                                {item.name}
-                            </div>
-                        </Link>
-                    ))}
+                        {routes.map((item, index) => (
+                            <Link key={index} className='text-200' to={item.route}>
+                                <div key={item.id} className='w-full h-16 p-4 flex flex-row justify-center hover:bg-white hover:cursor-pointer hover:text-black font-semibold'>
+                                    {item.name}
+                                </div>
+                            </Link>
+                        ))}
                 </div>
             </div>
         </div>
