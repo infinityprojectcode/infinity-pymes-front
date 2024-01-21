@@ -48,13 +48,13 @@ export default function Begin() {
                                     Recordarme
                                 </label>
                             </div>
-                            <button type='submit' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-auto px-5 py-2
+                            <Link to='/dashboard'>
+                                <button type='submit' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-auto px-5 py-2
                                     dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
 
-                                <Link to='/dashboard'>
                                     Iniciar Sesion
-                                </Link>
-                            </button>
+                                </button>
+                            </Link>
                         </form>
                     </section>
                 </div>
