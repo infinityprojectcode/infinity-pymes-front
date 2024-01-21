@@ -2,13 +2,15 @@
 import { useState } from 'react'
 import './App.css'
 import { createBrowserRouter, createHashRouter, Route, RouterProvider, HashRouter } from 'react-router-dom'
-import Dashboard from '../Pages/dashboard/Dashboard'
+import Dashboard from '../Pages/dashboard/dashboard'
 import ProtectedRoutes from '../Components/auth/protectedRoutes/ProtectedRoutes'
 import Home from '../Pages/home/home'
 import Login from '../components/login/login'
 import Signup from '../components/signup/signup'
 import Inventory from '../Pages/inventory/inventory'
 import Customer from '../Pages/customer/customer'
+import HomeTemplate from '../Layouts/homeTemplate/home-template'
+import UserLogin from '../Pages/userlogin/user-login'
 
 function App() {
   const routes = createHashRouter([
@@ -37,10 +39,14 @@ function App() {
       element: <Customer />,
     },
     {
+      path: "/user-login",
+      element: <UserLogin />,
+    },
+    {
       path: '/',
       element: <ProtectedRoutes />,
       children: [
-        { path: '/dashboard', element: <Dashboard /> },
+        { path: '', element: '' },
       ]
     }
   ])

@@ -8,7 +8,7 @@ function home() {
             <div className="w-full h-screen flex">
                 <Sidebar />
                 <HomeTemplate>
-                    <h1 className='text-100' >Home</h1>
+                    <h1 className='text-100' >Bienvenido</h1>
                 </HomeTemplate>
             </div>
         </>

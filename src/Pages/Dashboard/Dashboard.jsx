@@ -2,7 +2,7 @@
 import Sidebar from "../../Layouts/sidebar/sidebar";
 import HomeTemplate from "../../Layouts/homeTemplate/home-template";
 
-export default function dashboard() {
+export default function Dashboard() {
     return (
         <>
             <div className="w-full h-screen flex">
