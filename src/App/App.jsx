@@ -9,7 +9,6 @@ import Login from '../components/login/login'
 import Signup from '../components/signup/signup'
 import Inventory from '../Pages/inventory/inventory'
 import Customer from '../Pages/customer/customer'
-import HomeTemplate from '../Layouts/homeTemplate/home-template'
 import UserLogin from '../Pages/userlogin/user-login'
 
 function App() {

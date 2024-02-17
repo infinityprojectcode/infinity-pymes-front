@@ -1,5 +1,5 @@
 import Sidebar from './../../Layouts/sidebar/sidebar'
-import HomeTemplate from './../../Layouts/homeTemplate/home-template'
+import PageTemplate from '../../Layouts/page/page-template'
 import '../../index.css';
 
 function home() {
@@ -7,9 +7,14 @@ function home() {
         <>
             <div className="w-full h-screen flex">
                 <Sidebar />
-                <HomeTemplate>
-                    <h1 className='text-100' >Bienvenido</h1>
-                </HomeTemplate>
+                <PageTemplate>
+                    <h1 className='text-200' >Bienvenido</h1>
+
+                    <div className='flex justify-center items-center'>
+                        <img src='./../../assets/images/home.jpg' className='w-[500px] h-[500px] rounded-lg' />
+                    </div>
+
+                </PageTemplate>
             </div>
         </>
     )

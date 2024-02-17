@@ -1,5 +1,5 @@
 import './signup.css';
-import ImagenFondo from './../../assets/ImagenConVector.jpg'
+import ImagenFondo from './../../assets/images/ImagenConVector.jpg'
 
 function Signup() {
     return (
