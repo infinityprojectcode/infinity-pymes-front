@@ -7,13 +7,10 @@ function home() {
         <>
             <div className="w-full h-screen flex">
                 <Sidebar />
-                <PageTemplate>
-                    <h1 className='text-200' >Bienvenido</h1>
+                <PageTemplate title='Bienvenido'>
+                    <div className='w-full h-full'>
 
-                    <div className='flex justify-center items-center'>
-                        <img src='./../../assets/images/home.jpg' className='w-[500px] h-[500px] rounded-lg' />
                     </div>
-
                 </PageTemplate>
             </div>
         </>

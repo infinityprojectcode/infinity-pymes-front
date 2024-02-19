@@ -7,8 +7,8 @@ export default function Dashboard() {
         <>
             <div className="w-full h-screen flex">
                 <Sidebar />
-                <PageTemplate>
-                    <h1 className='text-100'>Dasboard</h1>
+                <PageTemplate title='Panel'>
+
                 </PageTemplate>
             </div>
         </>

@@ -5,8 +5,8 @@ export default function customer() {
   return (
     <div className="w-full h-screen flex">
       <Sidebar />
-      <PageTemplate>
-        <h1 className='text-100'>Customers</h1>
+      <PageTemplate title='Clientes'>
+
       </PageTemplate>
     </div>
   )

@@ -3,7 +3,7 @@ import { routes } from '../../routes/routes';
 
 export default function Sidebar() {
     return (
-        <div className='flex flex-col relative top-0 left-0 h-screen w-1/6 bg-200'>
+        <div className='flex flex-col relative top-0 left-0 h-screen w-1/6 bg-100'>
             <div className='flex flex-col h-full justify-start'>
                 <div className='flex flex-col justify-center text-center p-8'>
                     <div>
