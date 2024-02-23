@@ -78,7 +78,44 @@ export default function ListCustomers() {
             direction: "Calle falsa 123",
             status_count: true,
             time_registered: "12/12/2022",
-            total_product_price: 80000
+            total_product_price: 80000,
+            products: [
+                {
+                    id: crypto(),
+                    name: "Gaseosa",
+                    category: "Gaseosas",
+                    price: '5000',
+                    quantity: 15,
+                },
+                {
+                    id: crypto(),
+                    name: "Gaseosa",
+                    category: "Gaseosas",
+                    price: '5000',
+                    quantity: 15,
+                },
+                {
+                    id: crypto(),
+                    name: "Gaseosa",
+                    category: "Gaseosas",
+                    price: '5000',
+                    quantity: 15,
+                },
+                {
+                    id: crypto(),
+                    name: "Gaseosa",
+                    category: "Gaseosas",
+                    price: '5000',
+                    quantity: 15,
+                },
+                {
+                    id: crypto(),
+                    name: "Gaseosa",
+                    category: "Gaseosas",
+                    price: '5000',
+                    quantity: 15,
+                }
+            ]
         },
         {
             id: crypto(),
@@ -137,7 +174,7 @@ export default function ListCustomers() {
         setEmailCustomer(customer.email)
         setDirectionCustomer(customer.direction)
         setShowInfoCustomer(!showInfoCustomer)
-        setListProductPerCustomer(customer.products)
+        setListProductPerCustomer(customer.products || [])
     }
 
     const handleDeletCustomer = (id) => {
@@ -286,7 +323,7 @@ export default function ListCustomers() {
                             <span className='text-100'>{phoneCustomer}</span>
                             <label className='text-100'>Productos</label>
                             <ul className='[&>li>h1]:font-black flex flex-row flex-wrap gap-4 [&>li]:rounded-lg [&>li]:p-4' >
-                                {listProductPerCustomer.map((item, index) => (
+                                { listProductPerCustomer.length > 0 && listProductPerCustomer.map((item, index) => (
                                     <li key={index} className='bg-200'>
                                         <div className='flex flex-col items-start justify-between gap-4'>
                                             <div className='flex gap-2'>
