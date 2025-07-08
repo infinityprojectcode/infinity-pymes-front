@@ -50,7 +50,7 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="flex flex-col justify-end text-center p-8">
-        <p className="text-200">&copy; 2025 Infinit Pymes</p>
+        <p className="text-200">&copy; 2024 Infinit Pymes</p>
       </div>
     </div>
   );
