@@ -15,7 +15,7 @@ export default function Router() {
 
       {/* Rutas protegidas (envueltas en ProtectedRoutes + Outlet) */}
       <Route element={<ProtectedRoutes />}>
-        {appRoutes.map(({ path, element: Element, name }) => (
+        {appRoutes.map(({ path, element: Element }) => (
           <Route key={path} path={path} element={<Element />} />
         ))}
       </Route>
