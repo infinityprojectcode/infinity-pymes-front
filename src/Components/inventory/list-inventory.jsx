@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
+import bebidas from '@assets/images/bebida.webp'
 import { v4 as crypto } from 'uuid'
-import bebidas from './../../assets/images/bebida.webp'
 
 export default function ListInventory() {
 

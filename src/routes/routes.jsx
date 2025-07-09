@@ -1,13 +1,13 @@
 
-import Inventory from '../Pages/inventory/inventory';
-import Customer from '../Pages/customer/customer';
-import Dashboard from '../Pages/dashboard/dashboard';
-import Home from '../Pages/home/home';
-import HomeIcon from '../assets/icons/home-icon';
-import DashboardIcon from '../assets/icons/dashboard-icon';
-import InventoryIcon from '../assets/icons/inventory-icon';
-import BillingIcon from '../assets/icons/billing-icon';
-import ClientsIcon from '../assets/icons/clients-icon';
+import Inventory from '@pages/inventory/inventory';
+import Customer from '@pages/customer/customer';
+import Dashboard from '@pages/dashboard/dashboard';
+import Home from '@pages/home/home';
+import HomeIcon from '@assets/icons/home-icon';
+import DashboardIcon from '@assets/icons/dashboard-icon';
+import InventoryIcon from '@assets/icons/inventory-icon';
+import BillingIcon from '@assets/icons/billing-icon';
+import ClientsIcon from '@assets/icons/clients-icon';
 
 
 export const routes = [
