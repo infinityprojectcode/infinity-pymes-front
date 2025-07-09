@@ -6,6 +6,7 @@ import Home from '../Pages/home/home';
 import HomeIcon from '../assets/icons/home-icon';
 import DashboardIcon from '../assets/icons/dashboard-icon';
 import InventoryIcon from '../assets/icons/inventory-icon';
+import BillingIcon from '../assets/icons/billing-icon';
 import ClientsIcon from '../assets/icons/clients-icon';
 
 
@@ -30,6 +31,13 @@ export const routes = [
         name: "Inventario",
         component: <Inventory />,
         icon: <InventoryIcon/>
+    },
+    {
+        id: crypto.randomUUID(),
+        route: "/billing",
+        name: "Facturacion",
+        component: <Inventory />,
+        icon: <BillingIcon/>
     },
     {
         id: crypto.randomUUID(),
