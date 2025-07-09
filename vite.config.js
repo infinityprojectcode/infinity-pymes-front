@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     vercel()
   ],
+  base: './',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -17,6 +18,7 @@ export default defineConfig({
       '@routes': path.resolve(__dirname, 'src/routes'),
       '@layouts': path.resolve(__dirname, 'src/Layouts'),
       '@pages': path.resolve(__dirname, 'src/Pages'),
+      '@lib': path.resolve(__dirname, 'src/lib'),
     },
   }
 })
