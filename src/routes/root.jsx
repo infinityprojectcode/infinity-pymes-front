@@ -1,8 +1,9 @@
-import { appRoutes } from "@routes/routes";
-import Login from '@components/login/login';
-import Signup from '@components/signup/signup';
 import { Route, Routes } from "react-router-dom";
+import ProtectedRoutes from '@lib/auth/protectedRoutes/ProtectedRoutes';
 import UserLogin from '@pages/userlogin/user-login';
+import Signup from '@components/signup/signup';
+import Login from '@components/login/login';
+import { appRoutes } from "@routes/routes";
 
 export default function Router() {
   return (
@@ -12,10 +13,12 @@ export default function Router() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/user-login" element={<UserLogin />} />
 
-      {/* Rutas protegidas dinámicamente */}
-      {appRoutes.map(({ path, element: Element, name }) => (
-        <Route name={name} key={path} path={path} element={<Element />} />
-      ))}
+      {/* Rutas protegidas (envueltas en ProtectedRoutes + Outlet) */}
+      <Route element={<ProtectedRoutes />}>
+        {appRoutes.map(({ path, element: Element, name }) => (
+          <Route key={path} path={path} element={<Element />} />
+        ))}
+      </Route>
     </Routes>
   );
 }
