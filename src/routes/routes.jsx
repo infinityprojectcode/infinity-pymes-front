@@ -1,4 +1,3 @@
-
 import Inventory from '@pages/inventory/inventory';
 import Customer from '@pages/customer/customer';
 import Dashboard from '@pages/dashboard/dashboard';
@@ -9,41 +8,40 @@ import InventoryIcon from '@assets/icons/inventory-icon';
 import BillingIcon from '@assets/icons/billing-icon';
 import ClientsIcon from '@assets/icons/clients-icon';
 
-
-export const routes = [
-    {
-        id: crypto.randomUUID(),
-        route: "/home",
-        name: "Inicio",
-        component: <Home />,
-        icon: <HomeIcon/>
-    },
-    {
-        id: crypto.randomUUID(),
-        route: "/dashboard",
-        name: "Panel",
-        component: <Dashboard />,
-        icon: <DashboardIcon/>
-    },
-    {
-        id: crypto.randomUUID(),
-        route: "/inventory",
-        name: "Inventario",
-        component: <Inventory />,
-        icon: <InventoryIcon/>
-    },
-    {
-        id: crypto.randomUUID(),
-        route: "/billing",
-        name: "Facturacion",
-        component: <Inventory />,
-        icon: <BillingIcon/>
-    },
-    {
-        id: crypto.randomUUID(),
-        route: "/customer",
-        name: "Clientes",
-        component: <Customer />,
-        icon: <ClientsIcon/>
-    }
+export const appRoutes = [
+  {
+    id: crypto.randomUUID(),
+    path: "/home",
+    name: "Inicio",
+    element: Home,
+    icon: <HomeIcon/>,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/dashboard",
+    name: "Panel",
+    element: Dashboard,
+    icon: <DashboardIcon/>,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/inventory",
+    name: "Inventario",
+    element: Inventory,
+    icon: <InventoryIcon/>,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/billing",
+    name: "Facturacion",
+    element: Inventory,
+    icon: <BillingIcon/>,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/customer",
+    name: "Clientes",
+    element: Customer,
+    icon: <ClientsIcon/>,
+  }
 ];
