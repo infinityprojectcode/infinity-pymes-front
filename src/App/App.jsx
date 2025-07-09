@@ -34,7 +34,7 @@ function App() {
   //   },
   //   {
   //     path: '/',
-  //     element: <ProtectedRoutes />,
+      // element: <ProtectedRoutes />,
   //     children: [
   //       { path: '', element: '' },
   //     ]
@@ -44,7 +44,6 @@ function App() {
   return (
     <>
       <Router />
-      {/* <RouterProvider router={routes} /> */}
     </>
   )
 }
