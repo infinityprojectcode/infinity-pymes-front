@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { routes } from "../../routes/routes";
-import LogoutIcon from "../../assets/icons/logout-icon";
+import { routes } from "@routes/routes";
+import LogoutIcon from "@assets/icons/logout-icon";
 
 export default function Sidebar() {
   return (
