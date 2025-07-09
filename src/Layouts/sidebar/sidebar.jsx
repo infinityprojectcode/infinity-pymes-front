@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { routes } from "@routes/routes";
+import { appRoutes } from "@routes/routes";
 import LogoutIcon from "@assets/icons/logout-icon";
 
 export default function Sidebar() {
@@ -31,8 +31,8 @@ export default function Sidebar() {
         <div className="w-full border-t border-gray-300 my-4" />
 
         <div className="flex flex-col h-full">
-          {routes.map((item, index) => (
-            <Link key={index} className="text-200" to={item.route}>
+          {appRoutes.map((item, index) => (
+            <Link key={index} className="text-200" to={item.path}>
               <div
                 key={item.id}
                 className="w-4/5 h-9 px-2 my-1 mx-auto rounded-lg flex gap-4 flex-row justify-start items-center hover:bg-white hover:cursor-pointer hover:text-black font-semibold"
