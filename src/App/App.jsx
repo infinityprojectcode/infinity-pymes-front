@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
 import './App.css'
 import { createBrowserRouter, createHashRouter, Route, RouterProvider, HashRouter } from 'react-router-dom'
 import Dashboard from '../Pages/dashboard/dashboard'
