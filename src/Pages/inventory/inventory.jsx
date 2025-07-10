@@ -7,7 +7,7 @@ export default function inventory() {
     <>
       <div className="w-full h-screen flex">
         <Sidebar />
-        <PageTemplate title="Inventario">
+        <PageTemplate>
           <div className='w-full h-full pt-10 p-8'>
             <ListInventory />
           </div>
