@@ -18,7 +18,7 @@ export default function Dashboard() {
             <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 mb-6">
               <h2 className="text-xl font-semibold mb-4">Acciones rápidas</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="border border-gray-700 rounded-md p-4 flex flex-col items-center text-center gap-1 hover:bg-gray-800">
+                <button className="border border-gray-700 rounded-md p-4 flex flex-col items-center text-center gap-1 hover:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -35,8 +35,8 @@ export default function Dashboard() {
                   <p className="text-sm text-gray-400">
                     Exportar todos los datos del sistema
                   </p>
-                </div>
-                <div className="border border-gray-700 rounded-md p-4 flex flex-col items-center text-center gap-1 hover:bg-gray-800">
+                </button>
+                <button className="border border-gray-700 rounded-md p-4 flex flex-col items-center text-center gap-1 hover:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -53,8 +53,8 @@ export default function Dashboard() {
                   <p className="text-sm text-gray-400">
                     Importar datos desde un archivo
                   </p>
-                </div>
-                <div className="border border-gray-700 rounded-md p-4 flex flex-col gap-1 items-center text-center hover:bg-gray-800">
+                </button>
+                <button className="border border-gray-700 rounded-md p-4 flex flex-col gap-1 items-center text-center hover:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -73,8 +73,8 @@ export default function Dashboard() {
                   <p className="text-sm text-gray-400">
                     Crear una copia de seguridad del sistema
                   </p>
-                </div>
-                <div className="border border-gray-700 rounded-md p-4 flex flex-col gap-1 items-center text-center hover:bg-gray-800">
+                </button>
+                <button className="border border-gray-700 rounded-md p-4 flex flex-col gap-1 items-center text-center hover:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -90,10 +90,10 @@ export default function Dashboard() {
                   <p className="text-sm text-gray-400">
                     Generar informes del sistema
                   </p>
-                </div>
+                </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {/* Configuración del sistema */}
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-6">
                 <h2 className="text-white text-lg font-semibold mb-4 flex items-center gap-2">
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              {/* Seguridad */}
+              {/* Gestión de usuarios */}
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-6">
                 <h2 className="text-white text-lg font-semibold mb-4 flex items-center gap-2">
                   <svg
@@ -222,6 +222,106 @@ export default function Dashboard() {
                       <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all duration-200 peer-checked:translate-x-5"></div>
                     </label>
                   </div>
+                </div>
+              </div>
+              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-6">
+                <h2 className="text-white text-lg font-semibold mb-4 flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <circle cx="9" cy="7" r="4" />
+                  </svg>
+                  Gestión de Usuarios
+                </h2>
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">
+                        Registro de usuario
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Permitir el registro de nuevos usuarios
+                      </p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" />
+                      <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-600 transition-all duration-200"></div>
+                      <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all duration-200 peer-checked:translate-x-5"></div>
+                    </label>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">
+                        Verificación de correo electronico
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Requerir verificación de correo electronico
+                      </p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" />
+                      <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-600 transition-all duration-200"></div>
+                      <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all duration-200 peer-checked:translate-x-5"></div>
+                    </label>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-semibold">
+                        Complejidad de la contraseña
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Imponer contraseñas segura
+                      </p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" />
+                      <div className="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:bg-blue-600 transition-all duration-200"></div>
+                      <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all duration-200 peer-checked:translate-x-5"></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col p-4 bg-[#0d1117]">
+              <h2 className="text-xl font-semibold mb-4">
+                Información del sistema
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="flex flex-col">
+                  <p className="text-sm text-gray-400">Version</p>
+                  <p className="text-white font-semibold">v1.0.0</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-sm text-gray-400">
+                    Última copia de seguridad
+                  </p>
+                  <p className="text-white font-semibold">2025-01-15 14:30</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-sm text-gray-400">Estado del Sistema</p>
+                  <p className="text-white font-semibold">Operacional</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-sm text-gray-400">Tamaño de la base de datos</p>
+                  <p className="text-white font-semibold">2.4 GB</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-sm text-gray-400">
+                    Usuarios activos
+                  </p>
+                  <p className="text-white font-semibold">127</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-sm text-gray-400">Tiempo de actividad</p>
+                  <p className="text-white font-semibold">15 dias, 4 horas</p>
                 </div>
               </div>
             </div>
