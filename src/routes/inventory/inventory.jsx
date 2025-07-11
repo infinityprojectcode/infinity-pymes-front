@@ -1,6 +1,6 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import ListInventory from "@components/inventory/list-inventory.jsx";
+import ListInventory from "@fragments/inventory/list-inventory.jsx";
 
 export default function inventory() {
   return (

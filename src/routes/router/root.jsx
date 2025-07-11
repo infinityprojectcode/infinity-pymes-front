@@ -1,10 +1,9 @@
-import { Route, Routes } from "react-router-dom";
-import { appRoutes } from "@routes/router/routes.jsx";
-import ErrorPage from "@routes/router/error.jsx";
 import ProtectedRoutes from "../../lib/auth/protectedRoutes/ProtectedRoutes.jsx";
-import UserLogin from "@routes/userlogin/user-login";
-import Signup from "@components/signup/signup";
-import Login from "@components/login/login";
+import { appRoutes } from "@routes/router/routes.jsx";
+import UserLogin from "@routes/user-login/user-login";
+import { Route, Routes } from "react-router-dom";
+import Signup from "@fragments/signup/signup";
+import Login from "@fragments/login/login";
 
 export default function Router() {
   return (
