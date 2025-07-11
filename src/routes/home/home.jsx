@@ -1,6 +1,5 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import "../../style.css";
 
 export default function home() {
   const dataQuemada = [
