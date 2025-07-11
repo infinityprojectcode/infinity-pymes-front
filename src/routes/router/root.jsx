@@ -3,7 +3,7 @@ import { appRoutes } from "@routes/router/routes.jsx";
 import ErrorPage from "@routes/router/error.jsx";
 import ProtectedRoutes from "../../lib/auth/protectedRoutes/ProtectedRoutes.jsx";
 import UserLogin from "@routes/userlogin/user-login";
-import Signup from "@components/signup/signup";
+import Signup from "@components/signup/signpup";
 import Login from "@components/login/login";
 
 export default function Router() {
