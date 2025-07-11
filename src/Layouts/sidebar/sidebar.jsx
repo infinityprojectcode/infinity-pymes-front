@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { appRoutes } from "@routes/routes";
+import { appRoutes } from "@routes/router/routes.jsx";
 import LogoutIcon from "@assets/icons/logout-icon";
 
 export default function Sidebar() {
