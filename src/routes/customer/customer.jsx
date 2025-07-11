@@ -1,6 +1,6 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import ListCustomers from "@components/customers/list-customers.jsx";
+import ListCustomers from "@fragments/customers/list-customers.jsx";
 
 export default function customer() {
   return (
