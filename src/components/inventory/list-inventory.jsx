@@ -5,16 +5,7 @@ import { v4 as crypto } from "uuid";
 import AddInventory from "./modal-add-inventory/modal-add-inventory.jsx";
 
 export default function ListInventory() {
-  const categoriesList = [
-    "Seleccione...",
-    "Bebidas",
-    "Cervezas",
-    "Licores",
-    "Misceláneos",
-    "Gaseosas",
-    "Cócteles",
-  ];
-
+  
   const list = [
     {
       id: crypto(),
