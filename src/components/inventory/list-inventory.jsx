@@ -106,7 +106,7 @@ export default function ListInventory() {
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-center">
           <div className="flex flex-col text-white">
             <h1 className="text-3xl font-bold mb-1">Inventario</h1>
             <p className="text-gray-400 mb-6">
