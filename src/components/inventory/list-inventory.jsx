@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import bebidas from "@assets/images/bebida.webp";
 import { v4 as crypto } from "uuid";
+import AddInventory from './modal-add-inventory/modal-add-inventory.jsx';
 
 export default function ListInventory() {
   const categoriesList = [
@@ -45,6 +46,7 @@ export default function ListInventory() {
   const [stockProduct, setStockProduct] = useState("");
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [listProduct, setListProduct] = useState(list);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function clearFields() {
     setNameProduct("");
@@ -108,101 +110,10 @@ export default function ListInventory() {
     <div>
       <button
         className="bg-blue-500 rounded-lg p-2 text-white"
-        onClick={() => setShowAddProduct(!showAddProduct)}
+        onClick={()=>setModalIsOpen(true)}
       >
         Añadir nuevo
-      </button>
-      {showAddProduct && (
-        <div className="flex flex-col pt-5">
-          <div className="flex flex-row">
-            <div className="w-2/5 grid">
-              <div>
-                <label className="text-100">
-                  Ingresa los datos del producto
-                </label>
-              </div>
-              <div className="pt-0">
-                <label className="text-100">Nombre:</label>
-                <input
-                  className="w-full p-2 rounded-lg outline-none"
-                  type="text"
-                  value={nameProduct}
-                  placeholder="Gaseosa"
-                  onChange={(e) => setNameProduct(e.target.value)}
-                />
-              </div>
-              <div className="pt-2">
-                <label className="text-100">Categoría:</label>
-                <select
-                  className="w-full p-2 rounded-lg outline-none cursor-pointer"
-                  value={categoryProduct}
-                  onChange={(e) => handleCategory(e.target.value)}
-                >
-                  {categoriesList.map((item, index) => (
-                    <option key={index} value={item} className="text-200">
-                      {item}
-                    </option>
-                  ))}
-                  {/* {categoryProduct !== '' && ( <option>{categoryProduct}</option> ) } */}
-                  {/* <option>Seleccione...</option>
-                                        <option>Uno</option>
-                                        <option>Dos</option>
-                                        <option>Tres</option>
-                                        <option>Cuatro</option> */}
-                </select>
-              </div>
-              <div className="pt-2 flex gap-8">
-                <div>
-                  <label className="text-100">Precio:</label>
-                  <input
-                    className="w-full p-2 rounded-lg outline-none"
-                    type="number"
-                    placeholder="$20.000"
-                    value={priceProduct}
-                    onChange={(e) => setPriceProduct(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="text-100">Cantidad:</label>
-                  <input
-                    className="w-full p-2 rounded-lg outline-none"
-                    type="number"
-                    value={stockProduct}
-                    onChange={(e) => setStockProduct(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="h-full w-3/5 p-6">
-              <img
-                className="w-full h-full max-h-60 object-cover"
-                src={bebidas}
-                alt=""
-              />
-            </div>
-          </div>
-          {idProduct !== "" &&
-          nameProduct !== "" &&
-          categoryProduct !== "" &&
-          priceProduct !== "" &&
-          stockProduct !== "" ? (
-            <button
-              className="bg-blue-500 rounded-lg p-2 text-white mt-4"
-              onClick={() => handleSaveProduct()}
-            >
-              Editar
-            </button>
-          ) : (
-            <button
-              className="bg-blue-500 rounded-lg p-2 text-white mt-4"
-              onClick={() => handleAddProduct()}
-            >
-              Añadir
-            </button>
-          )}
-        </div>
-      )}
-      {!showAddProduct && (
+      </button>   
         <div className="w-full h-full pt-5">
           <ul className="[&>li>h1]:font-black flex flex-col gap-4 [&>li]:rounded-lg [&>li]:p-4">
             {listProduct.map((item, index) => (
@@ -276,7 +187,9 @@ export default function ListInventory() {
             ))}
           </ul>
         </div>
-      )}
+
+            <AddInventory isOpen={modalIsOpen} onClose={()=>setModalIsOpen(false)}></AddInventory>
+
     </div>
   );
 }
