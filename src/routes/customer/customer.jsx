@@ -6,7 +6,7 @@ export default function customer() {
   return (
     <div className="w-full h-screen flex">
       <Sidebar />
-      <PageTemplate title='Clientes'>
+      <PageTemplate>
         <div className='w-full h-full pt-10 p-8'>
           <ListCustomers />
         </div>

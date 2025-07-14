@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { v4 as crypto } from "uuid";
 import CustomerIcon from "@assets/icons/customer-icon";
 import CurrencyDolarIcon from "@assets/icons/currency-dolar-icon";
+import AddCustomer from "./modal-add-customer/modal-add-customer.jsx";
+import ShowCustomer from "./modal-show-customer/modal-show-customer.jsx";
 
 export default function ListCustomers() {
   const list = [
@@ -143,6 +145,9 @@ export default function ListCustomers() {
   const [showInfoCustomer, setShowInfoCustomer] = useState(false);
   const [listCustomer, setListCustomer] = useState(list);
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [showIsOpen, setShowIsOpen] = useState(false);
+
   function clearFields() {
     setNameCustomer("");
     setLastNameCustomer("");
@@ -200,247 +205,97 @@ export default function ListCustomers() {
   }, [listCustomer]);
 
   return (
-    <div>
-      {!showInfoCustomer && (
-        <button
-          className="bg-blue-500 rounded-lg p-2 text-white"
-          onClick={() => setShowAddCustomer(!showAddCustomer)}
-        >
-          Añadir nuevo
-        </button>
-      )}
-      {!showAddCustomer && !showInfoCustomer ? (
-        <div className="w-full h-full pt-5">
-          <ul className="[&>li>h1]:font-black flex flex-row flex-wrap gap-4 [&>li]:rounded-lg [&>li]:p-4">
-            {listCustomer.map((item, index) => (
-              <li key={index} className="bg-200">
-                <div className="flex flex-col items-start justify-between gap-4">
-                  <div className="flex gap-2">
-                    <span className="text-100">
-                      {item.first_name} {item.last_name}
-                    </span>
-                  </div>
-                  {item.status_count ? (
-                    <div className="flex items-start">
-                      <CurrencyDolarIcon
-                        className={`${item.status_count ? "text-500" : "text-600"}`}
-                      />{" "}
-                      <span
-                        className={`${item.status_count ? "text-500" : "text-600"}`}
-                      >
-                        {item.total_product_price}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex">
-                      <CurrencyDolarIcon
-                        className={`${item.status_count ? "text-500" : "text-600"}`}
-                      />{" "}
-                      <span
-                        className={`${item.status_count ? "text-500" : "text-600"}`}
-                      >
-                        {item.total_product_price}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex gap-2">
-                    <span className="text-200">{item.status_count}</span>
-                  </div>
-                  <div className="w-full">
-                    <div className="flex justify-between">
-                      <button
-                        className="text-400"
-                        onClick={() => handleShowCustomer(item.id)}
-                      >
-                        Ver
-                      </button>
-                    </div>
-                  </div>
-                  {/* <div className="flex gap-2">
-                    <button
-                      onClick={() => handleEditCustomer(item.id)}
-                      className="bg-blue-500 rounded-lg p-2 text-white"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-pencil"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
-                        <path d="M13.5 6.5l4 4" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => handleDeleteCustomer(item.id)}
-                      className="bg-red-500 rounded-lg p-2 text-white"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-trash"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 7l16 0" />
-                        <path d="M10 11l0 6" />
-                        <path d="M14 11l0 6" />
-                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                      </svg>
-                    </button>
-                  </div> */}
-                </div>
-              </li>
-            ))}
-          </ul>
+    <>
+      <div className="flex flex-col">
+        <div className="flex justify-between items-start">
+          <div className="flex flex-col text-white">
+            <h1 className="text-3xl font-bold mb-1">Clientes</h1>
+            <p className="text-gray-400 mb-6">
+              Gestione sus relaciones con los clientes y realice un seguimiento
+              de sus gastos.
+            </p>
+          </div>
+          <button
+            onClick={() => setModalIsOpen(true)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+            <span>Agregar nuevo cliente</span>
+          </button>
         </div>
-      ) : showAddCustomer ? (
-        <div className="flex flex-col pt-5">
-          <div className="flex flex-row">
-            <div className="w-2/5 grid">
-              <div>
-                <label className="text-100">
-                  Ingresa los datos del cliente
-                </label>
-              </div>
-              <div className="pt-2">
-                <label className="text-100">Nombre:</label>
-                <input
-                  className="w-full p-2 rounded-lg outline-none"
-                  type="text"
-                  value={nameCustomer}
-                  placeholder="Nombre"
-                  onChange={(e) => setNameCustomer(e.target.value)}
-                />
-              </div>
-              <div className="pt-2">
-                <label className="text-100">Apellido:</label>
-                <input
-                  className="w-full p-2 rounded-lg outline-none"
-                  type="text"
-                  value={lastNameCustomer}
-                  placeholder="Apellido"
-                  onChange={(e) => setLastNameCustomer(e.target.value)}
-                />
-              </div>
-              <div className="pt-2">
-                <label className="text-100">Email:</label>
-                <input
-                  className="w-full p-2 rounded-lg outline-none"
-                  type="email"
-                  value={emailCustomer}
-                  placeholder="Email"
-                  onChange={(e) => setEmailCustomer(e.target.value)}
-                />
-              </div>
-              <div className="pt-2">
-                <label className="text-100">Direccion:</label>
-                <input
-                  className="w-full p-2 rounded-lg outline-none"
-                  type="text"
-                  value={directionCustomer}
-                  placeholder="Direccion"
-                  onChange={(e) => setDirectionCustomer(e.target.value)}
-                />
-              </div>
-              <div className="pt-2">
-                <label className="text-100">Telefono:</label>
-                <input
-                  className="w-full p-2 rounded-lg outline-none"
-                  type="text"
-                  value={phoneCustomer}
-                  placeholder="Telefono"
-                  onChange={(e) => setPhoneCustomer(e.target.value)}
-                />
-              </div>
-              <div className="pt-2 flex gap-8">
-                {/* <div>
-                  <label className="text-100">Precio:</label>
-                  <input
-                    className="w-full p-2 rounded-lg outline-none"
-                    type="number"
-                    placeholder="$20.000"
-                    value={priceCustomer}
-                    onChange={(e) => setPriceCustomer(e.target.value)}
-                  />
-                </div>
+        <div className="relative w-full max-w-sm mb-4">
+          <input
+            type="text"
+            placeholder="Buscar clientes..."
+            className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
+          />
+          <svg
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 15z"
+            />
+          </svg>
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          {listCustomer.map((customer) => (
+            <div
+              key={customer.id}
+              className="bg-slate-900 text-white p-4 rounded-lg shadow-md w-full max-w-md space-y-2"
+            >
+              <div className="flex justify-between items-start">
                 <div>
-                  <label className="text-100">Cantidad:</label>
-                  <input
-                    className="w-full p-2 rounded-lg outline-none"
-                    type="number"
-                    value={stockCustomer}
-                    onChange={(e) => setStockCustomer(e.target.value)}
-                  />
-                </div> */}
+                  <h2 className="text-lg font-bold">
+                    {customer.first_name}
+                    {customer.last_name}
+                  </h2>
+                  <p className="text-sm text-slate-400">{customer.email}</p>
+                </div>
+                <div className="bg-green-700 text-sm px-3 py-1 rounded-full font-medium">
+                  ${customer.total_product_price.toLocaleString("es-CO")}
+                </div>
               </div>
+              <div className="flex items-center text-slate-400 text-sm gap-2">
+                <span>+57 {customer.phone}</span>
+              </div>
+              <div className="flex items-center text-slate-400 text-sm gap-2">
+                <span>{customer.direction}</span>
+              </div>
+              <button
+                onClick={() => setShowIsOpen(true)}
+                className="mt-2 w-full border border-slate-700 text-white py-2 px-4 rounded flex justify-center items-center gap-2 hover:bg-slate-800 transition"
+              >
+                <span className="font-medium">Ver detalles</span>
+              </button>
             </div>
-          </div>
-          {idCustomer !== "" && nameCustomer !== "" ? (
-            <button
-              className="bg-blue-500 rounded-lg p-2 text-white mt-4"
-              onClick={() => handleSaveCustomer()}
-            >
-              Editar
-            </button>
-          ) : (
-            <button
-              className="bg-blue-500 rounded-lg p-2 text-white mt-4"
-              onClick={() => handleAddCustomer()}
-            >
-              Añadir
-            </button>
-          )}
+          ))}
         </div>
-      ) : showInfoCustomer ? (
-        <div>
-          <div className="grid">
-            <label className="text-100">Nombre:</label>
-            <span className="text-100">{firstNameCustomer}</span>
-            <label className="text-100">Apellido</label>
-            <span className="text-100">{lastNameCustomer}</span>
-            <label className="text-100">Email</label>
-            <span className="text-100">{emailCustomer}</span>
-            <label className="text-100">Dirección</label>
-            <span className="text-100">{directionCustomer}</span>
-            <label className="text-100">Teléfono</label>
-            <span className="text-100">{phoneCustomer}</span>
-            <label className="text-100">Productos</label>
-            <ul className="[&>li>h1]:font-black flex flex-row flex-wrap gap-4 [&>li]:rounded-lg [&>li]:p-4">
-              {listProductPerCustomer.length > 0 &&
-                listProductPerCustomer.map((item, index) => (
-                  <li key={index} className="bg-200">
-                    <div className="flex flex-col items-start justify-between gap-4">
-                      <div className="flex gap-2">
-                        <span className="text-100">{item.name}</span>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-            </ul>
-            <button
-              className="bg-blue-500 rounded-lg p-2 text-white mt-4"
-              onClick={() => setShowInfoCustomer(!showInfoCustomer)}
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      ) : null}
-    </div>
+      </div>
+      <AddCustomer
+        isOpen={modalIsOpen}
+        onClose={() => setModalIsOpen(false)}
+      ></AddCustomer>
+      <ShowCustomer
+        isOpen={showIsOpen}
+        onClose={() => setShowIsOpen(false)}
+      ></ShowCustomer>
+    </>
   );
 }
