@@ -5,132 +5,9 @@ import CustomerIcon from "@assets/icons/customer-icon";
 import CurrencyDolarIcon from "@assets/icons/currency-dolar-icon";
 import AddCustomer from "./modal-add-customer/modal-add-customer.jsx";
 import ShowCustomer from "./modal-show-customer/modal-show-customer.jsx";
+import List from "./list-data/list-data.jsx";
 
 export default function ListCustomers() {
-  const list = [
-    {
-      id: crypto(),
-      icon: <CustomerIcon />,
-      first_name: "Daniel",
-      last_name: "Muñoz",
-      phone: 3002852755,
-      email: "daniel2002@gmail.com",
-      direction: "Calle falsa 123",
-      status_count: true,
-      time_registered: "12/12/2022",
-      total_product_price: 500000,
-      products: [
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-      ],
-    },
-    {
-      id: crypto(),
-      icon: <CustomerIcon />,
-      first_name: "Daniel",
-      last_name: "Muñoz",
-      phone: 3002852755,
-      email: "daniel2002@gmail.com",
-      direction: "Calle falsa 123",
-      status_count: false,
-      time_registered: "12/12/2022",
-      total_product_price: 0,
-    },
-    {
-      id: crypto(),
-      icon: <CustomerIcon />,
-      first_name: "Daniel",
-      last_name: "Muñoz",
-      phone: 3002852755,
-      email: "daniel2002@gmail.com",
-      direction: "Calle falsa 123",
-      status_count: true,
-      time_registered: "12/12/2022",
-      total_product_price: 80000,
-      products: [
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-        {
-          id: crypto(),
-          name: "Gaseosa",
-          category: "Gaseosas",
-          price: "5000",
-          quantity: 15,
-        },
-      ],
-    },
-    {
-      id: crypto(),
-      icon: <CustomerIcon />,
-      first_name: "Daniel",
-      last_name: "Muñoz",
-      phone: 3002852755,
-      email: "daniel2002@gmail.com",
-      direction: "Calle falsa 123",
-      status_count: false,
-      time_registered: "12/12/2022",
-      total_product_price: 0,
-    },
-  ];
 
   const [idCustomer, setIdCustomer] = useState("");
   const [firstNameCustomer, setFirstNameCustomer] = useState("");
@@ -141,13 +18,16 @@ export default function ListCustomers() {
   const [directionCustomer, setDirectionCustomer] = useState("");
   const [listProductPerCustomer, setListProductPerCustomer] = useState([]);
 
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+
   const [showAddCustomer, setShowAddCustomer] = useState(false);
   const [showInfoCustomer, setShowInfoCustomer] = useState(false);
-  const [listCustomer, setListCustomer] = useState(list);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [showIsOpen, setShowIsOpen] = useState(false);
 
+  {/*
   function clearFields() {
     setNameCustomer("");
     setLastNameCustomer("");
@@ -170,11 +50,11 @@ export default function ListCustomers() {
   };
 
   const handleSaveCustomer = () => {
-    const customer = listCustomer.find(
+    const customer = List.find(
       (customer) => customer.id === idCustomer
     );
     customer.name = nameCustomer;
-    setListCustomer(listCustomer);
+    setListCustomer(List);
     setShowAddCustomer(false);
     clearFields();
   };
@@ -202,12 +82,12 @@ export default function ListCustomers() {
     } else {
       setShowAddCustomer(false);
     }
-  }, [listCustomer]);
+  }, [listCustomer]);*/}
 
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-center">
           <div className="flex flex-col text-white">
             <h1 className="text-3xl font-bold mb-1">Clientes</h1>
             <p className="text-gray-400 mb-6">
@@ -255,7 +135,7 @@ export default function ListCustomers() {
           </svg>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {listCustomer.map((customer) => (
+          {List.map((customer) => (
             <div
               key={customer.id}
               className="bg-slate-900 text-white p-4 rounded-lg shadow-md w-full max-w-md space-y-2"
@@ -279,7 +159,7 @@ export default function ListCustomers() {
                 <span>{customer.direction}</span>
               </div>
               <button
-                onClick={() => setShowIsOpen(true)}
+                onClick={() => {setSelectedCustomer(customer);setShowIsOpen(true);}}
                 className="mt-2 w-full border border-slate-700 text-white py-2 px-4 rounded flex justify-center items-center gap-2 hover:bg-slate-800 transition"
               >
                 <span className="font-medium">Ver detalles</span>
@@ -295,6 +175,7 @@ export default function ListCustomers() {
       <ShowCustomer
         isOpen={showIsOpen}
         onClose={() => setShowIsOpen(false)}
+        customer={selectedCustomer}
       ></ShowCustomer>
     </>
   );

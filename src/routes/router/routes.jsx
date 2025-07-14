@@ -32,16 +32,16 @@ export const appRoutes = [
   },
   {
     id: crypto.randomUUID(),
-    path: "/billing",
-    name: "Facturacion",
-    element: Inventory,
-    icon: <BillingIcon />,
-  },
-  {
-    id: crypto.randomUUID(),
     path: "/customer",
     name: "Clientes",
     element: Customer,
     icon: <ClientsIcon />,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/billing",
+    name: "Facturacion",
+    element: Inventory,
+    icon: <BillingIcon />,
   },
 ];

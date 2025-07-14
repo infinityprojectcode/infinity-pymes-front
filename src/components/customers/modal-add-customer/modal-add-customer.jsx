@@ -2,7 +2,6 @@ import Modal from "react-modal";
 import { useState } from "react";
 
 export default function AddCustomer({ isOpen, onClose }) {
-
   return (
     <div>
       <Modal
@@ -57,7 +56,7 @@ export default function AddCustomer({ isOpen, onClose }) {
                   type="text"
                   name="nombre"
                   placeholder="John"
-                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:white"
                   required
                 />
               </div>
@@ -67,7 +66,7 @@ export default function AddCustomer({ isOpen, onClose }) {
                   type="text"
                   name="nombre"
                   placeholder="Gomez"
-                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:white"
                   required
                 />
               </div>
@@ -80,7 +79,7 @@ export default function AddCustomer({ isOpen, onClose }) {
                 type="text"
                 name="email"
                 placeholder="john.gomez@email.com"
-                className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:white"
                 required
               />
             </div>
@@ -91,7 +90,7 @@ export default function AddCustomer({ isOpen, onClose }) {
               <input
                 type="tel"
                 name="phone"
-                className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 text-white"
+                className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 text-white"
                 placeholder="+57 301 356 78 98"
                 required
               />
@@ -104,7 +103,7 @@ export default function AddCustomer({ isOpen, onClose }) {
                 type="text"
                 name="direccion"
                 placeholder="Calle 45 # 12-30, Bogotá"
-                class="border border-gray-400 p-2 rounded w-full"
+                class="border border-gray-400 p-2 rounded w-full focus:outline-none focus:ring-2 focus:white"
               />
             </div>
 
