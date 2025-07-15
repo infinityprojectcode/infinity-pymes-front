@@ -153,7 +153,7 @@ export default function ListInventory() {
           </svg>
         </div>
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
-          <h1 className="text-2xl font-bold mb-1 ">Products(5)</h1>
+          <h1 className="text-2xl font-bold mb-1 ">Products (5)</h1>
           {/* Encabezado */}
           <div className="grid grid-cols-6 text-sm font-semibold px-4 py-3">
             <div>Nombre del producto</div>
