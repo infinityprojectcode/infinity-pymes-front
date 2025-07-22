@@ -1,8 +1,10 @@
 import AddBilling from "./modal-add-billing/modal-add-billing.jsx";
+import ShowBilling from "./modal-show-billing.jsx/modal-show-billing.jsx";
 import { useState } from "react";
 
 export default function ListBilling() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
+  const [modalShowIsOpen, setModalShowIsOpen] = useState(false);
 
   const listBilling = [
     {
@@ -49,7 +51,7 @@ export default function ListBilling() {
             </p>
           </div>
           <button
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => setModalAddIsOpen(true)}
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
           >
             <svg
@@ -97,7 +99,7 @@ export default function ListBilling() {
             <div>Fecha de vencimiento</div>
             <div>Cantidad</div>
             <div>Estado</div>
-            <div>Comportamiento</div>
+            <div className="flex justify-center">Comportamiento</div>
           </div>
 
           {/* Contenido dinámico */}
@@ -118,8 +120,8 @@ export default function ListBilling() {
                 >
                   {auxiliar.name}
                 </div>
-                <div className="flex gap-2">
-                  <button>
+                <div className="flex gap-2 justify-center">
+                  <button onClick={() => setModalShowIsOpen(true)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -127,9 +129,13 @@ export default function ListBilling() {
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-eye-icon lucide-eye"
                     >
-                      <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-                      <path d="m15 5 4 4" />
+                      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                      <circle cx="12" cy="12" r="3" />
                     </svg>
                   </button>
                   <button>
@@ -157,9 +163,13 @@ export default function ListBilling() {
       </div>
 
       <AddBilling
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
+        isOpen={modalAddIsOpen}
+        onClose={() => setModalAddIsOpen(false)}
       ></AddBilling>
+      <ShowBilling
+        isOpen={modalShowIsOpen}
+        onClose={() => setModalShowIsOpen(false)}
+      ></ShowBilling>
     </>
   );
 }
