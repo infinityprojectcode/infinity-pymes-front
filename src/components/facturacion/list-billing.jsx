@@ -89,7 +89,6 @@ export default function ListBilling() {
         </div>
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
           <h1 className="text-2xl font-bold mb-1 ">Facturas (3)</h1>
-          {/* Encabezado */}
           <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
             <div>Factura #</div>
             <div>Cliente</div>
@@ -100,7 +99,6 @@ export default function ListBilling() {
             <div>Comportamiento</div>
           </div>
 
-          {/* Contenido dinámico */}
           {listBilling.map((item) => {
             const auxiliar = getStatus(item.estado);
             return (
