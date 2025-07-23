@@ -2,10 +2,6 @@ import Modal from "react-modal";
 import { useState } from "react";
 
 export default function AddBilling({ isOpen, onClose }) {
-  const clienteList = ["Laura Gómez", "Carlos Rodríguez", "Camila Torres"];
-  const [cliente, setCliente] = useState("");
-
-
   return (
     <div>
       <Modal
@@ -53,25 +49,25 @@ export default function AddBilling({ isOpen, onClose }) {
           {/* Formulario */}
           <form action="" className="space-y-4">
             <div>
-              <div>
-                <label className="block mb-1">Cliente</label>
-                <select
-                  name="categoria"
-                  value={cliente}
-                  onChange={(e) => setCliente(e.target.value)}
-                  required
-                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
-                >
-                  <option value="" disabled>
-                    Seleccionar cliente
+              {/*<div>
+              <label className="block mb-1">Cliente</label>
+              <select
+                name="categoria"
+                value={cliente}
+                onChange={(e) => setCliente(e.target.value)}
+                required
+                className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
+              >
+                <option value="" disabled>
+                  Seleccionar cliente
+                </option>
+                {clienteList.map((cat, i) => (
+                  <option key={i} value={cat}>
+                    {cat}
                   </option>
-                  {clienteList.map((cat, i) => (
-                    <option key={i} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                ))}
+              </select>
+            </div>*/}
               <div className="flex flex-col">
                 <label className="text-md font-medium mb-1">
                   Fecha de vencimiento
