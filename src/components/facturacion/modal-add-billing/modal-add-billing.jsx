@@ -5,7 +5,6 @@ export default function AddBilling({ isOpen, onClose }) {
   const clienteList = ["Laura Gómez", "Carlos Rodríguez", "Camila Torres"];
   const [cliente, setCliente] = useState("");
 
-
   return (
     <div>
       <Modal

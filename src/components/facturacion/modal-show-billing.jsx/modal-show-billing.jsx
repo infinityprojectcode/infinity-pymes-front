@@ -77,7 +77,6 @@ export default function ShowBilling({ isOpen, onClose }) {
               </div>
             </div>
 
-            {/* Total */}
             <hr className="border-slate-700 my-2" />
             <div className="flex justify-between items-center">
               <p className="text-slate-300">Importe total:</p>
