@@ -35,12 +35,12 @@ export default function Sidebar() {
             <Link key={index} className="text-200" to={item.path}>
               <div
                 key={item.id}
-                className="w-4/5 h-9 px-2 my-1 mx-auto rounded-lg flex gap-4 flex-row justify-start items-center hover:bg-white hover:cursor-pointer hover:text-black font-semibold"
+                className="w-4/5 h-9 p-2 my-1 mx-auto rounded-lg flex gap-4 flex-row justify-start items-center hover:bg-white hover:cursor-pointer hover:text-black font-semibold"
               >
                 <div className="flex flex-row justify-start items-center">
                   {item.icon}
                 </div>
-                <span>{item.name}</span>
+                <span className="leading-none">{item.name}</span>
               </div>
             </Link>
           ))}
