@@ -17,10 +17,41 @@ export default function home() {
     },
   ];
   const productosStock = [
-    { nombre: "Ratón inalámbrico", categoria: "Electrónica", stock: 5 },
-    { nombre: "Cable USB", categoria: "Accesorios", stock: 8 },
-    { nombre: "Teclado", categoria: "Electrónica", stock: 3 },
-    { nombre: "Soporte de monitor", categoria: "Accesorios", stock: 2 },
+    {
+      nombre: "Audífonos Inalámbricos",
+      categoria: "Electrónica",
+      stock: 5,
+      unidadesVendidas: 145,
+      ingresos: 14500,
+    },
+    {
+      nombre: "Mouse Gamer",
+      categoria: "Electrónica",
+      stock: 8,
+      unidadesVendidas: 98,
+      ingresos: 5880,
+    },
+    {
+      nombre: "Teclado Mecánico",
+      categoria: "Electrónica",
+      stock: 3,
+      unidadesVendidas: 76,
+      ingresos: 11400,
+    },
+    {
+      nombre: 'Monitor 24"',
+      categoria: "Electrónica",
+      stock: 2,
+      unidadesVendidas: 54,
+      ingresos: 16200,
+    },
+    {
+      nombre: "Webcam HD",
+      categoria: "Electrónica",
+      stock: 4,
+      unidadesVendidas: 43,
+      ingresos: 4300,
+    },
   ];
 
   return (
@@ -177,6 +208,36 @@ export default function home() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="bg-[#0f172a] p-4 rounded-xl text-white">
+              <h2 className="text-xl font-bold mb-4">Productos Más Vendidos</h2>
+              <ul className="space-y-2">
+                {productosStock.map((producto, index) => (
+                  <li
+                    key={index}
+                    className="flex justify-between items-center border-b border-white/10 last:border-b-0 pb-2"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full font-bold">
+                        {index + 1}
+                      </div>
+                      <div>
+                        <div className="font-semibold">{producto.nombre}</div>
+                        <div className="text-sm text-white/60">
+                          {producto.unidadesVendidas} unidades vendidas
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-white font-bold">
+                        ${producto.ingresos.toLocaleString("es-CO")}
+                      </div>
+                      <div className="text-xs text-white/60">Ingresos</div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

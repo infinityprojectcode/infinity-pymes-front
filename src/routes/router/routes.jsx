@@ -4,6 +4,8 @@ import Dashboard from "@routes/dashboard/dashboard.jsx";
 import Home from "@routes/home/home.jsx";
 import Billing from "@routes/billing/billing.jsx";
 import HomeIcon from "@assets/icons/home-icon";
+import PointOfSale from "@routes/point-of-sale/point-of-sale.jsx";
+import PointOfSaleIcon from "@assets/icons/point-of-sale.jsx";
 import DashboardIcon from "@assets/icons/dashboard-icon";
 import InventoryIcon from "@assets/icons/inventory-icon";
 import BillingIcon from "@assets/icons/billing-icon";
@@ -19,10 +21,10 @@ export const appRoutes = [
   },
   {
     id: crypto.randomUUID(),
-    path: "/dashboard",
-    name: "Panel",
-    element: Dashboard,
-    icon: <DashboardIcon />,
+    path: "/point-of-sale",
+    name: "Punto de Venta",
+    element: PointOfSale,
+    icon: <PointOfSaleIcon />,
   },
   {
     id: crypto.randomUUID(),
@@ -44,5 +46,12 @@ export const appRoutes = [
     name: "Facturacion",
     element: Billing,
     icon: <BillingIcon />,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/dashboard",
+    name: "Panel de Control",
+    element: Dashboard,
+    icon: <DashboardIcon />,
   },
 ];
