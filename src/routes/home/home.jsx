@@ -1,5 +1,7 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
+import GraphicsBar from "../../components/graphics/graphics-bar.jsx";
+import GraphicsPie from "../../components/graphics/graphics-pie.jsx";
 
 export default function home() {
   const dataQuemada = [
@@ -60,20 +62,61 @@ export default function home() {
         <Sidebar />
         <PageTemplate>
           <div className="w-full h-full p-4 space-y-6">
-            <div>
-              <h1 className="text-3xl font-bold text-white">Home</h1>
-              <p className="text-gray-400 mt-1">
-                ¡Bienvenido de nuevo! Esto es lo que está pasando con tu
-                inventario.
-              </p>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+              {/* Título y subtítulo */}
+              <div>
+                <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+                <p className="text-gray-400 mt-1">
+                  Bienvenido! Aquí está lo que está pasando con tu inventario.
+                </p>
+              </div>
+
+              {/* Filtros y botones */}
+              <div className="flex items-center gap-3 mt-4 md:mt-0">
+                <select className="bg-[#161b22] text-white text-sm border border-gray-600 rounded-md px-3 py-2 focus:outline-none">
+                  <option>Este Mes</option>
+                  <option>Últimos 7 días</option>
+                  <option>Últimos 30 días</option>
+                </select>
+                <button className="flex items-center gap-1 border border-gray-600 text-white text-sm px-3 py-2 rounded-md hover:bg-gray-800">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" x2="12" y1="15" y2="3" />
+                  </svg>
+                  Excel
+                </button>
+                <button className="flex items-center gap-1 border border-gray-600 text-white text-sm px-3 py-2 rounded-md hover:bg-gray-800">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" x2="8" y1="13" y2="13" />
+                    <line x1="16" x2="8" y1="17" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                  </svg>
+                  PDF
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">
-                    Total de productos
-                  </span>
+                  <span className="text-sm text-gray-400">Total Products</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-400"
@@ -91,7 +134,6 @@ export default function home() {
                     <path d="M12 12l-8 -4.5" />
                   </svg>
                 </div>
-
                 <div className="mt-1 flex flex-col justify-between gap-1">
                   <h2 className="text-2xl font-bold text-white">1,247</h2>
                   <div className="flex items-center gap-2 mt-1">
@@ -99,7 +141,7 @@ export default function home() {
                       +12%
                     </span>
                     <span className="text-xs text-gray-400">
-                      del mes pasado
+                      from last month
                     </span>
                   </div>
                 </div>
@@ -107,9 +149,7 @@ export default function home() {
 
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">
-                    Clientes activos
-                  </span>
+                  <span className="text-sm text-gray-400">Active Clients</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-400"
@@ -125,7 +165,6 @@ export default function home() {
                     <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                   </svg>
                 </div>
-
                 <div className="mt-1 flex flex-col justify-between gap-1">
                   <h2 className="text-2xl font-bold text-white">89</h2>
                   <div className="flex items-center gap-2 mt-1">
@@ -133,7 +172,7 @@ export default function home() {
                       +5%
                     </span>
                     <span className="text-xs text-gray-400">
-                      del mes pasado
+                      from last month
                     </span>
                   </div>
                 </div>
@@ -141,9 +180,7 @@ export default function home() {
 
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">
-                    Ingresos mensuales
-                  </span>
+                  <span className="text-sm text-gray-400">Monthly Revenue</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-400"
@@ -159,7 +196,6 @@ export default function home() {
                     <path d="M18 5h-6.5a3.5 3.5 0 0 0 0 7h1a3.5 3.5 0 0 1 0 7h-6.5" />
                   </svg>
                 </div>
-
                 <div className="mt-1 flex flex-col justify-between gap-1">
                   <h2 className="text-2xl font-bold text-white">$24,580</h2>
                   <div className="flex items-center gap-2 mt-1">
@@ -167,7 +203,7 @@ export default function home() {
                       +18%
                     </span>
                     <span className="text-xs text-gray-400">
-                      del mes pasado
+                      from last month
                     </span>
                   </div>
                 </div>
@@ -176,7 +212,7 @@ export default function home() {
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
                 <div className="flex justify-between items-start">
                   <span className="text-sm text-gray-400">
-                    Pedidos pendientes
+                    Pending Orders
                   </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -203,11 +239,14 @@ export default function home() {
                       -8%
                     </span>
                     <span className="text-xs text-gray-400">
-                      del mes pasado
+                      from last month
                     </span>
                   </div>
                 </div>
               </div>
+              
+              <GraphicsBar />
+              <GraphicsPie />
             </div>
 
             <div className="bg-[#0f172a] p-4 rounded-xl text-white">
@@ -253,13 +292,13 @@ export default function home() {
                   >
                     <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
                   </svg>
-                  Actividad reciente
+                  Recent Activity
                 </h2>
                 <ul className="space-y-4">
                   {dataQuemada.map((item, index) => (
                     <li
                       key={index}
-                      className="flex justify-between border-b border-gray-700 pb-2"
+                      className="flex justify-between items-center border-b border-gray-700 pb-2"
                     >
                       <div>
                         <p className="text-white font-semibold">
@@ -293,7 +332,7 @@ export default function home() {
                     <path d="M4 18v3" />
                     <path d="M8 14v7" />
                   </svg>
-                  Alerta de stock bajo
+                  Low Stock Alert
                 </h2>
                 <ul className="space-y-4">
                   {productosStock.map((item, index) => (
@@ -310,7 +349,7 @@ export default function home() {
                         </p>
                       </div>
                       <span className="text-xs bg-red-700 text-white font-semibold px-3 py-1 rounded-full">
-                        {item.stock} restantes
+                        {item.stock} left
                       </span>
                     </li>
                   ))}
