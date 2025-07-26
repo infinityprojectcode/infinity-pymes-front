@@ -315,6 +315,7 @@ export default function home() {
                   ))}
                 </ul>
               </div>
+              
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow">
                 <h2 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
                   <svg
