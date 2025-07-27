@@ -61,11 +61,11 @@ export default function home() {
       <div className="w-full h-screen flex">
         <Sidebar />
         <PageTemplate>
-          <div className="w-full h-full p-4 space-y-6">
+          <div className="w-full h-full p-8 space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               {/* Título y subtítulo */}
               <div>
-                <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+                <h1 className="text-3xl font-bold text-white">Inicio</h1>
                 <p className="text-gray-400 mt-1">
                   Bienvenido! Aquí está lo que está pasando con tu inventario.
                 </p>

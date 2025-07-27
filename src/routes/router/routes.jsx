@@ -1,6 +1,6 @@
 import Inventory from "@routes/inventory/inventory.jsx";
 import Customer from "@routes/customer/customer.jsx";
-import Dashboard from "@routes/dashboard/dashboard.jsx";
+import Configuration from "../configuration/configuration";
 import Home from "@routes/home/home.jsx";
 import Billing from "@routes/billing/billing.jsx";
 import HomeIcon from "@assets/icons/home-icon";
@@ -49,9 +49,9 @@ export const appRoutes = [
   },
   {
     id: crypto.randomUUID(),
-    path: "/dashboard",
-    name: "Panel de Control",
-    element: Dashboard,
+    path: "/config",
+    name: "Configuración",
+    element: Configuration,
     icon: <DashboardIcon />,
   },
 ];

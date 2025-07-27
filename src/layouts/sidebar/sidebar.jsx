@@ -17,11 +17,11 @@ export default function Sidebar() {
           </div>
 
           <div className="flex items-center gap-4 mt-3">
-            <img
-              src="/ruta/de/imagen.jpg"
-              alt="Foto de perfil"
-              className="w-12 h-12 rounded-full border border-gray-300"
-            />
+            <div className="w-12 h-12 rounded-full border bg-white border-gray-300">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+              </svg>
+            </div>
             <div className="flex flex-col items-start">
               <span className="text-100 font-semibold">Usuario User</span>
               <span className="text-sm text-200">Administrador</span>
@@ -47,10 +47,12 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="p-4 border-t border-gray-300 mt-4">
-        <button className="w-full h-12 p-4 rounded-lg flex gap-2 flex-row justify-start items-center hover:bg-white hover:cursor-pointer hover:text-black font-semibold text-200">
-          <LogoutIcon />
-          <span>Cerrar sesión</span>
-        </button>
+        <Link className="text-200" to="/">
+          <div className="w-full h-12 p-4 rounded-lg flex gap-2 flex-row justify-start items-center hover:bg-white hover:cursor-pointer hover:text-black font-semibold text-gray-400">
+            <LogoutIcon />
+            <span className="leading-none"> Cerrar sesión</span>
+          </div>
+        </Link>
       </div>
     </div>
   );
