@@ -1,9 +1,9 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import GraphicsBar from "../../components/graphics/home/graphics-bar.jsx";
-import GraphicsPie from "../../components/graphics/home/graphics-pie.jsx";
+import GraphicsBar from "../../components/graphics/expenses/graphics-bar.jsx";
+import GraphicsPie from "../../components/graphics/expenses/graphics-pie.jsx";
 
-export default function home() {
+export default function expenses() {
   const dataQuemada = [
     {
       id: 1,
@@ -291,84 +291,6 @@ export default function home() {
               </ul>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow">
-                <h2 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
-                  </svg>
-                  Recent Activity
-                </h2>
-                <ul className="space-y-4">
-                  {dataQuemada.map((item, index) => (
-                    <li
-                      key={index}
-                      className="flex justify-between items-center border-b border-gray-700 pb-2"
-                    >
-                      <div>
-                        <p className="text-white font-semibold">
-                          {item.titulo}
-                        </p>
-                        <p className="text-sm text-gray-400">
-                          {item.descripcion}
-                        </p>
-                      </div>
-                      <span className="text-sm text-gray-400">
-                        {item.tiempo}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow">
-                <h2 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path d="M12 16v5" />
-                    <path d="M16 14v7" />
-                    <path d="M20 10v11" />
-                    <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15" />
-                    <path d="M4 18v3" />
-                    <path d="M8 14v7" />
-                  </svg>
-                  Low Stock Alert
-                </h2>
-                <ul className="space-y-4">
-                  {productosStock.map((item, index) => (
-                    <li
-                      key={index}
-                      className="flex justify-between items-center border-b border-gray-700 pb-2"
-                    >
-                      <div>
-                        <p className="text-white font-semibold">
-                          {item.nombre}
-                        </p>
-                        <p className="text-sm text-gray-400">
-                          {item.categoria}
-                        </p>
-                      </div>
-                      <span className="text-xs bg-red-700 text-white font-semibold px-3 py-1 rounded-full">
-                        {item.stock} left
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
         </PageTemplate>
       </div>
