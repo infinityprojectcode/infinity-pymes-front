@@ -8,6 +8,7 @@ export default function ListBilling() {
 
   const listBilling = [
     {
+      id: crypto.randomUUID(),
       numero: "FAC-2025-001",
       cliente: "Laura Gómez",
       fecha: "2025-01-15",
@@ -16,6 +17,7 @@ export default function ListBilling() {
       estado: "Pagado",
     },
     {
+      id: crypto.randomUUID(),
       numero: "FAC-2025-002",
       cliente: "Andrés Martínez",
       fecha: "2025-01-20",
@@ -24,6 +26,7 @@ export default function ListBilling() {
       estado: "Pendiente",
     },
     {
+      id: crypto.randomUUID(),
       numero: "FAC-2025-003",
       cliente: "Camila Rojas",
       fecha: "2025-01-10",
@@ -55,7 +58,6 @@ export default function ListBilling() {
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -76,7 +78,6 @@ export default function ListBilling() {
           />
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
-            xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -104,10 +105,10 @@ export default function ListBilling() {
 
           {/* Contenido dinámico */}
           {listBilling.map((item) => {
+            debugger
             const auxiliar = getStatus(item.estado);
             return (
-              <div
-                key={item.id}
+              <div key={item.id}
                 className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
               >
                 <div className="truncate">{item.numero}</div>
@@ -123,16 +124,14 @@ export default function ListBilling() {
                 <div className="flex gap-2 justify-center">
                   <button onClick={() => setModalShowIsOpen(true)}>
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-eye-icon lucide-eye"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
                       <circle cx="12" cy="12" r="3" />
@@ -140,7 +139,6 @@ export default function ListBilling() {
                   </button>
                   <button>
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="text-red-500"
                       width="24"
                       height="24"

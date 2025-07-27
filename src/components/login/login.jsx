@@ -80,7 +80,7 @@ export default function Begin() {
                   Recordarme
                 </label>
               </div>
-              <Link to="/config">
+              <Link to="/home">
                 <button
                   type="submit"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-auto px-5 py-2
