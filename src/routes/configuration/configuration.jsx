@@ -2,13 +2,13 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
 
-export default function Dashboard() {
+export default function Configuration() {
   return (
     <>
       <div className="w-full h-screen flex">
         <Sidebar />
         <PageTemplate>
-          <div className="p-6 text-white">
+          <div className="p-8 text-white">
             <h1 className="text-3xl font-bold mb-1">Control Panel</h1>
             <p className="text-gray-400 mb-6">
               Administrar configuraciones y configuraciones del sistema.

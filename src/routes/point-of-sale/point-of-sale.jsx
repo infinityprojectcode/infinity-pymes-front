@@ -82,7 +82,7 @@ export default function PointOfSale() {
       <div className="w-full h-screen flex">
         <Sidebar />
         <PageTemplate>
-          <div className="flex flex-col p-4 gap-2 text-white">
+          <div className="flex flex-col p-8 gap-2 text-white">
             <div className="flex flex-col mb-3">
               <h1 className="text-3xl font-bold">Punto de Venta</h1>
               <p className="text-gray-400">

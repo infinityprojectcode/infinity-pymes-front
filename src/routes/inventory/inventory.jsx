@@ -8,7 +8,7 @@ export default function inventory() {
       <div className="w-full h-screen flex">
         <Sidebar />
         <PageTemplate>
-          <div className="w-full h-full pt-10 p-8">
+          <div className="w-full h-full p-8">
             <ListInventory />
           </div>
         </PageTemplate>
