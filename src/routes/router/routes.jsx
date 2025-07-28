@@ -6,6 +6,7 @@ import Billing from "@routes/billing/billing.jsx";
 import Movements from "@routes/movements/movements.jsx";
 import HomeIcon from "@assets/icons/home-icon";
 import expenses from "@routes/expenses/expenses.jsx";
+import Suppliers from "@routes/suppliers/suppliers.jsx";
 import PointOfSale from "@routes/point-of-sale/point-of-sale.jsx";
 import PointOfSaleIcon from "@assets/icons/point-of-sale.jsx";
 import DashboardIcon from "@assets/icons/dashboard-icon";
@@ -14,6 +15,7 @@ import BillingIcon from "@assets/icons/billing-icon";
 import ClientsIcon from "@assets/icons/clients-icon";
 import MovementsIcon from "@assets/icons/movements-icon.jsx";
 import ExpensesIcon from "@assets/icons/expenses-icon.jsx";
+import SuppliersIcon from "../../assets/icons/suppliers-icon";
 
 export const appRoutes = [
   {
@@ -43,6 +45,13 @@ export const appRoutes = [
     name: "Clientes",
     element: Customer,
     icon: <ClientsIcon />,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/suppliers",
+    name: "Proveedores",
+    element: Suppliers,
+    icon: <SuppliersIcon />,
   },
   {
     id: crypto.randomUUID(),

@@ -6,11 +6,11 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 export default function GraphicsPie() {
   const data = {
-    labels: ["Electrónicos", "Accesorios", "Muebles", "Otros"],
+    labels: ["Alquiler", "Sevicios", "Suministros"],
     datasets: [
       {
-        data: [45, 30, 15, 10],
-        backgroundColor: ["#4285F4", "#10B981", "#F59E0B", "#EF4444"],
+        data: [85, 10, 5],
+        backgroundColor: ["#4285F4", "#10B981", "#F59E0B"],
         borderColor: "#fff",
         borderWidth: 2,
       },
