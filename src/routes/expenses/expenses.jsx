@@ -2,57 +2,46 @@ import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
 import GraphicsBar from "../../components/graphics/expenses/graphics-bar.jsx";
 import GraphicsPie from "../../components/graphics/expenses/graphics-pie.jsx";
+import AddExpenses from "../../components/expenses/modal-add-expenses/modal-add-expenses.jsx";
+import { useState } from "react";
+
 
 export default function expenses() {
-  const dataQuemada = [
+  const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
+
+  const gastos = [
     {
       id: 1,
-      titulo: "titulo 1",
-      descripcion: "descripción 1",
-      tiempo: "2 PM",
+      fecha: "2025-01-01",
+      descripcion: "Alquiler de oficina",
+      categoria: "Alquiler",
+      proveedor: "Inmobiliaria ABC",
+      metodo: "Transferencia",
+      monto: -1500,
+      estado: "Pagado",
+      recibo: "REC-001",
     },
     {
       id: 2,
-      titulo: "titulo 2",
-      descripcion: "descripción 1",
-      tiempo: "10 PM",
-    },
-  ];
-  const productosStock = [
-    {
-      nombre: "Audífonos Inalámbricos",
-      categoria: "Electrónica",
-      stock: 5,
-      unidadesVendidas: 145,
-      ingresos: 14500,
+      fecha: "2025-01-15",
+      descripcion: "Servicios públicos",
+      categoria: "Servicios",
+      proveedor: "Empresa Eléctrica",
+      metodo: "Efectivo",
+      monto: -350,
+      estado: "Pagado",
+      recibo: "REC-002",
     },
     {
-      nombre: "Mouse Gamer",
-      categoria: "Electrónica",
-      stock: 8,
-      unidadesVendidas: 98,
-      ingresos: 5880,
-    },
-    {
-      nombre: "Teclado Mecánico",
-      categoria: "Electrónica",
-      stock: 3,
-      unidadesVendidas: 76,
-      ingresos: 11400,
-    },
-    {
-      nombre: 'Monitor 24"',
-      categoria: "Electrónica",
-      stock: 2,
-      unidadesVendidas: 54,
-      ingresos: 16200,
-    },
-    {
-      nombre: "Webcam HD",
-      categoria: "Electrónica",
-      stock: 4,
-      unidadesVendidas: 43,
-      ingresos: 4300,
+      id: 3,
+      fecha: "2025-01-20",
+      descripcion: "Suministros de oficina",
+      categoria: "Suministros",
+      proveedor: "Office Depot",
+      metodo: "Tarjeta",
+      monto: -200,
+      estado: "Pendiente",
+      recibo: "REC-003",
     },
   ];
 
@@ -62,17 +51,21 @@ export default function expenses() {
         <Sidebar />
         <PageTemplate>
           <div className="w-full h-full p-8 space-y-6">
+            {/* 🟥🟧 CABECERA */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-              {/* Título y subtítulo */}
+              {/* Título + subtítulo */}
               <div>
-                <h1 className="text-3xl font-bold text-white">Inicio</h1>
+                <h1 className="text-3xl font-bold text-white">
+                  Gastos y Egresos
+                </h1>
                 <p className="text-gray-400 mt-1">
-                  Bienvenido! Aquí está lo que está pasando con tu inventario.
+                  Controla y categoriza todos tus gastos operacionales.
                 </p>
               </div>
 
-              {/* Filtros y botones */}
+              {/* Filtro + botón “Nuevo Gasto” */}
               <div className="flex items-center gap-3 mt-4 md:mt-0">
+                {/* Select */}
                 <div className="relative w-max">
                   <select className="appearance-none bg-[#161b22] text-white text-sm border border-gray-600 rounded-md px-3 py-2 pr-10 focus:outline-none">
                     <option>Este Mes</option>
@@ -92,205 +85,197 @@ export default function expenses() {
                   </div>
                 </div>
 
-                <button className="flex items-center gap-1 border border-gray-600 text-white text-sm px-3 py-2 rounded-md hover:bg-gray-800">
+                {/* Botón “Nuevo Gasto” */}
+                <button
+                  onClick={() => setModalAddIsOpen(true)}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md transition"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
+                    className="h-4 w-4"
                     fill="none"
-                    stroke="currentColor"
                     viewBox="0 0 24 24"
-                  >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" x2="12" y1="15" y2="3" />
-                  </svg>
-                  Excel
-                </button>
-                <button className="flex items-center gap-1 border border-gray-600 text-white text-sm px-3 py-2 rounded-md hover:bg-gray-800">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="none"
                     stroke="currentColor"
-                    viewBox="0 0 24 24"
+                    strokeWidth={2}
                   >
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                    <line x1="16" x2="8" y1="13" y2="13" />
-                    <line x1="16" x2="8" y1="17" y2="17" />
-                    <polyline points="10 9 9 9 8 9" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4v16m8-8H4"
+                    />
                   </svg>
-                  PDF
+                  Nuevo Gasto
                 </button>
               </div>
             </div>
-
+            {/* 🟥🟧 TARJETAS ESTADÍSTICAS */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
+              {/* Total Gastos */}
+              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow flex flex-col justify-between">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">Total Products</span>
+                  <span className="text-sm text-gray-400">Total Gastos</span>
                   <svg
+                    className="h-5 w-5 text-red-500 lucide lucide-trending-down-icon lucide-trending-down"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-400"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
                     fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9z" />
-                    <path d="M12 12l8 -4.5" />
-                    <path d="M12 12v9" />
-                    <path d="M12 12l-8 -4.5" />
+                    <path d="M16 17h6v-6" />
+                    <path d="m22 17-8.5-8.5-5 5L2 7" />
                   </svg>
                 </div>
-                <div className="mt-1 flex flex-col justify-between gap-1">
-                  <h2 className="text-2xl font-bold text-white">1,247</h2>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs bg-green-700 text-white font-semibold px-2 py-1 rounded-full">
-                      +12%
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      from last month
-                    </span>
-                  </div>
-                </div>
+                <h2 className="mt-2 text-2xl font-bold text-red-500">
+                  $2050.00
+                </h2>
               </div>
 
-              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
+              {/* Gastos del Mes */}
+              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow flex flex-col justify-between">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">Active Clients</span>
+                  <span className="text-sm text-gray-400">Gastos del Mes</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-orange-400 lucide lucide-chart-column-icon lucide-chart-column"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
                     fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <path d="M8 7a4 4 0 1 1 8 0a4 4 0 1 1 -8 0" />
-                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                    <path d="M18 17V9" />
+                    <path d="M13 17V5" />
+                    <path d="M8 17v-3" />
                   </svg>
                 </div>
-                <div className="mt-1 flex flex-col justify-between gap-1">
-                  <h2 className="text-2xl font-bold text-white">89</h2>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs bg-green-700 text-white font-semibold px-2 py-1 rounded-full">
-                      +5%
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      from last month
-                    </span>
-                  </div>
-                </div>
+                <h2 className="mt-2 text-2xl font-bold text-orange-400">
+                  $0.00
+                </h2>
               </div>
 
-              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
+              {/* Gastos Pendientes */}
+              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow flex flex-col justify-between">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">Monthly Revenue</span>
+                  <span className="text-sm text-gray-400">
+                    Gastos Pendientes
+                  </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-yellow-400 lucide lucide-trending-up-icon lucide-trending-up"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
                     fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <path d="M12 20v-16" />
-                    <path d="M18 5h-6.5a3.5 3.5 0 0 0 0 7h1a3.5 3.5 0 0 1 0 7h-6.5" />
+                    <path d="M16 7h6v6" />
+                    <path d="m22 7-8.5 8.5-5-5L2 17" />
                   </svg>
                 </div>
-                <div className="mt-1 flex flex-col justify-between gap-1">
-                  <h2 className="text-2xl font-bold text-white">$24,580</h2>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs bg-green-700 text-white font-semibold px-2 py-1 rounded-full">
-                      +18%
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      from last month
-                    </span>
-                  </div>
-                </div>
+                <h2 className="mt-2 text-2xl font-bold text-yellow-400">
+                  $200.00
+                </h2>
               </div>
 
-              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
+              {/* Categorías Activas */}
+              <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow flex flex-col justify-between">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">Pending Orders</span>
+                  <span className="text-sm text-gray-400">
+                    Categorías Activas
+                  </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-blue-400 lucide lucide-chart-column-icon lucide-chart-column"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
                     fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path stroke="none" d="M0 0h24v24H0z" />
-                    <circle cx="6" cy="19" r="2" />
-                    <circle cx="17" cy="19" r="2" />
-                    <path d="M17 17h-11v-14h-2" />
-                    <path d="M6 5l14 1l-1 7h-13" />
+                    <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                    <path d="M18 17V9" />
+                    <path d="M13 17V5" />
+                    <path d="M8 17v-3" />
                   </svg>
                 </div>
-
-                <div className="mt-1 flex flex-col justify-between gap-1">
-                  <h2 className="text-2xl font-bold text-white">23</h2>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs bg-red-700 text-white font-semibold px-2 py-1 rounded-full">
-                      -8%
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      from last month
-                    </span>
-                  </div>
-                </div>
+                <h2 className="mt-2 text-2xl font-bold text-blue-400">3</h2>
               </div>
-
               <GraphicsBar />
               <GraphicsPie />
             </div>
 
-            <div className="bg-[#0f172a] p-4 rounded-xl text-white">
-              <h2 className="text-xl font-bold mb-4">Productos Más Vendidos</h2>
-              <ul className="space-y-2">
-                {productosStock.map((producto, index) => (
-                  <li
-                    key={index}
-                    className="flex justify-between items-center border-b border-white/10 last:border-b-0 pb-2"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 flex items-center justify-center bg-blue-600 rounded-full font-bold">
-                        {index + 1}
-                      </div>
-                      <div>
-                        <div className="font-semibold">{producto.nombre}</div>
-                        <div className="text-sm text-white/60">
-                          {producto.unidadesVendidas} unidades vendidas
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-white font-bold">
-                        ${producto.ingresos.toLocaleString("es-CO")}
-                      </div>
-                      <div className="text-xs text-white/60">Ingresos</div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <div className="bg-[#0d1117] text-white p-6 rounded-lg">
+              <h2 className="text-xl font-bold mb-4">
+                Registro de Gastos ({gastos.length})
+              </h2>
 
+              {/* Encabezados */}
+              <div className="grid grid-cols-8 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
+                <div>Fecha</div>
+                <div>Descripción</div>
+                <div>Categoría</div>
+                <div>Proveedor</div>
+                <div>Método</div>
+                <div>Monto</div>
+                <div>Estado</div>
+                <div>Recibo</div>
+              </div>
+
+              {/* Filas */}
+              {gastos.map((item) => {
+                const colorEstado =
+                  item.estado === "Pagado"
+                    ? "bg-green-700"
+                    : item.estado === "Pendiente"
+                      ? "bg-yellow-600"
+                      : "bg-gray-600";
+
+                const montoFormateado = `-$${Math.abs(item.monto)}.00`;
+
+                return (
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-8 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
+                  >
+                    <div>{item.fecha}</div>
+                    <div className="font-semibold">{item.descripcion}</div>
+                    <div>{item.categoria}</div>
+                    <div>{item.proveedor}</div>
+                    <div>{item.metodo}</div>
+                    <div className="text-red-500 font-bold">
+                      {montoFormateado}
+                    </div>
+                    <div>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-semibold ${colorEstado}`}
+                      >
+                        {item.estado}
+                      </span>
+                    </div>
+                    <div>{item.recibo}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <AddExpenses
+              isOpen={modalAddIsOpen}
+              onClose={() => setModalAddIsOpen(false)}
+            ></AddExpenses>
           </div>
         </PageTemplate>
       </div>

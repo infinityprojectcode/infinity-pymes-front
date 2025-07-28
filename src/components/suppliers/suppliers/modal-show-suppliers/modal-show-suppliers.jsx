@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { useState } from "react";
 
-export default function AddMovements({ isOpen, onClose }) {
+export default function ShowSuppliers({ isOpen, onClose }) {
   return (
     <div>
       <Modal

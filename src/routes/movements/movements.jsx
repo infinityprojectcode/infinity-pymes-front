@@ -1,13 +1,86 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
 import AddMovements from "../../components/movements/modal-add-movements/modal-add-movements.jsx";
-import ShowMovements from "../../components/movements/modal-show-movements/modal-show-movements.jsx";
+import CloseDailyMovements from "../../components/movements/modal-closedaily-movements/modal-closedaily-movements.jsx";
 import { useState } from "react";
 
 export default function movements() {
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
-  const [modalShowIsOpen, setModalShowIsOpen] = useState(false);
+  const [modalCloseDailyIsOpen, setModalCloseDailyIsOpen] = useState(false);
   const [seccionActiva, setSeccionActiva] = useState("movimientos");
+
+  const movimientos = [
+    {
+      fecha: "2025-01-24 10:30",
+      tipo: "Ingreso",
+      descripcion: "Venta de productos electrónicos",
+      categoria: "Ventas",
+      metodo: "Efectivo",
+      monto: 1500,
+      referencia: "FAC-001",
+    },
+    {
+      fecha: "2025-01-24 14:15",
+      tipo: "Egreso",
+      descripcion: "Compra de suministros de oficina",
+      categoria: "Suministros",
+      metodo: "Transferencia",
+      monto: -500,
+      referencia: "REC-001",
+    },
+    {
+      fecha: "2025-01-24 16:45",
+      tipo: "Ingreso",
+      descripcion: "Pago de cliente",
+      categoria: "Cobros",
+      metodo: "Efectivo",
+      monto: 800,
+      referencia: "PAG-001",
+    },
+  ];
+
+  const cierres = [
+    {
+      id: 1,
+      fecha: "2025-01-23",
+      saldoInicial: 5000,
+      ingresos: 3200,
+      egresos: 1800,
+      saldoFinal: 6400,
+      conteo: 6350,
+      diferencia: -50,
+    },
+    {
+      id: 2,
+      fecha: "2025-01-24",
+      saldoInicial: 6400,
+      ingresos: 2800,
+      egresos: 1900,
+      saldoFinal: 7300,
+      conteo: 7300,
+      diferencia: 0,
+    },
+    {
+      id: 3,
+      fecha: "2025-01-25",
+      saldoInicial: 7300,
+      ingresos: 1500,
+      egresos: 700,
+      saldoFinal: 8100,
+      conteo: 8000,
+      diferencia: -100,
+    },
+    {
+      id: 4,
+      fecha: "2025-01-26",
+      saldoInicial: 8100,
+      ingresos: 2200,
+      egresos: 1000,
+      saldoFinal: 9300,
+      conteo: 9350,
+      diferencia: 50,
+    },
+  ];
 
   const getStatus = (status) => {
     if (status == "Atrasado") return { name: "Atrasado", color: "bg-red-500" };
@@ -56,7 +129,7 @@ export default function movements() {
                 </button>
 
                 <button
-                  onClick={() => setModalShowIsOpen(true)}
+                  onClick={() => setModalCloseDailyIsOpen(true)}
                   className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800"
                 >
                   <svg
@@ -191,21 +264,212 @@ export default function movements() {
             {/* Secciones dinámicas */}
             <div className="mt-4">
               {seccionActiva === "movimientos" && (
-                <div className="text-white">
-                  <p>Mostrando movimientos recientes...</p>
+                <div className="bg-[#0d1117] text-white p-6 rounded-lg">
+                  <h2 className="text-xl font-bold mb-4">
+                    Movimientos Recientes
+                  </h2>
+
+                  {/* Encabezados */}
+                  <div className="grid grid-cols-7 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
+                    <div>Fecha/Hora</div>
+                    <div>Tipo</div>
+                    <div>Descripción</div>
+                    <div>Categoría</div>
+                    <div>Método</div>
+                    <div>Monto</div>
+                    <div>Referencia</div>
+                  </div>
+
+                  {/* Filas */}
+                  {movimientos.map((item) => {
+                    const colorTipo =
+                      item.tipo === "Ingreso" ? "bg-green-700" : "bg-red-700";
+                    const colorMonto =
+                      item.monto >= 0 ? "text-green-500" : "text-red-500";
+                    const montoFormateado =
+                      item.monto >= 0
+                        ? `+$${item.monto}.00`
+                        : `-$${Math.abs(item.monto)}.00`;
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="grid grid-cols-7 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
+                      >
+                        <div>{item.fecha}</div>
+                        <div>
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-semibold ${colorTipo}`}
+                          >
+                            {item.tipo}
+                          </span>
+                        </div>
+                        <div>{item.descripcion}</div>
+                        <div>{item.categoria}</div>
+                        <div>{item.metodo}</div>
+                        <div className={`font-bold ${colorMonto}`}>
+                          {montoFormateado}
+                        </div>
+                        <div>{item.referencia}</div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
               {seccionActiva === "auditoria" && (
-                <div className="text-white">
-                  <p>Revisando auditoría de ingresos y egresos...</p>
+                <div className="bg-[#0d1117] text-white p-6 rounded-lg">
+                  <h2 className="text-xl font-bold mb-6">Auditoría de Caja</h2>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* MÉTODO DE PAGO */}
+                    <div className="bg-[#161b22] p-4 rounded-lg">
+                      <h3 className="font-semibold text-lg mb-4">
+                        Resumen por Método de Pago
+                      </h3>
+                      <div className="flex justify-between mb-2">
+                        <span>Efectivo</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between mb-2">
+                        <span>Transferencia</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between mb-2">
+                        <span>Tarjeta</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Cheque</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* INGRESOS POR CATEGORÍA */}
+                    <div className="bg-[#161b22] p-4 rounded-lg">
+                      <h3 className="font-semibold text-lg mb-4">
+                        Ingresos por Categoría
+                      </h3>
+                      <div className="flex justify-between mb-2">
+                        <span>Ventas</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between mb-2">
+                        <span>Cobros</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between mb-2">
+                        <span>Servicios</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Otros Ingresos</span>
+                        <span className="text-green-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* EGRESOS POR CATEGORÍA */}
+                    <div className="bg-[#161b22] p-4 rounded-lg">
+                      <h3 className="font-semibold text-lg mb-4">
+                        Egresos por Categoría
+                      </h3>
+                      <div className="flex justify-between mb-2">
+                        <span>Suministros</span>
+                        <span className="text-red-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between mb-2">
+                        <span>Servicios</span>
+                        <span className="text-red-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between mb-2">
+                        <span>Mantenimiento</span>
+                        <span className="text-red-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Otros Gastos</span>
+                        <span className="text-red-400 font-semibold">
+                          $0.00
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
               {seccionActiva === "cierre" && (
-                <div className="text-white">
-                  <p>Mostrando historial de cierres diarios...</p>
-                </div>
+                  <div className="bg-[#0d1117] text-white p-6 rounded-lg">
+                    <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
+
+                    {/* Encabezados */}
+                    <div className="grid grid-cols-7 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
+                      <div>Fecha</div>
+                      <div>Saldo Inicial</div>
+                      <div>Ingresos</div>
+                      <div>Egresos</div>
+                      <div>Saldo Final</div>
+                      <div>Conteo</div>
+                      <div>Diferencia</div>
+                    </div>
+
+                    {/* Filas */}
+                    {cierres.map((cierre) => {
+                      const colorIngreso = "text-green-500";
+                      const colorEgreso = "text-red-500";
+                      const colorDiferencia =
+                        cierre.diferencia >= 0
+                          ? "text-green-500"
+                          : "text-red-500";
+                      const diferenciaFormateada =
+                        cierre.diferencia >= 0
+                          ? `+$${cierre.diferencia}.00`
+                          : `-$${Math.abs(cierre.diferencia)}.00`;
+
+                      return (
+                        <div
+                          key={cierre.id}
+                          className="grid grid-cols-7 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
+                        >
+                          <div>{cierre.fecha}</div>
+                          <div>${cierre.saldoInicial.toFixed(2)}</div>
+                          <div className={colorIngreso}>
+                            ${cierre.ingresos.toFixed(2)}
+                          </div>
+                          <div className={colorEgreso}>
+                            ${cierre.egresos.toFixed(2)}
+                          </div>
+                          <div className="font-bold">
+                            ${cierre.saldoFinal.toFixed(2)}
+                          </div>
+                          <div>${cierre.conteo.toFixed(2)}</div>
+                          <div className={`font-bold ${colorDiferencia}`}>
+                            {diferenciaFormateada}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
               )}
             </div>
           </div>
@@ -213,10 +477,10 @@ export default function movements() {
             isOpen={modalAddIsOpen}
             onClose={() => setModalAddIsOpen(false)}
           ></AddMovements>
-          <ShowMovements
-            isOpen={modalShowIsOpen}
-            onClose={() => setModalShowIsOpen(false)}
-          ></ShowMovements>
+          <CloseDailyMovements
+            isOpen={modalCloseDailyIsOpen}
+            onClose={() => setModalCloseDailyIsOpen(false)}
+          ></CloseDailyMovements>
         </div>
       </PageTemplate>
     </div>

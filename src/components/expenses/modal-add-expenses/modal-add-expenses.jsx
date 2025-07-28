@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { useState } from "react";
 
-export default function AddMovements({ isOpen, onClose }) {
+export default function AddExpenses({ isOpen, onClose }) {
   return (
     <div>
       <Modal
@@ -20,10 +20,10 @@ export default function AddMovements({ isOpen, onClose }) {
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-[400px]">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-[600px]">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
-            <h1 className="font-semibold text-lg">Registrar Movimiento</h1>
+            <h1 className="font-semibold text-lg">Registrar Nuevo Gasto</h1>
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-red-400"
@@ -48,70 +48,74 @@ export default function AddMovements({ isOpen, onClose }) {
 
           {/* Formulario */}
           <form className="space-y-4">
-            {/* Tipo de Movimiento */}
-            <div>
-              <label className="block mb-1">Tipo de Movimiento</label>
-              <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2">
-                <option>Ingreso</option>
-                <option>Egreso</option>
-              </select>
-            </div>
-
-            {/* Monto y Categoría */}
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <label className="block mb-1">Monto</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="0.00"
-                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2"
-                />
-              </div>
-              <div className="flex-1">
-                <label className="block mb-1">Categoría</label>
-                <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2">
-                  <option>Seleccionar</option>
-                  {/* otras categorías */}
-                </select>
-              </div>
-            </div>
-
             {/* Descripción */}
             <div>
-              <label className="block mb-1">Descripción</label>
-              <textarea
-                rows="3"
-                placeholder="Descripción del movimiento"
+              <h2 className="font-medium mb-2">Descripción</h2>
+              <input
+                type="text"
+                placeholder="Descripción del gasto"
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2"
               />
             </div>
 
-            {/* Referencia y Método */}
+            {/* Categoría y Monto */}
             <div className="flex gap-4">
+              <div className="flex-1 flex flex-col">
+                <h2 className="font-medium mb-2">Categoría</h2>
+                <div className="space-y-2">
+                  <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2">
+                    <option>Seleccionar categoría</option>
+                  </select>
+                </div>
+              </div>
               <div className="flex-1">
-                <label className="block mb-1">Referencia (Opcional)</label>
+                <h2 className="font-medium mb-2">Monto</h2>
                 <input
-                  type="text"
-                  placeholder="FAC-001, REC-001, etc."
+                  type="number"
+                  step="0.01"
+                  placeholder="0,00"
                   className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2"
                 />
               </div>
+            </div>
+
+            <div className="flex gap-4">
+              <div className="flex flex-col flex-1">
+                <h2 className="font-medium mb-2">Método de Pago</h2>
+                <div className="space-y-2">
+                  <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2">
+                    <option>Seleccionar método</option>
+                  </select>
+                </div>
+              </div>
               <div className="flex-1">
-                <label className="block mb-1">Método de Pago</label>
-                <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2">
-                  <option>Seleccionar</option>
-                  {/* métodos de pago */}
-                </select>
+                <h2 className="font-medium mb-2">Proveedor (Opcional)</h2>
+                <input
+                  type="text"
+                  placeholder="Nombre del proveedor"
+                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2"
+                />
               </div>
             </div>
+
+            <div>
+              <h2 className="font-medium mb-2">Número de Recibo (Opcional)</h2>
+              <input
+                type="text"
+                placeholder="REC-001"
+                className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2"
+              />
+            </div>
+
+            {/* Separador */}
+            <div className="border-t border-slate-700 my-4"></div>
 
             {/* Botón */}
             <button
               type="submit"
               className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
             >
-              Registrar Movimiento
+              Registrar Gasto
             </button>
           </form>
         </div>
