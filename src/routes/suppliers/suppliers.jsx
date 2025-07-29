@@ -31,7 +31,7 @@ export default function Suppliers() {
                   Proveedores
                 </h1>
                 <p className="text-gray-400 mt-1">
-                  Gestion tus proveedores y órdenes de compra.
+                  Gestiona tus proveedores y órdenes de compra.
                 </p>
               </div>
 
