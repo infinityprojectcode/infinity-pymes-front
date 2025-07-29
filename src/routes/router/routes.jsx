@@ -1,6 +1,7 @@
 import Inventory from "@routes/inventory/inventory.jsx";
 import Customer from "@routes/customer/customer.jsx";
-import Configuration from "../configuration/configuration";
+import ControlPanel from "../control-panel/control-panel.jsx";
+import Configuration from "../configuration/configuration.jsx";
 import Home from "@routes/home/home.jsx";
 import Billing from "@routes/billing/billing.jsx";
 import Movements from "@routes/movements/movements.jsx";
@@ -85,7 +86,14 @@ export const appRoutes = [
   },
   {
     id: crypto.randomUUID(),
-    path: "/config",
+    path: "/control-panel",
+    name: "Panel de Control",
+    element: ControlPanel,
+    icon: <DashboardIcon />,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/configuration",
     name: "Configuración",
     element: Configuration,
     icon: <DashboardIcon />,
