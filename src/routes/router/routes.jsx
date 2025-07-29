@@ -6,7 +6,8 @@ import Billing from "@routes/billing/billing.jsx";
 import Movements from "@routes/movements/movements.jsx";
 import HomeIcon from "@assets/icons/home-icon";
 import expenses from "@routes/expenses/expenses.jsx";
-import Suppliers from "@routes/suppliers/suppliers.jsx";
+import Suppliers from "@routes/suppliers/suppliers.jsx";  
+import Schedule from "../schedule/schedule.jsx";
 import PointOfSale from "@routes/point-of-sale/point-of-sale.jsx";
 import PointOfSaleIcon from "@assets/icons/point-of-sale.jsx";
 import DashboardIcon from "@assets/icons/dashboard-icon";
@@ -15,7 +16,8 @@ import BillingIcon from "@assets/icons/billing-icon";
 import ClientsIcon from "@assets/icons/clients-icon";
 import MovementsIcon from "@assets/icons/movements-icon.jsx";
 import ExpensesIcon from "@assets/icons/expenses-icon.jsx";
-import SuppliersIcon from "../../assets/icons/suppliers-icon";
+import SuppliersIcon from "../../assets/icons/suppliers-icon.jsx";
+import ScheduleIcon from "../../assets/icons/schedule-icon.jsx";
 
 export const appRoutes = [
   {
@@ -73,6 +75,13 @@ export const appRoutes = [
     name: "Gastos",
     element: expenses,
     icon: <ExpensesIcon />,
+  },
+  {
+    id: crypto.randomUUID(),
+    path: "/schedule",
+    name: "Calendario",
+    element: Schedule,
+    icon: <ScheduleIcon />,
   },
   {
     id: crypto.randomUUID(),
