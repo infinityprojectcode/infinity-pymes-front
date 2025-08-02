@@ -1,7 +1,7 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import GraphicsBar from "../../components/graphics/graphics-bar.jsx";
-import GraphicsPie from "../../components/graphics/graphics-pie.jsx";
+import GraphicsBar from "../../components/graphics/home/graphics-bar.jsx";
+import GraphicsPie from "../../components/graphics/home/graphics-pie.jsx";
 
 export default function home() {
   const dataQuemada = [
@@ -73,11 +73,25 @@ export default function home() {
 
               {/* Filtros y botones */}
               <div className="flex items-center gap-3 mt-4 md:mt-0">
-                <select className="bg-[#161b22] text-white text-sm border border-gray-600 rounded-md px-3 py-2 focus:outline-none">
-                  <option>Este Mes</option>
-                  <option>Últimos 7 días</option>
-                  <option>Últimos 30 días</option>
-                </select>
+                <div className="relative w-max">
+                  <select className="appearance-none bg-[#161b22] text-white text-sm border border-gray-600 rounded-md px-3 py-2 pr-10 focus:outline-none">
+                    <option>Este Mes</option>
+                    <option>Últimos 7 días</option>
+                    <option>Últimos 30 días</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+
                 <button className="flex items-center gap-1 border border-gray-600 text-white text-sm px-3 py-2 rounded-md hover:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -211,9 +225,7 @@ export default function home() {
 
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
                 <div className="flex justify-between items-start">
-                  <span className="text-sm text-gray-400">
-                    Pending Orders
-                  </span>
+                  <span className="text-sm text-gray-400">Pending Orders</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-400"
@@ -244,7 +256,7 @@ export default function home() {
                   </div>
                 </div>
               </div>
-              
+
               <GraphicsBar />
               <GraphicsPie />
             </div>
@@ -315,6 +327,7 @@ export default function home() {
                   ))}
                 </ul>
               </div>
+
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow">
                 <h2 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
                   <svg
