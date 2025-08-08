@@ -4,7 +4,7 @@ import LogoutIcon from "@assets/icons/logout-icon";
 
 export default function Sidebar() {
   return (
-    <div className="hidden flex flex-col relative top-0 left-0 h-screen w-1/6 bg-100 overflow-y-auto">
+    <div className="flex flex-col relative top-0 left-0 h-screen w-1/6 bg-100 overflow-y-auto">
       <div className="flex flex-col h-full justify-start">
         <div className="flex flex-col text-center p-4 gap-1 pb-2">
           <div className="flex flex-col w-fit mx-auto">
