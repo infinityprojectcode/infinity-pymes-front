@@ -90,9 +90,8 @@ export default function movements() {
   };
   return (
     <div className="w-full h-screen flex">
-      <Sidebar />
       <PageTemplate>
-        <div className="w-full h-full p-8">
+        <div className="w-full h-full">
           <div className="w-full h-full space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               {/* Título y subtítulo */}
@@ -151,7 +150,7 @@ export default function movements() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Ingresos Hoy */}
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between shadow">
                 <div className="flex justify-between items-start">
@@ -264,56 +263,57 @@ export default function movements() {
             {/* Secciones dinámicas */}
             <div className="mt-4">
               {seccionActiva === "movimientos" && (
-                <div className="bg-[#0d1117] text-white p-6 rounded-lg">
+                <div className="w-full overflow-x-auto bg-[#0d1117] text-white p-6 rounded-lg">
                   <h2 className="text-xl font-bold mb-4">
                     Movimientos Recientes
                   </h2>
+                  <div className="min-w-[680px]">
+                    {/* Encabezados */}
+                    <div className="grid grid-cols-7 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
+                      <div>Fecha/Hora</div>
+                      <div>Tipo</div>
+                      <div>Descripción</div>
+                      <div>Categoría</div>
+                      <div>Método</div>
+                      <div>Monto</div>
+                      <div>Referencia</div>
+                    </div>
 
-                  {/* Encabezados */}
-                  <div className="grid grid-cols-7 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
-                    <div>Fecha/Hora</div>
-                    <div>Tipo</div>
-                    <div>Descripción</div>
-                    <div>Categoría</div>
-                    <div>Método</div>
-                    <div>Monto</div>
-                    <div>Referencia</div>
+                    {/* Filas */}
+                    {movimientos.map((item) => {
+                      const colorTipo =
+                        item.tipo === "Ingreso" ? "bg-green-700" : "bg-red-700";
+                      const colorMonto =
+                        item.monto >= 0 ? "text-green-500" : "text-red-500";
+                      const montoFormateado =
+                        item.monto >= 0
+                          ? `+$${item.monto}.00`
+                          : `-$${Math.abs(item.monto)}.00`;
+
+                      return (
+                        <div
+                          key={item.id}
+                          className="grid grid-cols-7 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
+                        >
+                          <div>{item.fecha}</div>
+                          <div>
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-semibold ${colorTipo}`}
+                            >
+                              {item.tipo}
+                            </span>
+                          </div>
+                          <div>{item.descripcion}</div>
+                          <div>{item.categoria}</div>
+                          <div>{item.metodo}</div>
+                          <div className={`font-bold ${colorMonto}`}>
+                            {montoFormateado}
+                          </div>
+                          <div>{item.referencia}</div>
+                        </div>
+                      );
+                    })}
                   </div>
-
-                  {/* Filas */}
-                  {movimientos.map((item) => {
-                    const colorTipo =
-                      item.tipo === "Ingreso" ? "bg-green-700" : "bg-red-700";
-                    const colorMonto =
-                      item.monto >= 0 ? "text-green-500" : "text-red-500";
-                    const montoFormateado =
-                      item.monto >= 0
-                        ? `+$${item.monto}.00`
-                        : `-$${Math.abs(item.monto)}.00`;
-
-                    return (
-                      <div
-                        key={item.id}
-                        className="grid grid-cols-7 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-                      >
-                        <div>{item.fecha}</div>
-                        <div>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-semibold ${colorTipo}`}
-                          >
-                            {item.tipo}
-                          </span>
-                        </div>
-                        <div>{item.descripcion}</div>
-                        <div>{item.categoria}</div>
-                        <div>{item.metodo}</div>
-                        <div className={`font-bold ${colorMonto}`}>
-                          {montoFormateado}
-                        </div>
-                        <div>{item.referencia}</div>
-                      </div>
-                    );
-                  })}
                 </div>
               )}
 
@@ -419,9 +419,9 @@ export default function movements() {
               )}
 
               {seccionActiva === "cierre" && (
-                  <div className="bg-[#0d1117] text-white p-6 rounded-lg">
-                    <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
-
+                <div className="w-full overflow-x-auto bg-[#0d1117] text-white p-6 rounded-lg">
+                  <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
+                  <div className="min-w-[680px]">
                     {/* Encabezados */}
                     <div className="grid grid-cols-7 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
                       <div>Fecha</div>
@@ -470,6 +470,7 @@ export default function movements() {
                       );
                     })}
                   </div>
+                </div>
               )}
             </div>
           </div>

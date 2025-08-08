@@ -51,56 +51,57 @@ export default function ListOrders() {
         </div>
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700 bg-gray-900 text-white p-3">
           <h1 className="text-2xl font-bold mb-1">Órdenes de Compra (1)</h1>
+          <div className="min-w-[680px]">
+            {/* Encabezado */}
+            <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
+              <div>Orden #</div>
+              <div>Proveedor</div>
+              <div>Fecha</div>
+              <div>Entrega Esperada</div>
+              <div>Total</div>
+              <div>Estado</div>
+              <div className="flex justify-center">Acciones</div>
+            </div>
 
-          {/* Encabezado */}
-          <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
-            <div>Orden #</div>
-            <div>Proveedor</div>
-            <div>Fecha</div>
-            <div>Entrega Esperada</div>
-            <div>Total</div>
-            <div>Estado</div>
-            <div className="flex justify-center">Acciones</div>
-          </div>
-
-          {/* Contenido dinámico */}
-          {listOrdenesCompra.map((orden) => {
-            const status = getStatus(orden.estado);
-            return (
-              <div
-                key={orden.id}
-                className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-              >
-                <div className="truncate font-medium">{orden.orden}</div>
-                <div>{orden.proveedor}</div>
-                <div>{orden.fecha}</div>
-                <div>{orden.entregaEsperada}</div>
-                <div className="font-medium">{orden.total}</div>
+            {/* Contenido dinámico */}
+            {listOrdenesCompra.map((orden) => {
+              const status = getStatus(orden.estado);
+              return (
                 <div
-                  className={`${status.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+                  key={orden.id}
+                  className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
                 >
-                  {status.name}
+                  <div className="truncate font-medium">{orden.orden}</div>
+                  <div>{orden.proveedor}</div>
+                  <div>{orden.fecha}</div>
+                  <div>{orden.entregaEsperada}</div>
+                  <div className="font-medium">{orden.total}</div>
+                  <div
+                    className={`${status.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+                  >
+                    {status.name}
+                  </div>
+                  <div className="flex gap-2 justify-center">
+                    <button onClick={() => setModalShowOrdersIsOpen(true)}>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-2 justify-center">
-                  <button onClick={() => setModalShowOrdersIsOpen(true)}>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
       <ShowOrders

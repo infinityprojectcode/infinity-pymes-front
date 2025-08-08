@@ -59,9 +59,8 @@ export default function home() {
   return (
     <>
       <div className="w-full h-screen flex">
-        <Sidebar />
         <PageTemplate>
-          <div className="w-full h-full p-8 space-y-6">
+          <div className="w-full h-full space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               {/* Título y subtítulo */}
               <div>
@@ -127,7 +126,7 @@ export default function home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between h-full shadow">
                 <div className="flex justify-between items-start">
                   <span className="text-sm text-gray-400">Total Products</span>
@@ -256,9 +255,12 @@ export default function home() {
                   </div>
                 </div>
               </div>
-
+              <div className="col-span-2">
               <GraphicsBar />
+              </div>
+              <div className="col-span-2">
               <GraphicsPie />
+              </div>
             </div>
 
             <div className="bg-[#0f172a] p-4 rounded-xl text-white">
