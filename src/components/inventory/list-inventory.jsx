@@ -106,16 +106,16 @@ export default function ListInventory() {
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-2 sm:items-start sm:gap-2 md:flex-row md:justify-between md:items-center mb-4">
           <div className="flex flex-col text-white">
             <h1 className="text-3xl font-bold mb-1">Inventario</h1>
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-400">
               Gestione su inventario de productos y los niveles de stock.
             </p>
           </div>
           <button
             onClick={() => setModalIsOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
+            className="flex items-center w-fit gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -155,6 +155,7 @@ export default function ListInventory() {
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
           <h1 className="text-2xl font-bold mb-1 ">Products (5)</h1>
           {/* Encabezado */}
+          <div className="min-w-[650px]">
           <div className="grid grid-cols-6 text-sm font-semibold px-4 py-3">
             <div>Nombre del producto</div>
             <div>Categoría</div>
@@ -222,6 +223,7 @@ export default function ListInventory() {
               </div>
             );
           })}
+          </div>
         </div>
       </div>
 
