@@ -5,7 +5,6 @@ import GraphicsPie from "../../components/graphics/expenses/graphics-pie.jsx";
 import AddExpenses from "../../components/expenses/modal-add-expenses/modal-add-expenses.jsx";
 import { useState } from "react";
 
-
 export default function expenses() {
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
 
@@ -48,9 +47,8 @@ export default function expenses() {
   return (
     <>
       <div className="w-full h-screen flex">
-        <Sidebar />
         <PageTemplate>
-          <div className="w-full h-full p-8 space-y-6">
+          <div className="w-full h-full space-y-6">
             {/* 🟥🟧 CABECERA */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               {/* Título + subtítulo */}
@@ -109,7 +107,7 @@ export default function expenses() {
               </div>
             </div>
             {/* 🟥🟧 TARJETAS ESTADÍSTICAS */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Total Gastos */}
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow flex flex-col justify-between">
                 <div className="flex justify-between items-start">
@@ -215,62 +213,67 @@ export default function expenses() {
                 </div>
                 <h2 className="mt-2 text-2xl font-bold text-blue-400">3</h2>
               </div>
-              <GraphicsBar />
-              <GraphicsPie />
+              <div class="col-span-2">
+                <GraphicsBar />
+              </div>
+              <div class="col-span-2">
+                <GraphicsPie />
+              </div>
             </div>
 
-            <div className="bg-[#0d1117] text-white p-6 rounded-lg">
+            <div className="w-full overflow-x-auto bg-[#0d1117] text-white p-6 rounded-lg">
               <h2 className="text-xl font-bold mb-4">
                 Registro de Gastos ({gastos.length})
               </h2>
+              <div className="min-w-[680px]">
+                {/* Encabezados */}
+                <div className="grid grid-cols-8 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
+                  <div>Fecha</div>
+                  <div>Descripción</div>
+                  <div>Categoría</div>
+                  <div>Proveedor</div>
+                  <div>Método</div>
+                  <div>Monto</div>
+                  <div>Estado</div>
+                  <div>Recibo</div>
+                </div>
 
-              {/* Encabezados */}
-              <div className="grid grid-cols-8 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
-                <div>Fecha</div>
-                <div>Descripción</div>
-                <div>Categoría</div>
-                <div>Proveedor</div>
-                <div>Método</div>
-                <div>Monto</div>
-                <div>Estado</div>
-                <div>Recibo</div>
+                {/* Filas */}
+                {gastos.map((item) => {
+                  const colorEstado =
+                    item.estado === "Pagado"
+                      ? "bg-green-700"
+                      : item.estado === "Pendiente"
+                        ? "bg-yellow-600"
+                        : "bg-gray-600";
+
+                  const montoFormateado = `-$${Math.abs(item.monto)}.00`;
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="grid grid-cols-8 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
+                    >
+                      <div>{item.fecha}</div>
+                      <div className="font-semibold">{item.descripcion}</div>
+                      <div>{item.categoria}</div>
+                      <div>{item.proveedor}</div>
+                      <div>{item.metodo}</div>
+                      <div className="text-red-500 font-bold">
+                        {montoFormateado}
+                      </div>
+                      <div>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${colorEstado}`}
+                        >
+                          {item.estado}
+                        </span>
+                      </div>
+                      <div>{item.recibo}</div>
+                    </div>
+                  );
+                })}
               </div>
-
-              {/* Filas */}
-              {gastos.map((item) => {
-                const colorEstado =
-                  item.estado === "Pagado"
-                    ? "bg-green-700"
-                    : item.estado === "Pendiente"
-                      ? "bg-yellow-600"
-                      : "bg-gray-600";
-
-                const montoFormateado = `-$${Math.abs(item.monto)}.00`;
-
-                return (
-                  <div
-                    key={item.id}
-                    className="grid grid-cols-8 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-                  >
-                    <div>{item.fecha}</div>
-                    <div className="font-semibold">{item.descripcion}</div>
-                    <div>{item.categoria}</div>
-                    <div>{item.proveedor}</div>
-                    <div>{item.metodo}</div>
-                    <div className="text-red-500 font-bold">
-                      {montoFormateado}
-                    </div>
-                    <div>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold ${colorEstado}`}
-                      >
-                        {item.estado}
-                      </span>
-                    </div>
-                    <div>{item.recibo}</div>
-                  </div>
-                );
-              })}
             </div>
             <AddExpenses
               isOpen={modalAddIsOpen}

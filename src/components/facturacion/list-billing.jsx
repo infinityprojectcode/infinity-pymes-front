@@ -46,7 +46,7 @@ export default function ListBilling() {
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-2 sm:items-start sm:gap-2 md:flex-row md:justify-between md:items-center mb-4">
           <div className="flex flex-col text-white">
             <h1 className="text-3xl font-bold mb-1">Facturación</h1>
             <p className="text-gray-400 mb-6">
@@ -55,7 +55,7 @@ export default function ListBilling() {
           </div>
           <button
             onClick={() => setModalAddIsOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
+            className="flex items-center w-fit gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
           >
             <svg
               width="24"
@@ -92,71 +92,74 @@ export default function ListBilling() {
         </div>
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
           <h1 className="text-2xl font-bold mb-1 ">Facturas (3)</h1>
-          {/* Encabezado */}
-          <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
-            <div>Factura #</div>
-            <div>Cliente</div>
-            <div>Fecha</div>
-            <div>Fecha de vencimiento</div>
-            <div>Cantidad</div>
-            <div>Estado</div>
-            <div className="flex justify-center">Comportamiento</div>
-          </div>
+          <div className="min-w-[650px]">
+            {/* Encabezado */}
+            <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
+              <div>Factura #</div>
+              <div>Cliente</div>
+              <div>Fecha</div>
+              <div>Fecha de vencimiento</div>
+              <div>Cantidad</div>
+              <div>Estado</div>
+              <div className="flex justify-center">Comportamiento</div>
+            </div>
 
-          {/* Contenido dinámico */}
-          {listBilling.map((item) => {
-            debugger
-            const auxiliar = getStatus(item.estado);
-            return (
-              <div key={item.id}
-                className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-              >
-                <div className="truncate">{item.numero}</div>
-                <div>{item.cliente}</div>
-                <div>${item.fecha}</div>
-                <div>{item.vencimiento}</div>
-                <div>{item.cantidad}</div>
+            {/* Contenido dinámico */}
+            {listBilling.map((item) => {
+              debugger;
+              const auxiliar = getStatus(item.estado);
+              return (
                 <div
-                  className={`${auxiliar.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+                  key={item.id}
+                  className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
                 >
-                  {auxiliar.name}
+                  <div className="truncate">{item.numero}</div>
+                  <div>{item.cliente}</div>
+                  <div>${item.fecha}</div>
+                  <div>{item.vencimiento}</div>
+                  <div>{item.cantidad}</div>
+                  <div
+                    className={`${auxiliar.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+                  >
+                    {auxiliar.name}
+                  </div>
+                  <div className="flex gap-2 justify-center">
+                    <button onClick={() => setModalShowIsOpen(true)}>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                    <button>
+                      <svg
+                        className="text-red-500"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                      >
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                        <path d="M3 6h18" />
+                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-2 justify-center">
-                  <button onClick={() => setModalShowIsOpen(true)}>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  </button>
-                  <button>
-                    <svg
-                      className="text-red-500"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M10 11v6" />
-                      <path d="M14 11v6" />
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                      <path d="M3 6h18" />
-                      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 

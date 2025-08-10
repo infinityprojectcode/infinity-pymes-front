@@ -45,16 +45,16 @@ export default function ListInventory() {
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-2 sm:items-start sm:gap-2 md:flex-row md:justify-between md:items-center mb-4">
           <div className="flex flex-col text-white">
             <h1 className="text-3xl font-bold mb-1">Inventario</h1>
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-400">
               Gestione su inventario de productos y los niveles de stock.
             </p>
           </div>
           <button
             onClick={() => setModalIsOpenOne(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300 cursor-pointer"
+            className="flex items-center w-fit gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300 cursor-pointer"
           >
             <Plus />
             Agregar nuevo producto
@@ -86,50 +86,52 @@ export default function ListInventory() {
             Productos ({inventory.length})
           </h1>
           {/* Encabezado */}
-          <div className="grid grid-cols-6 text-sm font-semibold px-4 py-3">
-            <div>Nombre del producto</div>
-            <div>Categoría</div>
-            <div>Precio</div>
-            <div>Cantidad</div>
-            <div>Estado</div>
-            <div>Acciones</div>
-          </div>
+          <div className="min-w-[650px]">
+            <div className="grid grid-cols-6 text-sm font-semibold px-4 py-3">
+              <div>Nombre del producto</div>
+              <div>Categoría</div>
+              <div>Precio</div>
+              <div>Cantidad</div>
+              <div>Estado</div>
+              <div>Acciones</div>
+            </div>
 
-          {/* Contenido dinámico */}
-          {inventory.map((item) => {
-            const auxiliar = getStatus(item.quantity, item.stock_state);
-            return (
-              <div
-                key={item.inventory_id}
-                className="grid grid-cols-6 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-              >
-                <div className="truncate">{item.product_name}</div>
-                <div>{item.category}</div>
-                <div>${Intl.NumberFormat("es-CO").format(item.price)}</div>
-                <div>{item.quantity}</div>
+            {/* Contenido dinámico */}
+            {inventory.map((item) => {
+              const auxiliar = getStatus(item.quantity, item.stock_state);
+              return (
                 <div
-                  className={`${auxiliar.color} w-fit px-2 text-base text-white text-center font-semibold rounded-lg`}
+                  key={item.inventory_id}
+                  className="grid grid-cols-6 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
                 >
-                  {auxiliar.name}
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setModalIsOpenTwo(true)}
-                    className="cursor-pointer"
+                  <div className="truncate">{item.product_name}</div>
+                  <div>{item.category}</div>
+                  <div>${Intl.NumberFormat("es-CO").format(item.price)}</div>
+                  <div>{item.quantity}</div>
+                  <div
+                    className={`${auxiliar.color} w-fit px-2 text-base text-white text-center font-semibold rounded-lg`}
                   >
-                    <Edit className="text-yellow-500" />
-                  </button>
+                    {auxiliar.name}
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setModalIsOpenTwo(true)}
+                      className="cursor-pointer"
+                    >
+                      <Edit className="text-yellow-500" />
+                    </button>
 
-                  <button
-                    onClick={() => setModalIsOpenThree(true)}
-                    className="cursor-pointer"
-                  >
-                    <Trash2 className="text-red-700" />
-                  </button>
+                    <button
+                      onClick={() => setModalIsOpenThree(true)}
+                      className="cursor-pointer"
+                    >
+                      <Trash2 className="text-red-700" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 

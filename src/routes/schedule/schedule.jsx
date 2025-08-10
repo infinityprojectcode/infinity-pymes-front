@@ -22,9 +22,8 @@ export default function Schedule() {
   return (
     <>
       <div className="w-full h-screen flex">
-        <Sidebar />
         <PageTemplate>
-          <div className="w-full h-full p-8">
+          <div className="w-full h-full">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               {/* Título y subtítulo */}
               <div>
@@ -116,7 +115,7 @@ export default function Schedule() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Citas Hoy */}
               <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex justify-between items-center h-full shadow">
                 <div>

@@ -80,9 +80,8 @@ export default function PointOfSale() {
   return (
     <>
       <div className="w-full h-screen flex">
-        <Sidebar />
         <PageTemplate>
-          <div className="flex flex-col p-8 gap-2 text-white">
+          <div className="flex flex-col gap-2 text-white">
             <div className="flex flex-col mb-3">
               <h1 className="text-3xl font-bold">Punto de Venta</h1>
               <p className="text-gray-400">
@@ -90,9 +89,9 @@ export default function PointOfSale() {
               </p>
             </div>
 
-            <div className="flex w-full items-start gap-4">
-              <div className="flex flex-col w-[70%] gap-4">
-                <div className="flex flex-col gap-2 bg-[#1a1d24] p-4 rounded-lg">
+            <div className="flex flex-col md:flex-row w-full items-start gap-4">
+              <div className="flex flex-col w-full md:w-[70%] gap-4">
+                <div className="flex flex-col w-full gap-2 bg-[#1a1d24] p-4 rounded-lg">
                   <div className="flex gap-2">
                     <div className="relative flex flex-1">
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -166,7 +165,7 @@ export default function PointOfSale() {
                     </select>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {productos.map((product, index) => (
                     <div
                       key={index}
@@ -190,7 +189,7 @@ export default function PointOfSale() {
                 </div>
               </div>
 
-              <div className="w-[30%] bg-[#1a1d24] p-4 rounded-lg h-auto">
+              <div className="w-full md:w-[30%] bg-[#1a1d24] p-4 rounded-lg h-auto">
                 <div className="flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +214,7 @@ export default function PointOfSale() {
                     {carrito.map((item) => (
                       <div
                         key={item.id}
-                        className="flex justify-between items-center text-white bg-[#2a2d36] p-2 rounded"
+                        className="flex flex-col items-start lg:flex-row lg:justify-between lg:items-center text-white bg-[#2a2d36] p-2 rounded"
                       >
                         <div>
                           <h3 className="font-bold">{item.name}</h3>

@@ -21,9 +21,8 @@ export default function Suppliers() {
   return (
     <>
       <div className="w-full h-screen flex">
-        <Sidebar />
         <PageTemplate>
-          <div className="w-full h-full p-8">
+          <div className="w-full h-full">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               {/* Título y subtítulo */}
               <div>

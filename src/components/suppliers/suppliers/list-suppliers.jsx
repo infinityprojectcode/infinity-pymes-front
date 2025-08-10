@@ -60,53 +60,55 @@ export default function ListSuppliers() {
         </div>
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700 bg-gray-900 text-white p-3">
           <h1 className="text-2xl font-bold mb-1">Proveedores (2)</h1>
-          {/* Encabezado */}
-          <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
-            <div>Empresa</div>
-            <div>Contacto</div>
-            <div>Categoría</div>
-            <div>Términos de Pago</div>
-            <div>Total Compras</div>
-            <div>Estado</div>
-            <div className="flex justify-center">Acciones</div>
-          </div>
-          {listProveedores.map((proveedor) => {
-            const status = getStatus(proveedor.estado);
-            return (
-              <div
-                key={proveedor.id}
-                className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-              >
-                <div className="truncate">{proveedor.empresa}</div>
-                <div>{proveedor.contacto}</div>
-                <div>{proveedor.categoria}</div>
-                <div>{proveedor.terminosPago}</div>
-                <div>{proveedor.totalCompras}</div>
+          <div className="min-w-[680px]">
+            {/* Encabezado */}
+            <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
+              <div>Empresa</div>
+              <div>Contacto</div>
+              <div>Categoría</div>
+              <div>Términos de Pago</div>
+              <div>Total Compras</div>
+              <div>Estado</div>
+              <div className="flex justify-center">Acciones</div>
+            </div>
+            {listProveedores.map((proveedor) => {
+              const status = getStatus(proveedor.estado);
+              return (
                 <div
-                  className={`${status.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+                  key={proveedor.id}
+                  className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
                 >
-                  {status.name}
+                  <div className="truncate">{proveedor.empresa}</div>
+                  <div>{proveedor.contacto}</div>
+                  <div>{proveedor.categoria}</div>
+                  <div>{proveedor.terminosPago}</div>
+                  <div>{proveedor.totalCompras}</div>
+                  <div
+                    className={`${status.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+                  >
+                    {status.name}
+                  </div>
+                  <div className="flex gap-2 justify-center">
+                    <button onClick={() => setModalShowSuppliersIsOpen(true)}>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-2 justify-center">
-                  <button onClick={() => setModalShowSuppliersIsOpen(true)}>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
       <ShowSuppliers

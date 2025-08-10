@@ -32,7 +32,7 @@ export default function ListReminder() {
       {recordatorios.map((item) => (
         <div
           key={item.id}
-          className="bg-[#1c2431] rounded-lg p-4 mb-2 flex justify-between"
+          className="bg-[#1c2431] rounded-lg p-4 mb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between"
         >
           <div className="flex items-center gap-4">
             {/* Icono */}

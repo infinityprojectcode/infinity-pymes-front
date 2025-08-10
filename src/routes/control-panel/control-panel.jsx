@@ -6,9 +6,8 @@ export default function ControlPanel() {
   return (
     <>
       <div className="w-full h-screen flex">
-        <Sidebar />
         <PageTemplate>
-          <div className="p-8 text-white">
+          <div className="text-white">
             <h1 className="text-3xl font-bold mb-1">Control Panel</h1>
             <p className="text-gray-400 mb-6">
               Administrar configuraciones y configuraciones del sistema.
@@ -17,7 +16,7 @@ export default function ControlPanel() {
             {/* Acciones rápidas */}
             <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 mb-6">
               <h2 className="text-xl font-semibold mb-4">Acciones rápidas</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <button className="border border-gray-700 rounded-md p-4 flex flex-col items-center text-center gap-1 hover:bg-gray-800">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

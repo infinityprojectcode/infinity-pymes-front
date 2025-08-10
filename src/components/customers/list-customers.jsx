@@ -8,7 +8,6 @@ import ShowCustomer from "./modal-show-customer/modal-show-customer.jsx";
 import List from "./list-data/list-data.jsx";
 
 export default function ListCustomers() {
-
   const [idCustomer, setIdCustomer] = useState("");
   const [firstNameCustomer, setFirstNameCustomer] = useState("");
   const [lastNameCustomer, setLastNameCustomer] = useState("");
@@ -20,14 +19,14 @@ export default function ListCustomers() {
 
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
-
   const [showAddCustomer, setShowAddCustomer] = useState(false);
   const [showInfoCustomer, setShowInfoCustomer] = useState(false);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [showIsOpen, setShowIsOpen] = useState(false);
 
-  {/*
+  {
+    /*
   function clearFields() {
     setNameCustomer("");
     setLastNameCustomer("");
@@ -82,22 +81,23 @@ export default function ListCustomers() {
     } else {
       setShowAddCustomer(false);
     }
-  }, [listCustomer]);*/}
+  }, [listCustomer]);*/
+  }
 
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col gap-2 sm:items-start sm:gap-2 md:flex-row md:justify-between md:items-center mb-4">
           <div className="flex flex-col text-white">
-            <h1 className="text-3xl font-bold mb-1">Clientes</h1>
-            <p className="text-gray-400 mb-6">
+            <h1 className="text-3xl font-bold">Clientes</h1>
+            <p className="text-gray-400">
               Gestione sus relaciones con los clientes y realice un seguimiento
               de sus gastos.
             </p>
           </div>
           <button
             onClick={() => setModalIsOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
+            className="flex items-center w-fit gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -134,11 +134,11 @@ export default function ListCustomers() {
             />
           </svg>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 w-full sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {List.map((customer) => (
             <div
               key={customer.id}
-              className="bg-slate-900 text-white p-4 rounded-lg shadow-md w-full max-w-md space-y-2"
+              className="bg-slate-900 text-white p-4 rounded-lg shadow-md w-full space-y-2"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -159,7 +159,10 @@ export default function ListCustomers() {
                 <span>{customer.direction}</span>
               </div>
               <button
-                onClick={() => {setSelectedCustomer(customer);setShowIsOpen(true);}}
+                onClick={() => {
+                  setSelectedCustomer(customer);
+                  setShowIsOpen(true);
+                }}
                 className="mt-2 w-full border border-slate-700 text-white py-2 px-4 rounded flex justify-center items-center gap-2 hover:bg-slate-800 transition"
               >
                 <span className="font-medium">Ver detalles</span>

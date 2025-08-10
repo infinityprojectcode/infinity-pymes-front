@@ -5,9 +5,8 @@ import ListBilling from "../../components/facturacion/list-billing";
 export default function customer() {
   return (
     <div className="w-full h-screen flex">
-      <Sidebar />
       <PageTemplate>
-        <div className='w-full h-full p-8'>
+        <div className='w-full h-full'>
           <ListBilling />
         </div>
       </PageTemplate>
