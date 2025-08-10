@@ -103,7 +103,7 @@ export default function AddCustomer({ isOpen, onClose }) {
                 type="text"
                 name="direccion"
                 placeholder="Calle 45 # 12-30, Bogotá"
-                class="border border-gray-400 p-2 rounded w-full focus:outline-none focus:ring-2 focus:white"
+                className="border border-gray-400 p-2 rounded w-full focus:outline-none focus:ring-2 focus:white"
               />
             </div>
 
