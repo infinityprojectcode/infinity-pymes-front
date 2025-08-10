@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import bebidas from "@assets/images/bebida.webp";
-import AddInventory from "./modal-add-inventory/modal-add-inventory.js";
-import EditInventory from "./modal-add-inventory/modal-edit-inventory.jsx";
-import DeleteInventory from "./modal-add-inventory/modal-delete-inventory.js";
+import AddInventory from "./modal-inventory/modal-add-inventory.jsx";
+import EditInventory from "./modal-inventory/modal-edit-inventory.jsx";
+import DeleteInventory from "./modal-inventory/modal-delete-inventory.js";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import axios from "axios";
 
