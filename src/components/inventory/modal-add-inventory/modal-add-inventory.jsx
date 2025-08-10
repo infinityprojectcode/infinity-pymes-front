@@ -37,7 +37,7 @@ export default function AddInventory({ isOpen, onClose }) {
           </div>
 
           {/* Formulario */}
-          <form action="" className="space-y-4">
+          <div className="space-y-4">
             {/* Nombre */}
             <div>
               <label className="block mb-1">Nombre del producto</label>
@@ -108,13 +108,10 @@ export default function AddInventory({ isOpen, onClose }) {
             </div>
 
             {/* Botón */}
-            <button
-              type="submit"
-              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-            >
+            <button className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
               Agregar producto
             </button>
-          </form>
+          </div>
         </div>
       </Modal>
     </div>
