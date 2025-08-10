@@ -95,7 +95,7 @@ export default function ListRespaldos() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <h1 className="text-2xl font-bold">Historial de Respaldos</h1>
         </div>
-
+        <div className="min-w-[800px]">
         {/* Encabezados */}
         <div className="grid grid-cols-5 text-md font-semibold px-4 py-3 text-white">
           <div>Fecha y Hora</div>
@@ -144,6 +144,7 @@ export default function ListRespaldos() {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );

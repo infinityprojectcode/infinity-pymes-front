@@ -13,9 +13,8 @@ export default function Configuration() {
   return (
     <>
       <div className="w-full h-screen flex">
-        <Sidebar />
         <PageTemplate>
-          <div className="p-8 text-white">
+          <div className="text-white">
             <h1 className="text-3xl font-bold mb-1">Configuración</h1>
             <p className="text-gray-400 mb-6">
               Gestiona usuarios, roles y configuraciones del sistema.

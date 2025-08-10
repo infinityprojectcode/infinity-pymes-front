@@ -57,7 +57,7 @@ export default function ListUsuarios() {
               Configuración del Sistema
             </h1>
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 space-y-6">
               <div className="flex justify-between items-center">
                 <div>
@@ -143,11 +143,11 @@ export default function ListUsuarios() {
               </button>
             </div>
           </div>
-
+          <div className="min-w-[800px]">
           {/* Encabezado */}
           <div className="grid grid-cols-6 text-sm font-semibold px-4 py-3 text-gray-300">
             <div>Usuario</div>
-            <div>Email</div>
+            <div className="overflow-hidden">Email</div>
             <div>Rol</div>
             <div>Estado</div>
             <div>Último Acceso</div>
@@ -193,6 +193,7 @@ export default function ListUsuarios() {
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
       <AddUser

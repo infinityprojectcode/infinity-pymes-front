@@ -5,9 +5,8 @@ import ListCustomers from "@fragments/customers/list-customers.jsx";
 export default function customer() {
   return (
     <div className="w-full h-screen flex">
-      <Sidebar />
       <PageTemplate>
-        <div className='w-full h-full p-8'>
+        <div className='w-full h-full'>
           <ListCustomers />
         </div>
       </PageTemplate>
