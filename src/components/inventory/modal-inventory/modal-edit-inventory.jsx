@@ -1,9 +1,8 @@
 import Modal from "react-modal";
 import { useState } from "react";
+import { X } from "lucide-react";
 
-
-export default function AddInventory({ isOpen, onClose }) {
-
+export default function EditInventory({ isOpen, onClose }) {
   const categoriesList = ["Bebidas", "Licores", "Gaseosas", "Cócteles"];
   const [categoria, setCategoria] = useState("");
 
@@ -28,31 +27,17 @@ export default function AddInventory({ isOpen, onClose }) {
         <div className="bg-slate-900 text-white p-6 rounded-lg w-[400px]">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
-            <h1 className="font-semibold text-lg">Agregar nuevo producto</h1>
+            <h1 className="font-semibold text-lg">Editar producto</h1>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-red-400"
+              className="text-slate-400 hover:text-red-400 cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <X />
             </button>
           </div>
 
           {/* Formulario */}
-          <form action="" className="space-y-4">
+          <div className="space-y-4">
             {/* Nombre */}
             <div>
               <label className="block mb-1">Nombre del producto</label>
@@ -123,13 +108,10 @@ export default function AddInventory({ isOpen, onClose }) {
             </div>
 
             {/* Botón */}
-            <button
-              type="submit"
-              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-            >
+            <button className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
               Agregar producto
             </button>
-          </form>
+          </div>
         </div>
       </Modal>
     </div>
