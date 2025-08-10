@@ -1,107 +1,46 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import bebidas from "@assets/images/bebida.webp";
-import { v4 as crypto } from "uuid";
-import AddInventory from "./modal-add-inventory/modal-add-inventory.jsx";
+import AddInventory from "./modal-add-inventory/modal-add-inventory.js";
+import EditInventory from "./modal-add-inventory/modal-edit-inventory.jsx";
+import DeleteInventory from "./modal-add-inventory/modal-delete-inventory.js";
+import { Plus, Edit, Trash2 } from "lucide-react";
+import axios from "axios";
 
 export default function ListInventory() {
-  
-  const list = [
-    {
-      id: crypto(),
-      name: "Cerveza",
-      category: "Bebidas",
-      price: "5000",
-      stock: 10,
-    },
-    {
-      id: crypto(),
-      name: "Licor",
-      category: "Licores",
-      price: "5000",
-      stock: 3,
-    },
-    {
-      id: crypto(),
-      name: "Gaseosa",
-      category: "Gaseosas",
-      price: "5000",
-      stock: 0,
-    },
-  ];
+  const [modalIsOpenOne, setModalIsOpenOne] = useState(false);
+  const [modalIsOpenTwo, setModalIsOpenTwo] = useState(false);
+  const [modalIsOpenThree, setModalIsOpenThree] = useState(false);
 
-  const [idProduct, setIdProduct] = useState("");
-  const [nameProduct, setNameProduct] = useState("");
-  const [categoryProduct, setCategoryProduct] = useState("");
-  const [priceProduct, setPriceProduct] = useState("");
-  const [stockProduct, setStockProduct] = useState("");
-  const [showAddProduct, setShowAddProduct] = useState(false);
-  const [listProduct, setListProduct] = useState(list);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [inventory, setInventory] = useState([]);
 
-  function clearFields() {
-    setNameProduct("");
-    setCategoryProduct("");
-    setPriceProduct("");
-    setStockProduct("");
+  function getInventory() {
+    axios
+      .get(
+        `http://localhost:3000/infinity-pymes/server/v1/products/g/inventory`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        setInventory(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
-  const getStatus = (stock) => {
-    if (stock == 0) return { name: "Agotado", color: "bg-red-500" };
-    if (stock <= 5) return { name: "Stock bajo", color: "bg-yellow-500" };
-    return { name: "En stock", color: "bg-green-500" };
-  };
-
-  const handleAddProduct = () => {
-    setListProduct((prev) => [
-      ...prev,
-      {
-        id: crypto.randomUUID,
-        name: nameProduct,
-        category: categoryProduct,
-        price: priceProduct,
-        stock: stockProduct,
-      },
-    ]);
-  };
-
-  const handleSaveProduct = () => {
-    const product = listProduct.find((product) => product.id === idProduct);
-    product.name = nameProduct;
-    product.category = categoryProduct;
-    product.price = priceProduct;
-    product.stock = stockProduct;
-    setListProduct(listProduct);
-    setShowAddProduct(false);
-    clearFields();
-  };
-
-  const handleCategory = (value) => {
-    setCategoryProduct(value);
-  };
-
-  const handleEditProduct = (id) => {
-    const product = listProduct.find((product) => product.id === id);
-    setIdProduct(product.id);
-    setNameProduct(product.name);
-    setCategoryProduct(product.category);
-    setPriceProduct(product.price);
-    setStockProduct(product.stock);
-    setShowAddProduct(true);
-  };
-
-  const handleDeleteProduct = (id) => {
-    const products = listProduct.filter((product) => product.id !== id);
-    setListProduct(products);
+  const getStatus = (stock, name_stock) => {
+    if (stock == 0) return { name: name_stock, color: "bg-red-500" };
+    if (stock <= 5) return { name: name_stock, color: "bg-yellow-500" };
+    return { name: name_stock, color: "bg-green-500" };
   };
 
   useEffect(() => {
-    if (showAddProduct && nameProduct === "") {
-      setShowAddProduct(!showAddProduct);
-    } else {
-      setShowAddProduct(false);
-    }
-  }, [listProduct]);
+    getInventory();
+  }, []);
 
   return (
     <>
@@ -114,21 +53,11 @@ export default function ListInventory() {
             </p>
           </div>
           <button
-            onClick={() => setModalIsOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
+            onClick={() => setModalIsOpenOne(true)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300 cursor-pointer"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
-            <span>Agregar nuevo producto</span>
+            <Plus />
+            Agregar nuevo producto
           </button>
         </div>
         <div className="relative w-full max-w-sm mb-4">
@@ -153,7 +82,9 @@ export default function ListInventory() {
           </svg>
         </div>
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
-          <h1 className="text-2xl font-bold mb-1 ">Products (5)</h1>
+          <h1 className="text-2xl font-bold mb-1 ">
+            Productos ({inventory.length})
+          </h1>
           {/* Encabezado */}
           <div className="grid grid-cols-6 text-sm font-semibold px-4 py-3">
             <div>Nombre del producto</div>
@@ -165,58 +96,35 @@ export default function ListInventory() {
           </div>
 
           {/* Contenido dinámico */}
-          {listProduct.map((item) => {
-            const auxiliar = getStatus(item.stock);
+          {inventory.map((item) => {
+            const auxiliar = getStatus(item.quantity, item.stock_state);
             return (
               <div
-                key={item.id}
+                key={item.inventory_id}
                 className="grid grid-cols-6 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
               >
-                <div className="truncate">{item.name}</div>
+                <div className="truncate">{item.product_name}</div>
                 <div>{item.category}</div>
-                <div>${item.price}</div>
-                <div>{item.stock}</div>
+                <div>${Intl.NumberFormat("es-CO").format(item.price)}</div>
+                <div>{item.quantity}</div>
                 <div
-                  className={`${auxiliar.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+                  className={`${auxiliar.color} w-fit px-2 text-base text-white text-center font-semibold rounded-lg`}
                 >
                   {auxiliar.name}
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => handleEditProduct(item.id)}
-                    className=" text-white rounded-md text-sm"
+                    onClick={() => setModalIsOpenTwo(true)}
+                    className="cursor-pointer"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
-                      <path d="m15 5 4 4" />
-                    </svg>
+                    <Edit className="text-yellow-500" />
                   </button>
+
                   <button
-                    onClick={() => handleDeletProduct(item.id)}
-                    className="rounded-md text-sm"
+                    onClick={() => setModalIsOpenThree(true)}
+                    className="cursor-pointer"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="text-red-500"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M10 11v6" />
-                      <path d="M14 11v6" />
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                      <path d="M3 6h18" />
-                      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                    </svg>
+                    <Trash2 className="text-red-700" />
                   </button>
                 </div>
               </div>
@@ -226,9 +134,19 @@ export default function ListInventory() {
       </div>
 
       <AddInventory
-        isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
+        isOpen={modalIsOpenOne}
+        onClose={() => setModalIsOpenOne(false)}
       ></AddInventory>
+
+      <EditInventory
+        isOpen={modalIsOpenTwo}
+        onClose={() => setModalIsOpenTwo(false)}
+      ></EditInventory>
+
+      <DeleteInventory
+        isOpen={modalIsOpenThree}
+        onClose={() => setModalIsOpenThree(false)}
+      ></DeleteInventory>
     </>
   );
 }
