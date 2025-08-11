@@ -84,7 +84,7 @@ export default function EditInventory({
     if (isOpen) {
       getCategoryProduct();
       if (info) {
-        setCategoryId(info.category_id || "");
+        setCategoryId(info.id_category || "");
         setCategoryName(info.product_name || "");
         setCategoryPrice(info.price || "");
         setCategoryStock(info.quantity || "");
