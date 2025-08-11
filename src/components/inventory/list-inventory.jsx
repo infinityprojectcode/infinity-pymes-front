@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import bebidas from "@assets/images/bebida.webp";
 import AddInventory from "./modal-inventory/modal-add-inventory.jsx";
 import EditInventory from "./modal-inventory/modal-edit-inventory.jsx";
-import DeleteInventory from "./modal-inventory/modal-delete-inventory.js";
+import DeleteInventory from "./modal-inventory/modal-delete-inventory.jsx";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import axios from "axios";
 
