@@ -1,30 +1,43 @@
-import { useState } from "react";
+import modalShowSuppliersIsOpen from "../suppliers/modal-show-suppliers/modal-show-suppliers.jsx";
 import ShowSuppliers from "../suppliers/modal-show-suppliers/modal-show-suppliers.jsx";
+import AppContext from "../../../context/app/app-context.jsx";
+import { useEffect, useContext, useState } from "react"
+import { toast } from "sonner";
+import axios from "axios"
 
 export default function ListSuppliers() {
-  const [modalShowSuppliersIsOpen, setModalShowSuppliersIsOpen] =
-    useState(false);
+  const context = useContext(AppContext);
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+  const [modalShowSuppFliersIsOpen, setModalShowSuppliersIsOpen] = useState(false);
+  const [listProveedores, setListProveedores] = useState([]);
 
-  const listProveedores = [
-    {
-      id: 1,
-      empresa: "TechSupply Corp",
-      contacto: "Maria González",
-      categoria: "Electrónicos",
-      terminosPago: "30 días",
-      totalCompras: "$45.000",
-      estado: "Activo",
-    },
-    {
-      id: 2,
-      empresa: "Office Solutions Ltd",
-      contacto: "Carlos Rodríguez",
-      categoria: "Oficina",
-      terminosPago: "15 días",
-      totalCompras: "$23.000",
-      estado: "Activo",
-    },
-  ];
+  async function handleGetMySuppliers() {
+    toast.promise(
+      axios
+        .post(`${urlApi}suppliers/i/supplier-my-bussines/1`, {}, {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": apiKey,
+          }
+        })
+        .then((response) => {
+          if (response.data.length > 0) {
+            setListProveedores(response.data);
+            return "Datos obtenidos correctamente";
+          } else {
+            throw new Error(
+              "Error al eliminar la clase: " + response.data.message
+            );
+          }
+        }),
+      {
+        loading: "Guardando cambios...",
+        success: (msg) => msg,
+        error: (err) => err.message || "Error en la solicitud de eliminado",
+      }
+    );
+  }
 
   const getStatus = (estado) => {
     const statusMap = {
@@ -34,6 +47,10 @@ export default function ListSuppliers() {
     };
     return statusMap[estado] || { name: estado, color: "bg-gray-500" };
   };
+
+  useEffect(() => {
+    handleGetMySuppliers();
+  }, []);
 
   return (
     <>
@@ -72,17 +89,17 @@ export default function ListSuppliers() {
               <div className="flex justify-center">Acciones</div>
             </div>
             {listProveedores.map((proveedor) => {
-              const status = getStatus(proveedor.estado);
+              const status = getStatus(proveedor.status_name);
               return (
                 <div
                   key={proveedor.id}
                   className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
                 >
-                  <div className="truncate">{proveedor.empresa}</div>
-                  <div>{proveedor.contacto}</div>
-                  <div>{proveedor.categoria}</div>
-                  <div>{proveedor.terminosPago}</div>
-                  <div>{proveedor.totalCompras}</div>
+                  <div className="truncate">{proveedor.name_bussines}</div>
+                  <div>{proveedor.contact_name}</div>
+                  <div>{proveedor.category}</div>
+                  <div>{proveedor.payment_terms}</div>
+                  <div>{proveedor.total_price}</div>
                   <div
                     className={`${status.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
                   >
@@ -112,7 +129,7 @@ export default function ListSuppliers() {
         </div>
       </div>
       <ShowSuppliers
-        isOpen={modalShowSuppliersIsOpen}
+        isOpen={modalShowSuppFliersIsOpen}
         onClose={() => setModalShowSuppliersIsOpen(false)}
       ></ShowSuppliers>
     </>
