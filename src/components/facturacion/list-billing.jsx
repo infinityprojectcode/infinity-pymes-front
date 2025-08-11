@@ -106,7 +106,6 @@ export default function ListBilling() {
 
             {/* Contenido dinámico */}
             {listBilling.map((item) => {
-              debugger;
               const auxiliar = getStatus(item.estado);
               return (
                 <div
