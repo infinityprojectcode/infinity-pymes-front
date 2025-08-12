@@ -1,10 +1,96 @@
 import Modal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import axios from "axios";
+import { toast } from "sonner";
 
-export default function EditInventory({ isOpen, onClose }) {
-  const categoriesList = ["Bebidas", "Licores", "Gaseosas", "Cócteles"];
-  const [categoria, setCategoria] = useState("");
+export default function EditInventory({
+  isOpen,
+  onClose,
+  urlApi,
+  apiKey,
+  info,
+  refresh,
+}) {
+  const [category, setCategory] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryPrice, setCategoryPrice] = useState("");
+  const [categoryStock, setCategoryStock] = useState("");
+
+  function getCategoryProduct() {
+    axios
+      .get(`${urlApi}products/g/categories-products`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setCategory(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  async function handleEditProduct() {
+    // if (!idActivate) {
+    //   setError("No hay un curso válido para actualizar");
+    //   return;
+    // }
+
+    // setLoading(true);
+    // setError("");
+
+    const data_product = {
+      category_id: categoryId,
+      name: categoryName,
+      price: parseFloat(parseInt(categoryPrice).toFixed(2)),
+      quantity: categoryStock,
+    };
+
+    toast.promise(
+      axios
+        .put(
+          `${urlApi}products/u/inventory/${info.inventory_id}`,
+          data_product,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "api-key": apiKey,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.data.success) {
+            // setLoading(false);
+            refresh();
+            onClose();
+            return "Producto de inventario actualizado con éxito";
+          } else {
+            throw new Error("Error al actualizar el producto del inventario");
+          }
+        }),
+      {
+        loading: "Actualizando producto del inventario...",
+        success: (msg) => msg,
+        error: (err) => err.message || "Error en la solicitud de actualización",
+      }
+    );
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      getCategoryProduct();
+      if (info) {
+        setCategoryId(info.category_id || "");
+        setCategoryName(info.product_name || "");
+        setCategoryPrice(info.price || "");
+        setCategoryStock(info.quantity || "");
+      }
+    }
+  }, [isOpen, info]);
 
   return (
     <div>
@@ -45,6 +131,8 @@ export default function EditInventory({ isOpen, onClose }) {
                 type="text"
                 name="nombre"
                 placeholder="Introduzca el nombre del producto"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -54,18 +142,18 @@ export default function EditInventory({ isOpen, onClose }) {
             <div>
               <label className="block mb-1">Categoría</label>
               <select
-                name="categoria"
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
+                name="category"
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
                 required
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
               >
                 <option value="" disabled>
-                  Seleccionar categoria
+                  Seleccionar categoría
                 </option>
-                {categoriesList.map((cat, i) => (
-                  <option key={i} value={cat}>
-                    {cat}
+                {category.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name_category}
                   </option>
                 ))}
               </select>
@@ -77,6 +165,8 @@ export default function EditInventory({ isOpen, onClose }) {
               <input
                 type="number"
                 name="precio"
+                value={categoryPrice}
+                onChange={(e) => setCategoryPrice(e.target.value)}
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 text-white"
                 placeholder="1.000"
                 required
@@ -89,6 +179,8 @@ export default function EditInventory({ isOpen, onClose }) {
               <input
                 type="number"
                 name="cantidad"
+                value={categoryStock}
+                onChange={(e) => setCategoryStock(e.target.value)}
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 text-white"
                 placeholder="0"
                 required
@@ -108,7 +200,10 @@ export default function EditInventory({ isOpen, onClose }) {
             </div>
 
             {/* Botón */}
-            <button className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            <button
+              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
+              onClick={() => handleEditProduct()}
+            >
               Agregar producto
             </button>
           </div>

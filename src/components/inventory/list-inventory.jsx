@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import AppContext from "@context/app/app-context.jsx";
 import bebidas from "@assets/images/bebida.webp";
 import AddInventory from "./modal-inventory/modal-add-inventory.jsx";
 import EditInventory from "./modal-inventory/modal-edit-inventory.jsx";
@@ -8,22 +9,25 @@ import { Plus, Edit, Trash2 } from "lucide-react";
 import axios from "axios";
 
 export default function ListInventory() {
+  const context = useContext(AppContext);
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
   const [modalIsOpenOne, setModalIsOpenOne] = useState(false);
   const [modalIsOpenTwo, setModalIsOpenTwo] = useState(false);
   const [modalIsOpenThree, setModalIsOpenThree] = useState(false);
+  const [infoDeleteModal, setInfoDeleteModal] = useState(null);
+  const [infoEditModal, setInfoEditModal] = useState(null);
 
   const [inventory, setInventory] = useState([]);
 
   function getInventory() {
     axios
-      .get(
-        `http://localhost:3000/infinity-pymes/server/v1/products/g/inventory`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .get(`${urlApi}products/g/inventory`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
       .then((response) => {
         setInventory(response.data);
       })
@@ -115,14 +119,20 @@ export default function ListInventory() {
                   </div>
                   <div className="flex gap-2">
                     <button
-                      onClick={() => setModalIsOpenTwo(true)}
+                      onClick={() => {
+                        setModalIsOpenTwo(true);
+                        setInfoEditModal(item);
+                      }}
                       className="cursor-pointer"
                     >
                       <Edit className="text-yellow-500" />
                     </button>
 
                     <button
-                      onClick={() => setModalIsOpenThree(true)}
+                      onClick={() => {
+                        setModalIsOpenThree(true);
+                        setInfoDeleteModal(item.inventory_id);
+                      }}
                       className="cursor-pointer"
                     >
                       <Trash2 className="text-red-700" />
@@ -138,16 +148,27 @@ export default function ListInventory() {
       <AddInventory
         isOpen={modalIsOpenOne}
         onClose={() => setModalIsOpenOne(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        refresh={() => getInventory()}
       ></AddInventory>
 
       <EditInventory
         isOpen={modalIsOpenTwo}
         onClose={() => setModalIsOpenTwo(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        info={infoEditModal}
+        refresh={() => getInventory()}
       ></EditInventory>
 
       <DeleteInventory
         isOpen={modalIsOpenThree}
         onClose={() => setModalIsOpenThree(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        info={infoDeleteModal}
+        refresh={() => getInventory()}
       ></DeleteInventory>
     </>
   );

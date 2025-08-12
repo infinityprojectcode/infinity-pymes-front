@@ -1,10 +1,82 @@
 import Modal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import axios from "axios";
+import { toast } from "sonner";
 
-export default function AddInventory({ isOpen, onClose }) {
-  const categoriesList = ["Bebidas", "Licores", "Gaseosas", "Cócteles"];
-  const [categoria, setCategoria] = useState("");
+export default function AddInventory({
+  isOpen,
+  onClose,
+  urlApi,
+  apiKey,
+  refresh,
+}) {
+  const [category, setCategory] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryPrice, setCategoryPrice] = useState("");
+  const [categoryStock, setCategoryStock] = useState("");
+
+  function getCategoryProduct() {
+    axios
+      .get(`${urlApi}products/g/categories-products`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setCategory(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  async function handleAddProduct() {
+    debugger;
+    const data_inventory = {
+      name: categoryName,
+      category_id: categoryId,
+      price: categoryPrice,
+      quantity: categoryStock,
+    };
+
+    toast.promise(
+      axios
+        .post(`${urlApi}products/i/inventory`, data_inventory, {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": apiKey,
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            setCategoryName("");
+            setCategoryId("");
+            setCategoryPrice("");
+            setCategoryStock("");
+            // setLoading(false);
+            refresh();
+            onClose();
+            return "Producto agregado con éxito";
+          } else {
+            throw new Error(
+              "Error al agregar el producto: " + response.data.message
+            );
+          }
+        }),
+      {
+        loading: "Guardando cambios...",
+        success: (msg) => msg,
+        error: (err) => err.message || "Error en la solicitud de guardado",
+      }
+    );
+  }
+
+  useEffect(() => {
+    getCategoryProduct();
+  }, []);
 
   return (
     <div>
@@ -46,6 +118,8 @@ export default function AddInventory({ isOpen, onClose }) {
                 name="nombre"
                 placeholder="Introduzca el nombre del producto"
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
                 required
               />
             </div>
@@ -54,18 +128,18 @@ export default function AddInventory({ isOpen, onClose }) {
             <div>
               <label className="block mb-1">Categoría</label>
               <select
-                name="categoria"
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
+                name="category"
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
                 required
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
               >
                 <option value="" disabled>
-                  Seleccionar categoria
+                  Seleccionar categoría
                 </option>
-                {categoriesList.map((cat, i) => (
-                  <option key={i} value={cat}>
-                    {cat}
+                {category.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name_category}
                   </option>
                 ))}
               </select>
@@ -79,6 +153,8 @@ export default function AddInventory({ isOpen, onClose }) {
                 name="precio"
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 text-white"
                 placeholder="1.000"
+                value={categoryPrice}
+                onChange={(e) => setCategoryPrice(e.target.value)}
                 required
               />
             </div>
@@ -91,6 +167,8 @@ export default function AddInventory({ isOpen, onClose }) {
                 name="cantidad"
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 text-white"
                 placeholder="0"
+                value={categoryStock}
+                onChange={(e) => setCategoryStock(e.target.value)}
                 required
               />
             </div>
@@ -108,7 +186,10 @@ export default function AddInventory({ isOpen, onClose }) {
             </div>
 
             {/* Botón */}
-            <button className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            <button
+              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
+              onClick={() => handleAddProduct()}
+            >
               Agregar producto
             </button>
           </div>
