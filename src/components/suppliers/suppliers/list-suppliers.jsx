@@ -3,7 +3,7 @@ import AppContext from "../../../context/app/app-context.jsx";
 import { useEffect, useContext, useState } from "react"
 import axios from "axios"
 
-export default function ListSuppliers({ listProveedores }) {
+export default function ListSuppliers({ listSuppliers }) {
   const [modalShowSuppFliersIsOpen, setModalShowSuppliersIsOpen] = useState(false);
 
   const getStatus = (estado) => {
@@ -31,7 +31,7 @@ export default function ListSuppliers({ listProveedores }) {
               <div>Estado</div>
               <div className="flex justify-center">Acciones</div>
             </div>
-            {listProveedores.map((proveedor) => {
+            {listSuppliers.map((proveedor) => {
               const status = getStatus(proveedor.status_name);
               return (
                 <div
@@ -42,7 +42,7 @@ export default function ListSuppliers({ listProveedores }) {
                   <div>{proveedor.contact_name}</div>
                   <div>{proveedor.category}</div>
                   <div>{proveedor.payment_terms}</div>
-                  <div>{proveedor.total_price}</div>
+                  <div>${proveedor.total_price}</div>
                   <div
                     className={`${status.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
                   >
