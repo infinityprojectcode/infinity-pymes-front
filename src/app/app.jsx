@@ -7,9 +7,9 @@ export default function App() {
   return (
     <>
       <AuthProvider>
+        <Toaster />
         <Router />
       </AuthProvider>
-      <Toaster richColors />
     </>
   );
 }
