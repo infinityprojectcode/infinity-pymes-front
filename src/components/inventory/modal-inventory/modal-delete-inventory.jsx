@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-// import { useState } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ export default function DeleteInventory({
   info,
   refresh,
 }) {
-  // const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   async function handleDeleteProduct() {
     debugger;
@@ -82,32 +82,32 @@ export default function DeleteInventory({
               ¿Esta seguro de eliminar este producto?
             </label>
 
-            <button
-              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
-              onClick={() => handleDeleteProduct()}
-            >
-              Eliminar producto
-            </button>
-            {/* {isDeleteModal ? (
+            {isDeleteModal ? (
               <div className="flex gap-2">
-                <Button className="w-full" onClick={() => handleDeleteIdea()}>
+                <button
+                  className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
+                  onClick={() => handleDeleteProduct()}
+                >
                   Si
-                </Button>
-                <Button
-                  className="w-full"
+                </button>
+                <button
+                  className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
                   onClick={() => {
                     setIsDeleteModal(false);
-                    onClose;
+                    onClose();
                   }}
                 >
                   No
-                </Button>
+                </button>
               </div>
             ) : (
-              <Button className="pb-4" onClick={() => setIsDeleteModal(true)}>
-                ¿Seguro que quieres eliminar esta idea?
-              </Button>
-            )} */}
+              <button
+                className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
+                onClick={() => setIsDeleteModal(true)}
+              >
+                Eliminar producto
+              </button>
+            )}
           </div>
         </div>
       </Modal>
