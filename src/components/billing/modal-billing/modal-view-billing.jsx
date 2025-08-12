@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { useState } from "react";
 
-export default function ShowBilling({ isOpen, onClose }) {
+export default function ViewBilling({ isOpen, onClose }) {
   return (
     <div>
       <Modal

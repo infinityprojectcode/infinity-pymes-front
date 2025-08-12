@@ -1,10 +1,10 @@
-import AddBilling from "./modal-add-billing/modal-add-billing.jsx";
-import ShowBilling from "./modal-show-billing.jsx/modal-show-billing.jsx";
+import AddBilling from "./modal-billing/modal-add-billing.jsx";
+import ViewBilling from "./modal-billing/modal-view-billing.jsx";
 import { useState } from "react";
 
 export default function ListBilling() {
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
-  const [modalShowIsOpen, setModalShowIsOpen] = useState(false);
+  const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
 
   const listBilling = [
     {
@@ -123,7 +123,7 @@ export default function ListBilling() {
                     {auxiliar.name}
                   </div>
                   <div className="flex gap-2 justify-center">
-                    <button onClick={() => setModalShowIsOpen(true)}>
+                    <button onClick={() => setModalViewIsOpen(true)}>
                       <svg
                         width="24"
                         height="24"
@@ -166,10 +166,10 @@ export default function ListBilling() {
         isOpen={modalAddIsOpen}
         onClose={() => setModalAddIsOpen(false)}
       ></AddBilling>
-      <ShowBilling
-        isOpen={modalShowIsOpen}
-        onClose={() => setModalShowIsOpen(false)}
-      ></ShowBilling>
+      <ViewBilling
+        isOpen={modalViewIsOpen}
+        onClose={() => setModalViewIsOpen(false)}
+      ></ViewBilling>
     </>
   );
 }
