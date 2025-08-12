@@ -15,13 +15,40 @@ export default function Suppliers() {
 
   const [modalAddSuppliersIsOpen, setModalAddSuppliersIsOpen] = useState(false);
   const [modalAddOrdersIsOpen, setModalAddOrdersIsOpen] = useState(false);
-  const [modalShowOrdersIsOpen, setModalShowOrdersIsOpen] = useState(false);
-  const [seccionActiva, setSeccionActiva] = useState("proveedores");
+  const [sectionActived, setSectionActived] = useState("proveedores");
 
-  const [modalShowSuppFliersIsOpen, setModalShowSuppliersIsOpen] = useState(false);
-  const [listProveedores, setListProveedores] = useState([]);
-  const [copyListProveedores, setCopyListProveedores] = useState([]);
+  const [listSuppliers, setListSuppliers] = useState([]);
+  const [copyListSuppliers, setCopyListSuppliers] = useState([]);
+  const [listOrders, setListOrders] = useState([]);
+  const [copyListOrders, setCopylistOrders] = useState([]);
   const [filteredSuppliers, setFilteredSuppliers] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+
+  async function fetchOrders() {
+    let res = false;
+    try {
+      const response = await axios.post(
+        `${urlApi}suppliers/i/orders/1`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": apiKey,
+          },
+        }
+      );
+
+      if (response.data.length > 0) {
+        setListOrders(response.data);
+        setCopylistOrders(response.data);
+        res = true;
+      }
+    } catch {
+      res = false;
+    }
+    return res;
+  }
+
 
   async function fetchSuppliers() {
     let res = false;
@@ -38,8 +65,8 @@ export default function Suppliers() {
       );
 
       if (response.data.length > 0) {
-        setListProveedores(response.data);
-        setCopyListProveedores(response.data);
+        setListSuppliers(response.data);
+        setCopyListSuppliers(response.data);
         res = true;
       }
     } catch {
@@ -49,8 +76,8 @@ export default function Suppliers() {
   }
 
   function getMySuppliers() {
-    setListProveedores([]);
-    setCopyListProveedores([]);
+    setListSuppliers([]);
+    setCopyListSuppliers([]);
     toast.promise(fetchSuppliers(), {
       loading: "Cargando datos...",
       success: (ok) => {
@@ -64,23 +91,56 @@ export default function Suppliers() {
     });
   }
 
+  function getMyOrders() {
+    setListOrders([]);
+    setCopylistOrders([]);
+    toast.promise(fetchOrders(), {
+      loading: "Cargando datos...",
+      success: (ok) => {
+        if (ok) {
+          return "Datos obtenidos correctamente";
+        } else {
+          throw Error("Error al obtener las ordenes de compra");
+        }
+      },
+      error: (msg) => `Error: ${msg}`,
+    });
+  }
+
+
   function filterSuppliers(searchTerm) {
     if (!searchTerm.trim()) {
-      setListProveedores(copyListProveedores);
+      setListSuppliers(copyListSuppliers);
       return;
     }
 
-    const filtered = copyListProveedores.filter((supplier) =>
+    const filtered = copyListSuppliers.filter((supplier) =>
       supplier.name_bussines
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
     );
-    setListProveedores(filtered);
+    setListSuppliers(filtered);
+  }
+
+  function filterOrders(searchTerm) {
+    if (!searchTerm.trim()) {
+      setListOrders(copyListOrders);
+      return;
+    }
+    const filtered = copyListOrders.filter((order) =>
+      order.name_supplier
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+    setListOrders(filtered);
   }
 
   useEffect(() => {
-    if (copyListProveedores.length === 0) {
+    if (copyListSuppliers.length === 0) {
       getMySuppliers();
+    }
+    if (copyListOrders.length === 0) {
+      getMyOrders();
     }
   }, []);
 
@@ -147,8 +207,8 @@ export default function Suppliers() {
             </div>
             <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-1 flex w-fit shadow">
               <button
-                onClick={() => setSeccionActiva("proveedores")}
-                className={`p-2 rounded-md text-sm ${seccionActiva === "proveedores"
+                onClick={() => setSectionActived("proveedores")}
+                className={`p-2 rounded-md text-sm cursor-pointer ${sectionActived === "proveedores"
                   ? "bg-gray-800 text-white"
                   : "bg-transparent text-gray-300"
                   }`}
@@ -156,8 +216,8 @@ export default function Suppliers() {
                 Proveedores
               </button>
               <button
-                onClick={() => setSeccionActiva("ordenes")}
-                className={`p-2 rounded-md text-sm ${seccionActiva === "ordenes"
+                onClick={() => setSectionActived("ordenes")}
+                className={`p-2 rounded-md text-sm cursor-pointer ${sectionActived === "ordenes"
                   ? "bg-gray-800 text-white"
                   : "bg-transparent text-gray-300"
                   }`}
@@ -166,46 +226,80 @@ export default function Suppliers() {
               </button>
             </div>
             <div className="mt-4">
-              <div className="w-full flex gap-2 items-start">
-                <div className="relative w-full max-w-sm mb-4">
-                  <input
-                    type="text"
-                    placeholder="Buscar proveedores..."
-                    className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
-                    onChange={(e) => filterSuppliers(e.target.value)}
-                  />
-                  <svg
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 15z"
-                    />
-                  </svg>
-                </div>
-                <button
-                  onClick={() => filterSuppliers(filteredSuppliers)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
-                >
-                  Buscar
-                </button>
-                <button
-                  onClick={() => getMySuppliers()}
-                  className="flex items-center gap-2 bg-gray-700 hover:bg-gray-500 text-white text-sm font-medium px-4 py-2 rounded-md"
-                >
-                  <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
-                  </svg>
-                </button>
-              </div>
-              {seccionActiva === "proveedores" && <ListSuppliers listProveedores={listProveedores} />}
 
-              {seccionActiva === "ordenes" && <ListOrders />}
+              {sectionActived === "proveedores" && (
+                <>
+                  <div className="w-full flex gap-2 items-start">
+                    <div className="relative w-full max-w-sm mb-4">
+                      <input
+                        type="text"
+                        placeholder="Buscar proveedores..."
+                        className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
+                        onChange={(e) => filterSuppliers(setFilteredSuppliers(e.target.value))}
+                      />
+                      <svg
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 15z"
+                        />
+                      </svg>
+                    </div>
+                    <button
+                      onClick={() => getMySuppliers()}
+                      className="flex items-center gap-2 bg-blue-700 hover:bg-blue-500 hover:cursor-pointer text-white text-sm font-medium px-4 py-2 rounded-md"
+                    >
+                      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                      </svg>
+                    </button>
+                  </div>
+                  <ListSuppliers listSuppliers={listSuppliers} />
+                </>
+              )}
+
+              {sectionActived === "ordenes" && (
+                <>
+                  <div className="w-full flex gap-2 items-start">
+                    <div className="relative w-full max-w-sm mb-4">
+                      <input
+                        type="text"
+                        placeholder="Buscar proveedores..."
+                        className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
+                        onChange={(e) => filterOrders(setFilteredOrders(e.target.value))}
+                      />
+                      <svg
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 15z"
+                        />
+                      </svg>
+                    </div>
+                    <button
+                      onClick={() => getMyOrders()}
+                      className="flex items-center gap-2 bg-blue-700 hover:bg-blue-500 hover:cursor-pointer text-white text-sm font-medium px-4 py-2 rounded-md"
+                    >
+                      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                      </svg>
+                    </button>
+                  </div>
+                  <ListOrders listOrders={listOrders} />
+                </>
+              )}
             </div>
           </div>
         </PageTemplate>
