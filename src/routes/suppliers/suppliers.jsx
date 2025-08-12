@@ -1,22 +1,88 @@
-import Sidebar from "@layouts/sidebar/sidebar.jsx";
-import PageTemplate from "@layouts/template/page-template.jsx";
-
-//IMPORTAR MODALES NECESARIOS
-
 import AddSuppliers from "../../components/suppliers/suppliers/modal-add-suppliers/modal-add-suppliers/modal-add-suppliers.jsx";
 import AddOrders from "../../components/suppliers/orders/modal-add-orders/modal-add-orders.jsx";
-
-//IMPORTAR LOS LISTADOS NECESARIOS
-
-import ListOrders from "../../components/suppliers/orders/list-orders.jsx";
 import ListSuppliers from "../../components/suppliers/suppliers/list-suppliers.jsx";
+import ListOrders from "../../components/suppliers/orders/list-orders.jsx";
+import PageTemplate from "@layouts/template/page-template.jsx";
+import AppContext from "../../context/app/app-context.jsx";
+import { useEffect, useState, useContext } from "react";
+import { toast } from "sonner";
+import axios from "axios";
 
-import { useState } from "react";
 export default function Suppliers() {
+  const context = useContext(AppContext);
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+
   const [modalAddSuppliersIsOpen, setModalAddSuppliersIsOpen] = useState(false);
   const [modalAddOrdersIsOpen, setModalAddOrdersIsOpen] = useState(false);
   const [modalShowOrdersIsOpen, setModalShowOrdersIsOpen] = useState(false);
   const [seccionActiva, setSeccionActiva] = useState("proveedores");
+
+  const [modalShowSuppFliersIsOpen, setModalShowSuppliersIsOpen] = useState(false);
+  const [listProveedores, setListProveedores] = useState([]);
+  const [copyListProveedores, setCopyListProveedores] = useState([]);
+  const [filteredSuppliers, setFilteredSuppliers] = useState([]);
+
+  async function fetchSuppliers() {
+    let res = false;
+    try {
+      const response = await axios.post(
+        `${urlApi}suppliers/i/supplier-my-bussines/1`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": apiKey,
+          },
+        }
+      );
+
+      if (response.data.length > 0) {
+        setListProveedores(response.data);
+        setCopyListProveedores(response.data);
+        res = true;
+      }
+    } catch {
+      res = false;
+    }
+    return res;
+  }
+
+  function getMySuppliers() {
+    setListProveedores([]);
+    setCopyListProveedores([]);
+    toast.promise(fetchSuppliers(), {
+      loading: "Cargando datos...",
+      success: (ok) => {
+        if (ok) {
+          return "Datos obtenidos correctamente";
+        } else {
+          throw Error("Error al obtener los proveedores");
+        }
+      },
+      error: (msg) => `Error: ${msg}`,
+    });
+  }
+
+  function filterSuppliers(searchTerm) {
+    if (!searchTerm.trim()) {
+      setListProveedores(copyListProveedores);
+      return;
+    }
+
+    const filtered = copyListProveedores.filter((supplier) =>
+      supplier.name_bussines
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+    setListProveedores(filtered);
+  }
+
+  useEffect(() => {
+    if (copyListProveedores.length === 0) {
+      getMySuppliers();
+    }
+  }, []);
 
   return (
     <>
@@ -82,27 +148,62 @@ export default function Suppliers() {
             <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-1 flex w-fit shadow">
               <button
                 onClick={() => setSeccionActiva("proveedores")}
-                className={`p-2 rounded-md text-sm ${
-                  seccionActiva === "proveedores"
-                    ? "bg-gray-800 text-white"
-                    : "bg-transparent text-gray-300"
-                }`}
+                className={`p-2 rounded-md text-sm ${seccionActiva === "proveedores"
+                  ? "bg-gray-800 text-white"
+                  : "bg-transparent text-gray-300"
+                  }`}
               >
                 Proveedores
               </button>
               <button
                 onClick={() => setSeccionActiva("ordenes")}
-                className={`p-2 rounded-md text-sm ${
-                  seccionActiva === "ordenes"
-                    ? "bg-gray-800 text-white"
-                    : "bg-transparent text-gray-300"
-                }`}
+                className={`p-2 rounded-md text-sm ${seccionActiva === "ordenes"
+                  ? "bg-gray-800 text-white"
+                  : "bg-transparent text-gray-300"
+                  }`}
               >
                 Órdenes de Compra
               </button>
             </div>
             <div className="mt-4">
-              {seccionActiva === "proveedores" && <ListSuppliers />}
+              <div className="w-full flex gap-2 items-start">
+                <div className="relative w-full max-w-sm mb-4">
+                  <input
+                    type="text"
+                    placeholder="Buscar proveedores..."
+                    className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
+                    onChange={(e) => filterSuppliers(e.target.value)}
+                  />
+                  <svg
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 15z"
+                    />
+                  </svg>
+                </div>
+                <button
+                  onClick={() => filterSuppliers(filteredSuppliers)}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
+                >
+                  Buscar
+                </button>
+                <button
+                  onClick={() => getMySuppliers()}
+                  className="flex items-center gap-2 bg-gray-700 hover:bg-gray-500 text-white text-sm font-medium px-4 py-2 rounded-md"
+                >
+                  <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                  </svg>
+                </button>
+              </div>
+              {seccionActiva === "proveedores" && <ListSuppliers listProveedores={listProveedores} />}
 
               {seccionActiva === "ordenes" && <ListOrders />}
             </div>
