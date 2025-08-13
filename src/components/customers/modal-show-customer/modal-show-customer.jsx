@@ -20,7 +20,7 @@ export default function ShowCustomer({ isOpen, onClose, customer }) {
           },
         }}
       >
-        <div className="flex flex-col gap-4 bg-slate-900 text-white p-6 rounded-lg w-[400px]">
+        <div className="flex flex-col gap-4 bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <h1 className="font-bold text-2xl">Detalles del cliente</h1>
             <button
