@@ -11,16 +11,17 @@ export default function AddReminder({ isOpen, onClose }) {
         style={{
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
           content: {
-            width: "fit-content",
-            height: "fit-content",
-            margin: "auto",
+            inset: 0, // permite centrar vertical/horizontal
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             padding: "0",
             border: "none",
             backgroundColor: "transparent",
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-[400px]">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
             <h1 className="font-semibold text-lg">Crear Recordatorio</h1>
@@ -69,7 +70,7 @@ export default function AddReminder({ isOpen, onClose }) {
             </div>
 
             {/* Fecha y Hora */}
-            <div className="flex gap-4">
+            <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <label className="block mb-1">Fecha</label>
                 <input

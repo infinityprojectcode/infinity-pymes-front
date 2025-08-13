@@ -53,7 +53,7 @@ export default function AddUser({ isOpen, onClose }) {
         },
       }}
     >
-      <div className="bg-slate-900 text-white p-6 rounded-lg w-[500px]">
+      <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Agregar Nuevo Usuario</h2>
           <button

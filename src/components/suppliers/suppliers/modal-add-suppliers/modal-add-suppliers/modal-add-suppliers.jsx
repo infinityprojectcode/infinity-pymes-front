@@ -14,16 +14,17 @@ export default function AddSupplier({ isOpen, onClose }) {
         style={{
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
           content: {
-            width: "fit-content",
-            height: "fit-content",
-            margin: "auto",
+            inset: 0, // permite centrar vertical/horizontal
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             padding: "0",
             border: "none",
             backgroundColor: "transparent",
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-[500px]">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
             <h1 className="font-semibold text-lg">Agregar Nuevo Proveedor</h1>
