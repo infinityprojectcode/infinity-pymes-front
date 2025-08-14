@@ -71,68 +71,72 @@ export default function ListBilling() {
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         </div>
+
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
           <h1 className="text-2xl font-bold mb-1 ">
             Facturas ({billing.length})
           </h1>
-          <div className="min-w-[650px]">
-            {/* Encabezado */}
-            <div className="grid grid-cols-8 text-sm font-semibold px-4 py-3">
-              <div>Factura</div>
-              <div>Cliente</div>
-              <div>Fecha</div>
-              <div>Fecha de vencimiento</div>
-              <div>Cantidad</div>
-              <div>Total</div>
-              <div>Estado</div>
-              <div className="flex justify-center">Comportamiento</div>
-            </div>
-
-            {/* Contenido dinámico */}
-            {billing.map((item) => {
-              const auxiliar = getStatus(item.name_state);
-              return (
-                <div
-                  key={item.billing_id}
-                  className="grid grid-cols-8 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-                >
-                  <div className="truncate">{item.code}</div>
-                  <div>{item.customer_name}</div>
-                  <div>{item.billing_date}</div>
-                  <div>{item.billing_expiration}</div>
-                  <div>{item.total_consumption}</div>
-                  <div>
-                    ${Intl.NumberFormat("es-CO").format(item.total_price)}
-                  </div>
-                  <div
-                    className={`${auxiliar.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
+          <table className="min-w-full shadow-md rounded-lg">
+            <thead className="text-sm">
+              <tr>
+                <th className="px-4 py-2 text-left">Factura</th>
+                <th className="px-4 py-2 text-left">Cliente</th>
+                <th className="px-4 py-2 text-left">Fecha</th>
+                <th className="px-4 py-2 text-left">Fecha de vencimiento</th>
+                <th className="px-4 py-2 text-left">Cantidad</th>
+                <th className="px-4 py-2 text-left">Total</th>
+                <th className="px-4 py-2 text-left">Estado</th>
+                <th className="px-4 py-2">Comportamiento</th>
+              </tr>
+            </thead>
+            <tbody>
+              {billing.map((item) => {
+                const auxiliar = getStatus(item.name_state);
+                return (
+                  <tr
+                    key={item.billing_id}
+                    className="hover:bg-gray-800 border-t border-gray-700"
                   >
-                    {auxiliar.name}
-                  </div>
-                  <div className="flex gap-2 justify-center">
-                    <button
-                      onClick={() => {
-                        setModalViewIsOpen(true);
-                        setInfoViewModal(item);
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <Eye />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setModalDeleteIsOpen(true);
-                        setInfoDeleteModal(item.billing_id);
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <Trash2 className="text-red-700" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                    <td className="px-4 py-2">{item.code}</td>
+                    <td className="px-4 py-2">{item.customer_name}</td>
+                    <td className="px-4 py-2">{item.billing_date}</td>
+                    <td className="px-4 py-2">{item.billing_expiration}</td>
+                    <td className="px-4 py-2">{item.total_consumption}</td>
+                    <td className="px-4 py-2">
+                      ${Intl.NumberFormat("es-CO").format(item.total_price)}
+                    </td>
+                    <td className="px-4 py-2">
+                      <div
+                        className={`${auxiliar.color} flex justify-center align-center rounded-sm font-semibold`}
+                      >
+                        {auxiliar.name}
+                      </div>
+                    </td>
+                    <td className="px-4 py-2 flex gap-2 justify-center">
+                      <button
+                        onClick={() => {
+                          setModalViewIsOpen(true);
+                          setInfoViewModal(item);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <Eye />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setModalDeleteIsOpen(true);
+                          setInfoDeleteModal(item.billing_id);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <Trash2 className="text-red-700" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
 
