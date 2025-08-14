@@ -1,6 +1,6 @@
 import Sidebar from "@layouts/sidebar/sidebar.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import ListBilling from "../../components/facturacion/list-billing";
+import ListBilling from "../../components/billing/list-billing";
 
 export default function customer() {
   return (

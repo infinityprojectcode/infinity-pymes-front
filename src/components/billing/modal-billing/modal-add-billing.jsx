@@ -1,9 +1,50 @@
 import Modal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Plus, X } from "lucide-react";
+import axios from "axios";
 
-export default function AddBilling({ isOpen, onClose }) {
-  const clienteList = ["Laura Gómez", "Carlos Rodríguez", "Camila Torres"];
-  const [cliente, setCliente] = useState("");
+export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
+  const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [customersId, setCustomersId] = useState([]);
+  const [productsId, setProductsId] = useState([]);
+
+  function getCustomers() {
+    axios
+      .get(`${urlApi}customers/g/customers`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setCustomers(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getProducts() {
+    axios
+      .get(`${urlApi}products/g/products`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+    getCustomers();
+    getProducts();
+  }, []);
 
   return (
     <div>
@@ -30,23 +71,9 @@ export default function AddBilling({ isOpen, onClose }) {
             <h1 className="font-semibold text-lg">Crear nueva factura</h1>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-red-400"
+              className="text-slate-400 hover:text-red-400 cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <X />
             </button>
           </div>
 
@@ -56,18 +83,18 @@ export default function AddBilling({ isOpen, onClose }) {
               <div>
                 <label className="block mb-1">Cliente</label>
                 <select
-                  name="categoria"
-                  value={cliente}
-                  onChange={(e) => setCliente(e.target.value)}
+                  name="customer"
+                  value={customersId}
+                  onChange={(e) => setCustomersId(e.target.value)}
                   required
                   className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
                 >
                   <option value="" disabled>
                     Seleccionar cliente
                   </option>
-                  {clienteList.map((cat, i) => (
-                    <option key={i} value={cat}>
-                      {cat}
+                  {customers.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
                     </option>
                   ))}
                 </select>
@@ -89,30 +116,31 @@ export default function AddBilling({ isOpen, onClose }) {
               <div className="flex flex-col justify-start md:flex-row md:justify-between md:items-center">
                 <div className="flex flex-col text-white">
                   <h1 className="text-md font-medium mb-1">
-                    Articulos de factura
+                    Artículos de factura
                   </h1>
                 </div>
-                <button className="flex items-center gap-2 border border-gray-300 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="M12 5v14" />
-                  </svg>
+                <button className="flex items-center gap-2 border border-gray-300 rounded hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300">
+                  <Plus />
                   <span>Agregar articulo</span>
                 </button>
               </div>
               <div className="flex items-center gap-2 bg-[#0f172a] p-2 rounded">
-                <input
-                  type="text"
-                  placeholder="Descripción del artículo"
-                  className="bg-slate-800 text-white placeholder-slate-400 px-3 py-2 rounded-md w-60 focus:outline-none"
-                />
+                <select
+                  name="products"
+                  value={productsId}
+                  onChange={(e) => setProductsId(e.target.value)}
+                  required
+                  className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
+                >
+                  <option value="" disabled>
+                    Seleccionar producto
+                  </option>
+                  {products.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
                 <input
                   type="number"
                   min="0"
