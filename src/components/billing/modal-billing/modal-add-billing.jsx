@@ -5,7 +5,6 @@ export default function AddBilling({ isOpen, onClose }) {
   const clienteList = ["Laura Gómez", "Carlos Rodríguez", "Camila Torres"];
   const [cliente, setCliente] = useState("");
 
-
   return (
     <div>
       <Modal
@@ -15,16 +14,17 @@ export default function AddBilling({ isOpen, onClose }) {
         style={{
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
           content: {
-            width: "fit-content",
-            height: "fit-content",
-            margin: "auto",
+            inset: 0, // permite centrar vertical/horizontal
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             padding: "0",
             border: "none",
             backgroundColor: "transparent",
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-fit">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
             <h1 className="font-semibold text-lg">Crear nueva factura</h1>
@@ -86,13 +86,13 @@ export default function AddBilling({ isOpen, onClose }) {
             </div>
 
             <div className="flex flex-col gap-2">
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col justify-start md:flex-row md:justify-between md:items-center">
                 <div className="flex flex-col text-white">
                   <h1 className="text-md font-medium mb-1">
                     Articulos de factura
                   </h1>
                 </div>
-                <button className="flex items-center gap-2 border border-gray-300 rounded hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300">
+                <button className="flex items-center gap-2 border border-gray-300 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

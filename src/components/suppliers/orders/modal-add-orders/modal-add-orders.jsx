@@ -35,16 +35,17 @@ export default function AddOrders({ isOpen, onClose }) {
         style={{
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
           content: {
-            width: "fit-content",
-            height: "fit-content",
-            margin: "auto",
+            inset: 0, // permite centrar vertical/horizontal
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             padding: "0",
             border: "none",
             backgroundColor: "transparent",
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-[600px]">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
             <h1 className="font-semibold text-xl">Crear Orden de Compra</h1>
@@ -208,12 +209,8 @@ export default function AddOrders({ isOpen, onClose }) {
             {/* Total */}
             <div className="border-t border-slate-700 pt-4 flex justify-end">
               <div className="text-right flex flex-col">
-                <div className="text-md">
-                  Total:
-                </div>
-                <div className="text-xl font-bold">
-                  ${total.toFixed(2)}
-                </div>
+                <div className="text-md">Total:</div>
+                <div className="text-xl font-bold">${total.toFixed(2)}</div>
               </div>
             </div>
 

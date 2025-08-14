@@ -18,7 +18,7 @@ export default function Sidebar() {
         
         {/* Logo y usuario */}
         <div className="flex flex-row lg:flex-col items-center lg:text-center p-2 gap-2 flex-shrink-0">
-          <div className="flex flex-col lg:w-fit mx-auto">
+          <div className="hidden lg:flex lg:flex-col lg:w-fit mx-auto">
             <h1 className="text-lg font-bold text-100">Infinity Pymes</h1>
             <h2 className="text-sm text-200">Gestión administrativa</h2>
           </div>
@@ -60,7 +60,7 @@ export default function Sidebar() {
         {/* Links del menú */}
         <div
           className={`
-            flex-col lg:flex absolute top-0 left-0 w-full bg-white z-50
+            flex-col gap-1 lg:flex absolute top-0 left-0 w-full bg-white z-50 p-1
             ${isOpen ? "flex absolute top-16 left-0 w-full bg-100 shadow-md" : "hidden"}
             lg:static lg:bg-transparent lg:shadow-none
           `}
@@ -73,7 +73,7 @@ export default function Sidebar() {
               onClick={() => setIsOpen(false)} // Cierra el menú al seleccionar
             >
               <div
-                className="px-4 py-2 mx-1 lg:mx-auto rounded-lg flex gap-2 items-center 
+                className="px-3 py-1 mx-1 lg:mx-auto rounded-lg flex gap-2 items-center 
                 hover:bg-white hover:cursor-pointer hover:text-black font-semibold"
               >
                 <div className="flex justify-center items-center">{item.icon}</div>
