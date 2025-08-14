@@ -55,7 +55,7 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
         style={{
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
           content: {
-            inset: 0, // permite centrar vertical/horizontal
+            inset: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -78,7 +78,7 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
           </div>
 
           {/* Formulario */}
-          <form action="" className="space-y-4">
+          <div className="space-y-4">
             <div>
               <div>
                 <label className="block mb-1">Cliente</label>
@@ -119,7 +119,7 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
                     Artículos de factura
                   </h1>
                 </div>
-                <button className="flex items-center gap-2 border border-gray-300 rounded hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300">
+                <button className="flex items-center gap-2 border border-gray-400 rounded text-white hover:bg-blue-700 hover:text-white hover:border-blue-700 font-semibold p-2 rounded-lg transition duration-300 cursor-pointer">
                   <Plus />
                   <span>Agregar articulo</span>
                 </button>
@@ -165,12 +165,12 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
               </div>
             </div>
             <button
-              type="submit"
-              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+              // onClick={}
+              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
             >
               Crear factura
             </button>
-          </form>
+          </div>
         </div>
       </Modal>
     </div>
