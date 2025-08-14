@@ -1,7 +1,32 @@
 import Modal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
+import axios from "axios";
 
-export default function ViewBilling({ isOpen, onClose }) {
+export default function ViewBilling({ isOpen, onClose, urlApi, apiKey, info }) {
+  const [billingDetails, setBillingDetails] = useState([]);
+
+  function getBillingDetails() {
+    axios
+      .get(`${urlApi}billing/g/billing-detail`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { billing_id: info.billing_id },
+      })
+      .then((response) => {
+        setBillingDetails(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+    getBillingDetails();
+  }, []);
+
   return (
     <div>
       <Modal
@@ -26,23 +51,9 @@ export default function ViewBilling({ isOpen, onClose }) {
             <h1 className="font-bold text-lg">Detalles de la factura</h1>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-red-400"
+              className="text-slate-400 hover:text-red-400 cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <X />
             </button>
           </div>
 
@@ -51,37 +62,46 @@ export default function ViewBilling({ isOpen, onClose }) {
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-slate-400">Número de factura</p>
-                <p className="font-semibold">FAC-2025-001</p>
+                <p className="font-semibold">{info.code}</p>
               </div>
               <div>
                 <p className="text-slate-400">Cliente</p>
-                <p className="font-semibold">Laura Gómez</p>
+                <p className="font-semibold">{info.customer_name}</p>
               </div>
               <div>
                 <p className="text-slate-400">Fecha</p>
-                <p className="font-semibold">2025-01-15</p>
+                <p className="font-semibold">{info.billing_date}</p>
               </div>
               <div>
                 <p className="text-slate-400">Fecha de vencimiento</p>
-                <p className="font-semibold">2025-02-15</p>
+                <p className="font-semibold">{info.billing_expiration}</p>
               </div>
             </div>
             <div>
               <p className="text-slate-300 font-medium mb-2">Items</p>
-              <div className="flex justify-between mt-4">
-                <div>
-                  <p className="font-medium">Mouse gamer</p>
-                  <p className="text-slate-400 text-sm">Cantidad: 1 × $99000</p>
+              {billingDetails.map((item) => (
+                <div key={item.id} className="flex justify-between mt-4">
+                  <div>
+                    <p className="font-medium">{item.product_name}</p>
+                    <p className="text-slate-400 text-sm">
+                      Cantidad: {item.quantity} × $
+                      {Intl.NumberFormat("es-CO").format(item.product_price)}
+                    </p>
+                  </div>
+                  <p className="font-medium">
+                    ${Intl.NumberFormat("es-CO").format(item.subtotal)}
+                  </p>
                 </div>
-                <p className="font-medium">$99000</p>
-              </div>
+              ))}
             </div>
 
             {/* Total */}
             <hr className="border-slate-700 my-2" />
             <div className="flex justify-between items-center">
               <p className="text-slate-300">Importe total:</p>
-              <p className="text-2xl font-bold text-white">$1250000</p>
+              <p className="text-2xl font-bold text-white">
+                ${Intl.NumberFormat("es-CO").format(info.total_price)}
+              </p>
             </div>
           </div>
         </div>

@@ -1,47 +1,49 @@
 import AddBilling from "./modal-billing/modal-add-billing.jsx";
 import ViewBilling from "./modal-billing/modal-view-billing.jsx";
-import { useState } from "react";
+import DeleteBilling from "./modal-billing/modal-delete-billing.jsx";
+import AppContext from "@context/app/app-context.jsx";
+import { Plus, Search, Eye, Trash2 } from "lucide-react";
+import { useState, useEffect, useContext } from "react";
+import { toast } from "sonner";
+import axios from "axios";
 
 export default function ListBilling() {
+  const context = useContext(AppContext);
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
   const [modalViewIsOpen, setModalViewIsOpen] = useState(false);
+  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
+  const [infoViewModal, setInfoViewModal] = useState([]);
+  const [infoDeleteModal, setInfoDeleteModal] = useState(null);
+  const [billing, setBilling] = useState([]);
 
-  const listBilling = [
-    {
-      id: crypto.randomUUID(),
-      numero: "FAC-2025-001",
-      cliente: "Laura Gómez",
-      fecha: "2025-01-15",
-      vencimiento: "2025-02-15",
-      cantidad: 1250000,
-      estado: "Pagado",
-    },
-    {
-      id: crypto.randomUUID(),
-      numero: "FAC-2025-002",
-      cliente: "Andrés Martínez",
-      fecha: "2025-01-20",
-      vencimiento: "2025-02-20",
-      cantidad: 899000,
-      estado: "Pendiente",
-    },
-    {
-      id: crypto.randomUUID(),
-      numero: "FAC-2025-003",
-      cliente: "Camila Rojas",
-      fecha: "2025-01-10",
-      vencimiento: "2025-02-10",
-      cantidad: 2150000,
-      estado: "Atrasado",
-    },
-  ];
+  function getBilling() {
+    axios
+      .get(`${urlApi}billing/g/billing`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setBilling(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   const getStatus = (status) => {
-    if (status == "Atrasado") return { name: "Atrasado", color: "bg-red-500" };
-    if (status == "Pendiente")
-      return { name: "Pendiente", color: "bg-yellow-500" };
-    return { name: "Pagado", color: "bg-green-500" };
+    if (status == "Vencido") return { name: status, color: "bg-red-500" };
+    if (status == "Pendiente") return { name: status, color: "bg-yellow-500" };
+    return { name: status, color: "bg-green-500" };
   };
+
+  useEffect(() => {
+    getBilling();
+  }, []);
 
   return (
     <>
@@ -55,18 +57,9 @@ export default function ListBilling() {
           </div>
           <button
             onClick={() => setModalAddIsOpen(true)}
-            className="flex items-center w-fit gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300"
+            className="flex items-center w-fit gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold p-2 rounded-lg transition duration-300 cursor-pointer"
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
+            <Plus />
             <span>Crear factura</span>
           </button>
         </div>
@@ -76,83 +69,64 @@ export default function ListBilling() {
             placeholder="Buscar facturas..."
             className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
           />
-          <svg
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 15z"
-            />
-          </svg>
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         </div>
         <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
-          <h1 className="text-2xl font-bold mb-1 ">Facturas (3)</h1>
+          <h1 className="text-2xl font-bold mb-1 ">
+            Facturas ({billing.length})
+          </h1>
           <div className="min-w-[650px]">
             {/* Encabezado */}
-            <div className="grid grid-cols-7 text-sm font-semibold px-4 py-3">
-              <div>Factura #</div>
+            <div className="grid grid-cols-8 text-sm font-semibold px-4 py-3">
+              <div>Factura</div>
               <div>Cliente</div>
               <div>Fecha</div>
               <div>Fecha de vencimiento</div>
               <div>Cantidad</div>
+              <div>Total</div>
               <div>Estado</div>
               <div className="flex justify-center">Comportamiento</div>
             </div>
 
             {/* Contenido dinámico */}
-            {listBilling.map((item) => {
-              const auxiliar = getStatus(item.estado);
+            {billing.map((item) => {
+              const auxiliar = getStatus(item.name_state);
               return (
                 <div
-                  key={item.id}
-                  className="grid grid-cols-7 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
+                  key={item.billing_id}
+                  className="grid grid-cols-8 items-center text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
                 >
-                  <div className="truncate">{item.numero}</div>
-                  <div>{item.cliente}</div>
-                  <div>${item.fecha}</div>
-                  <div>{item.vencimiento}</div>
-                  <div>{item.cantidad}</div>
+                  <div className="truncate">{item.code}</div>
+                  <div>{item.customer_name}</div>
+                  <div>{item.billing_date}</div>
+                  <div>{item.billing_expiration}</div>
+                  <div>{item.total_consumption}</div>
+                  <div>
+                    ${Intl.NumberFormat("es-CO").format(item.total_price)}
+                  </div>
                   <div
                     className={`${auxiliar.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
                   >
                     {auxiliar.name}
                   </div>
                   <div className="flex gap-2 justify-center">
-                    <button onClick={() => setModalViewIsOpen(true)}>
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                        <circle cx="12" cy="12" r="3" />
-                      </svg>
+                    <button
+                      onClick={() => {
+                        setModalViewIsOpen(true);
+                        setInfoViewModal(item);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <Eye />
                     </button>
-                    <button>
-                      <svg
-                        className="text-red-500"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                      >
-                        <path d="M10 11v6" />
-                        <path d="M14 11v6" />
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                        <path d="M3 6h18" />
-                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                      </svg>
+                    <button
+                      onClick={() => {
+                        setModalDeleteIsOpen(true);
+                        setInfoDeleteModal(item.billing_id);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <Trash2 className="text-red-700" />
                     </button>
                   </div>
                 </div>
@@ -165,11 +139,29 @@ export default function ListBilling() {
       <AddBilling
         isOpen={modalAddIsOpen}
         onClose={() => setModalAddIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        // refresh={() => getBilling()}
       ></AddBilling>
-      <ViewBilling
-        isOpen={modalViewIsOpen}
-        onClose={() => setModalViewIsOpen(false)}
-      ></ViewBilling>
+
+      {modalViewIsOpen && infoViewModal?.billing_id && (
+        <ViewBilling
+          isOpen={modalViewIsOpen}
+          onClose={() => setModalViewIsOpen(false)}
+          urlApi={urlApi}
+          apiKey={apiKey}
+          info={infoViewModal}
+        />
+      )}
+
+      <DeleteBilling
+        isOpen={modalDeleteIsOpen}
+        onClose={() => setModalDeleteIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        info={infoDeleteModal}
+        refresh={() => getBilling()}
+      ></DeleteBilling>
     </>
   );
 }
