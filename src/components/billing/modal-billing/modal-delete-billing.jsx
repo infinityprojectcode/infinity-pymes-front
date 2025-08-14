@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
-export default function DeleteInventory({
+export default function DeleteBilling({
   isOpen,
   onClose,
   urlApi,
@@ -20,7 +20,7 @@ export default function DeleteInventory({
 
     toast.promise(
       axios
-        .delete(`${urlApi}products/d/inventory/${info}`, {
+        .delete(`${urlApi}/${info}`, {
           headers: {
             "Content-Type": "application/json",
             "api-key": apiKey,
@@ -31,16 +31,15 @@ export default function DeleteInventory({
             // setLoading(false);
             refresh();
             onClose();
-            return "Producto de inventario eliminado con éxito";
+            return "Factura eliminado con éxito";
           } else {
             throw new Error(
-              "Error al eliminar el producto del inventario: " +
-                response.data.message
+              "Error al eliminar la factura: " + response.data.message
             );
           }
         }),
       {
-        loading: "Eliminando producto del inventario...",
+        loading: "Eliminando factura...",
         success: (msg) => msg,
         error: (err) => err.message || "Error en la solicitud de eliminación",
       }
@@ -65,10 +64,10 @@ export default function DeleteInventory({
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-[400px]">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
-            <h1 className="font-semibold text-lg">Eliminar producto</h1>
+            <h1 className="font-semibold text-lg">Eliminar factura</h1>
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-red-400 cursor-pointer"
@@ -79,7 +78,7 @@ export default function DeleteInventory({
 
           <div className="space-y-4">
             <label className="block mb-1">
-              ¿Esta seguro de eliminar este producto?
+              ¿Esta seguro de eliminar esta factura?
             </label>
 
             {isDeleteModal ? (
@@ -105,7 +104,7 @@ export default function DeleteInventory({
                 className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
                 onClick={() => setIsDeleteModal(true)}
               >
-                Eliminar producto
+                Eliminar factura
               </button>
             )}
           </div>

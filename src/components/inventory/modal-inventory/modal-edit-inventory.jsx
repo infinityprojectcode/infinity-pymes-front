@@ -17,6 +17,7 @@ export default function EditInventory({
   const [categoryName, setCategoryName] = useState("");
   const [categoryPrice, setCategoryPrice] = useState("");
   const [categoryStock, setCategoryStock] = useState("");
+  const [isEditModal, setIsEditModal] = useState(false);
 
   function getCategoryProduct() {
     axios
@@ -84,10 +85,10 @@ export default function EditInventory({
     if (isOpen) {
       getCategoryProduct();
       if (info) {
-        setCategoryId(info.category_id || "");
+        setCategoryId(info.id_category || "");
         setCategoryName(info.product_name || "");
         setCategoryPrice(info.price || "");
-        setCategoryStock(info.quantity || "");
+        setCategoryStock(info.quantity || "0");
       }
     }
   }, [isOpen, info]);
@@ -200,12 +201,32 @@ export default function EditInventory({
             </div>
 
             {/* Botón */}
-            <button
-              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
-              onClick={() => handleEditProduct()}
-            >
-              Agregar producto
-            </button>
+            {isEditModal ? (
+              <div className="flex gap-2">
+                <button
+                  className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
+                  onClick={() => handleEditProduct()}
+                >
+                  Si
+                </button>
+                <button
+                  className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
+                  onClick={() => {
+                    setIsEditModal(false);
+                    onClose();
+                  }}
+                >
+                  No
+                </button>
+              </div>
+            ) : (
+              <button
+                className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
+                onClick={() => setIsEditModal(true)}
+              >
+                Editar producto
+              </button>
+            )}
           </div>
         </div>
       </Modal>
