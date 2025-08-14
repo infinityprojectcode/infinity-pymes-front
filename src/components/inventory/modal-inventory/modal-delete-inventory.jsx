@@ -65,7 +65,7 @@ export default function DeleteInventory({
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-[400px]">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
             <h1 className="font-semibold text-lg">Eliminar producto</h1>
