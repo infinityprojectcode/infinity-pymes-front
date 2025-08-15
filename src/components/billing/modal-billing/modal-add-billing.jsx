@@ -146,63 +146,96 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
                 </button>
               </div>
 
-              {items.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 bg-[#0f172a] p-2 rounded"
-                >
-                  <select
-                    value={item.productId}
-                    onChange={(e) =>
-                      handleItemChange(index, "productId", e.target.value)
-                    }
-                    required
-                    className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
-                  >
-                    <option value="" disabled>
-                      Seleccionar producto
-                    </option>
-                    {products.map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="number"
-                    min="1"
-                    value={item.quantity}
-                    onChange={(e) =>
-                      handleItemChange(
-                        index,
-                        "quantity",
-                        Number(e.target.value)
-                      )
-                    }
-                    className="bg-slate-800 text-white text-center px-2 py-2 rounded-md w-16 focus:outline-none"
-                  />
-                  <input
-                    type="number"
-                    min="0"
-                    value={item.price}
-                    onChange={(e) =>
-                      handleItemChange(index, "price", Number(e.target.value))
-                    }
-                    className="bg-slate-800 text-white text-center px-2 py-2 rounded-md w-20 focus:outline-none"
-                  />
-                  <span className="text-white pl-2">
-                    ${item.quantity * item.price}
-                  </span>
+              {/* Tabla de artículos */}
+              <table className="w-full text-sm text-white border-collapse">
+                <thead>
+                  <tr className="text-slate-400">
+                    <th className="border-b border-slate-700 text-left p-2">
+                      Producto
+                    </th>
+                    <th className="border-b border-slate-700 text-center p-2">
+                      Cant.
+                    </th>
+                    <th className="border-b border-slate-700 text-center p-2">
+                      Precio
+                    </th>
+                    <th className="border-b border-slate-700 text-center p-2">
+                      Subtotal
+                    </th>
+                    <th className="border-b border-slate-700 p-2 w-8"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((item, index) => (
+                    <tr key={index} className="bg-[#0f172a]">
+                      <td className="p-2">
+                        <select
+                          value={item.productId}
+                          onChange={(e) =>
+                            handleItemChange(index, "productId", e.target.value)
+                          }
+                          className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-white"
+                        >
+                          <option value="" disabled>
+                            Seleccionar producto
+                          </option>
+                          {products.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                              {cat.name}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
 
-                  <button
-                    type="button"
-                    onClick={() => removeItem(index)}
-                    className="text-red-400 hover:text-red-600 font-bold px-2 cursor-pointer"
-                  >
-                    <X />
-                  </button>
-                </div>
-              ))}
+                      <td className="p-2 text-center">
+                        <input
+                          type="number"
+                          min="1"
+                          value={item.quantity}
+                          onChange={(e) =>
+                            handleItemChange(
+                              index,
+                              "quantity",
+                              Number(e.target.value)
+                            )
+                          }
+                          className="bg-slate-800 text-white text-center px-2 py-2 rounded-md w-14 focus:outline-none"
+                        />
+                      </td>
+
+                      <td className="p-2 text-center">
+                        <input
+                          type="number"
+                          min="0"
+                          value={item.price}
+                          onChange={(e) =>
+                            handleItemChange(
+                              index,
+                              "price",
+                              Number(e.target.value)
+                            )
+                          }
+                          className="bg-slate-800 text-white text-center px-2 py-2 rounded-md w-14 focus:outline-none"
+                        />
+                      </td>
+
+                      <td className="p-2 text-center">
+                        ${item.quantity * item.price}
+                      </td>
+
+                      <td className="p-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => removeItem(index)}
+                          className="text-red-400 hover:text-red-600 font-bold px-2 cursor-pointer"
+                        >
+                          <X />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             {/* Total */}
