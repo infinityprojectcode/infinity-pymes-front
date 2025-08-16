@@ -2,12 +2,20 @@ import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import { Plus, X } from "lucide-react";
 import axios from "axios";
+import { toast } from "sonner";
 
-export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
+export default function AddBilling({
+  isOpen,
+  onClose,
+  urlApi,
+  apiKey,
+  refresh,
+}) {
   const [customers, setCustomers] = useState([]);
+  const [expirationAt, setExpirationAt] = useState("");
   const [products, setProducts] = useState([]);
   const [customersId, setCustomersId] = useState([]);
-  const [productsId, setProductsId] = useState([]);
+
   const [items, setItems] = useState([
     { productId: "", quantity: 1, price: 0 },
   ]);
@@ -62,6 +70,49 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
   const removeItem = (index) => {
     setItems(items.filter((_, i) => i !== index));
   };
+
+  async function handleAddBilling() {
+    const details = items.map((item) => {
+      const product = products.find((p) => p.id === Number(item.productId));
+      return {
+        product_id: Number(item.productId),
+        quantity: Number(item.quantity),
+        price: product ? product.price : 0,
+      };
+    });
+
+    const data_inventory = {
+      customer_id: Number(customersId),
+      expiration_at: expirationAt,
+      details,
+    };
+
+    toast.promise(
+      axios
+        .post(`${urlApi}billing/i/billing`, data_inventory, {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": apiKey,
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            refresh();
+            onClose();
+            return "Factura creada con éxito";
+          } else {
+            throw new Error(
+              "Error al crear la factura: " + response.data.message
+            );
+          }
+        }),
+      {
+        loading: "Guardando factura...",
+        success: (msg) => msg,
+        error: (err) => err.message || "Error en la solicitud",
+      }
+    );
+  }
 
   return (
     <div>
@@ -124,6 +175,8 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
                   type="date"
                   id="fecha"
                   name="fecha"
+                  value={expirationAt}
+                  onChange={(e) => setExpirationAt(e.target.value)} // 🔹 Guardamos en el estado
                   className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
@@ -207,7 +260,12 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
                         <input
                           type="number"
                           min="0"
-                          value={item.price}
+                          readOnly
+                          value={Intl.NumberFormat("es-CO").format(
+                            products.find(
+                              (p) => p.id === Number(item.productId)
+                            )?.price || 0
+                          )}
                           onChange={(e) =>
                             handleItemChange(
                               index,
@@ -215,12 +273,18 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
                               Number(e.target.value)
                             )
                           }
-                          className="bg-slate-800 text-white text-center px-2 py-2 rounded-md w-14 focus:outline-none"
+                          className="bg-slate-800 text-white text-center px-2 py-2 rounded-md w-16 focus:outline-none"
                         />
                       </td>
 
                       <td className="p-2 text-center">
-                        ${item.quantity * item.price}
+                        $
+                        {Intl.NumberFormat("es-CO").format(
+                          item.quantity *
+                            (products.find(
+                              (p) => p.id === Number(item.productId)
+                            )?.price || 0)
+                        )}
                       </td>
 
                       <td className="p-2 text-center">
@@ -245,16 +309,23 @@ export default function AddBilling({ isOpen, onClose, urlApi, apiKey }) {
                   <p className="text-sm text-slate-400">Total:</p>
                   <p className="text-lg font-bold">
                     $
-                    {items.reduce(
-                      (total, item) => total + item.quantity * item.price,
-                      0
+                    {Intl.NumberFormat("es-CO").format(
+                      items.reduce(
+                        (total, item) =>
+                          total +
+                          item.quantity *
+                            (products.find(
+                              (p) => p.id === Number(item.productId)
+                            )?.price || 0),
+                        0
+                      )
                     )}
                   </p>
                 </div>
               </div>
             </div>
             <button
-              // onClick={}
+              onClick={() => handleAddBilling()}
               className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
             >
               Crear factura
