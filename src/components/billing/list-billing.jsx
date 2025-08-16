@@ -125,7 +125,7 @@ export default function ListBilling() {
                       <button
                         onClick={() => {
                           setModalDeleteIsOpen(true);
-                          setInfoDeleteModal(item.billing_id);
+                          setInfoDeleteModal(item);
                         }}
                         className="cursor-pointer"
                       >
@@ -145,7 +145,7 @@ export default function ListBilling() {
         onClose={() => setModalAddIsOpen(false)}
         urlApi={urlApi}
         apiKey={apiKey}
-        // refresh={() => getBilling()}
+        refresh={() => getBilling()}
       ></AddBilling>
 
       {modalViewIsOpen && infoViewModal?.billing_id && (
@@ -158,14 +158,16 @@ export default function ListBilling() {
         />
       )}
 
-      <DeleteBilling
-        isOpen={modalDeleteIsOpen}
-        onClose={() => setModalDeleteIsOpen(false)}
-        urlApi={urlApi}
-        apiKey={apiKey}
-        info={infoDeleteModal}
-        refresh={() => getBilling()}
-      ></DeleteBilling>
+      {modalDeleteIsOpen && infoDeleteModal?.billing_id && (
+        <DeleteBilling
+          isOpen={modalDeleteIsOpen}
+          onClose={() => setModalDeleteIsOpen(false)}
+          urlApi={urlApi}
+          apiKey={apiKey}
+          info={infoDeleteModal}
+          refresh={() => getBilling()}
+        ></DeleteBilling>
+      )}
     </>
   );
 }
