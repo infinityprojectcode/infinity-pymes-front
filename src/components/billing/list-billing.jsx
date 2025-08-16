@@ -145,7 +145,7 @@ export default function ListBilling() {
         onClose={() => setModalAddIsOpen(false)}
         urlApi={urlApi}
         apiKey={apiKey}
-        // refresh={() => getBilling()}
+        refresh={() => getBilling()}
       ></AddBilling>
 
       {modalViewIsOpen && infoViewModal?.billing_id && (
