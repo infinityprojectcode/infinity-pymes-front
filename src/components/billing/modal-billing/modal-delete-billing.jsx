@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import { useState } from "react";
+import { useEffect } from "react";
 import { X } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
@@ -20,7 +21,7 @@ export default function DeleteBilling({
 
     toast.promise(
       axios
-        .delete(`${urlApi}billing/d/billing/${info}`, {
+        .delete(`${urlApi}billing/d/billing/${info.billing_id}`, {
           headers: {
             "Content-Type": "application/json",
             "api-key": apiKey,
@@ -77,8 +78,14 @@ export default function DeleteBilling({
           </div>
 
           <div className="space-y-4">
-            <label className="block mb-1">
-              ¿Esta seguro de eliminar esta factura?
+            <label className="block mb-1 text-center">
+              <span>¿Esta seguro de eliminar la factura</span>
+              <br />
+              <span className="font-semibold text-red-500">
+                {" "}
+                "{info.code}"{" "}
+              </span>
+              ?
             </label>
 
             {isDeleteModal ? (
