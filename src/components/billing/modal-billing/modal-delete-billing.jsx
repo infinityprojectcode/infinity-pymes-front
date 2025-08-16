@@ -14,13 +14,13 @@ export default function DeleteBilling({
 }) {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
-  async function handleDeleteProduct() {
+  async function handleDeleteBilling() {
     debugger;
     if (!info) return "Datos incompletos";
 
     toast.promise(
       axios
-        .delete(`${urlApi}/${info}`, {
+        .delete(`${urlApi}billing/d/billing/${info}`, {
           headers: {
             "Content-Type": "application/json",
             "api-key": apiKey,
@@ -85,7 +85,10 @@ export default function DeleteBilling({
               <div className="flex gap-2">
                 <button
                   className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
-                  onClick={() => handleDeleteProduct()}
+                  onClick={() => {
+                    handleDeleteBilling();
+                    setIsDeleteModal(false);
+                  }}
                 >
                   Si
                 </button>
