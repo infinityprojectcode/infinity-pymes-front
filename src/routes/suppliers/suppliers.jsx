@@ -1,15 +1,15 @@
-import AddSuppliers from "../../components/suppliers/suppliers/modal-add-suppliers/modal-add-suppliers/modal-add-suppliers.jsx";
-import AddOrders from "../../components/suppliers/orders/modal-add-orders/modal-add-orders.jsx";
-import ListSuppliers from "../../components/suppliers/suppliers/list-suppliers.jsx";
-import ListOrders from "../../components/suppliers/orders/list-orders.jsx";
+import AddSuppliers from "@fragments/suppliers/suppliers/modal-add-suppliers/modal-add-suppliers/modal-add-suppliers.jsx";
+import AddOrders from "@fragments/suppliers/orders/modal-add-orders/modal-add-orders.jsx";
+import ListSuppliers from "@fragments/suppliers/suppliers/list-suppliers.jsx";
+import ListOrders from "@fragments/suppliers/orders/list-orders.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import AppContext from "../../context/app/app-context.jsx";
+import AppProvider from "@context/app/app-provider.jsx";
 import { useEffect, useState, useContext } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 
 export default function Suppliers() {
-  const context = useContext(AppContext);
+  const context = useContext(AppProvider);
   const urlApi = context.urlApi;
   const apiKey = context.apiKey;
 
@@ -164,10 +164,9 @@ export default function Suppliers() {
               <div className="flex items-center gap-3 mt-4 md:mt-0">
                 <button
                   onClick={() => setModalAddSuppliersIsOpen(true)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
+                  className="flex hover:cursor-pointer items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -180,15 +179,14 @@ export default function Suppliers() {
                       d="M12 4v16m8-8H4"
                     />
                   </svg>
-                  Nuevo Proveedores
+                  Nuevo Proveedor
                 </button>
 
                 <button
                   onClick={() => setModalAddOrdersIsOpen(true)}
-                  className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800"
+                  className="flex hover:cursor-pointer items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800"
                 >
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -309,10 +307,12 @@ export default function Suppliers() {
       <AddSuppliers
         isOpen={modalAddSuppliersIsOpen}
         onClose={() => setModalAddSuppliersIsOpen(false)}
+        getMySuppliers={getMySuppliers}
       ></AddSuppliers>
       <AddOrders
         isOpen={modalAddOrdersIsOpen}
         onClose={() => setModalAddOrdersIsOpen(false)}
+        getMyOrders={getMyOrders}
       ></AddOrders>
     </>
   );

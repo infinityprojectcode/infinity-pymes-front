@@ -1,4 +1,4 @@
-import ProtectedRoutes from "../../lib/auth/protectedRoutes/ProtectedRoutes.jsx";
+import ProtectedRoutes from "@context/auth/protected-routes.jsx";
 import { appRoutes } from "@routes/router/routes.jsx";
 import UserLogin from "@routes/user-login/user-login";
 import { Route, Routes } from "react-router-dom";

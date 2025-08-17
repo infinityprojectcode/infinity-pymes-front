@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { useState } from "react";
 
-export default function AddOrders({ isOpen, onClose }) {
+export default function AddOrders({ isOpen, onClose, getMyOrders }) {
   const [proveedor, setProveedor] = useState("");
   const [fechaEntrega, setFechaEntrega] = useState("");
   const [productos, setProductos] = useState([
