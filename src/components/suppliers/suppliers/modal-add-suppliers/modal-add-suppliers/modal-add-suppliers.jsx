@@ -164,6 +164,11 @@ export default function AddSupplier({ isOpen, onClose, getMySuppliers }) {
             maxHeight: "95vh",
             margin: "auto",
             padding: "20px",
+            inset: 0, // permite centrar vertical/horizontal
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0",
             border: "none",
             backgroundColor: "transparent",
           },

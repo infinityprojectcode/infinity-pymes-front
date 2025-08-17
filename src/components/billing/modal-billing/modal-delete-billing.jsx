@@ -1,10 +1,11 @@
 import Modal from "react-modal";
 import { useState } from "react";
+import { useEffect } from "react";
 import { X } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 
-export default function DeleteInventory({
+export default function DeleteBilling({
   isOpen,
   onClose,
   urlApi,
@@ -14,13 +15,13 @@ export default function DeleteInventory({
 }) {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
-  async function handleDeleteProduct() {
+  async function handleDeleteBilling() {
     debugger;
     if (!info) return "Datos incompletos";
 
     toast.promise(
       axios
-        .delete(`${urlApi}products/d/inventory/${info}`, {
+        .delete(`${urlApi}billing/d/billing/${info.billing_id}`, {
           headers: {
             "Content-Type": "application/json",
             "api-key": apiKey,
@@ -31,16 +32,15 @@ export default function DeleteInventory({
             // setLoading(false);
             refresh();
             onClose();
-            return "Producto de inventario eliminado con éxito";
+            return "Factura eliminado con éxito";
           } else {
             throw new Error(
-              "Error al eliminar el producto del inventario: " +
-                response.data.message
+              "Error al eliminar la factura: " + response.data.message
             );
           }
         }),
       {
-        loading: "Eliminando producto del inventario...",
+        loading: "Eliminando factura...",
         success: (msg) => msg,
         error: (err) => err.message || "Error en la solicitud de eliminación",
       }
@@ -65,10 +65,10 @@ export default function DeleteInventory({
           },
         }}
       >
-        <div className="bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="bg-slate-900 text-white p-6 rounded-lg w-[400px]">
           {/* Encabezado */}
           <div className="flex justify-between items-center mb-4">
-            <h1 className="font-semibold text-lg">Eliminar producto</h1>
+            <h1 className="font-semibold text-lg">Eliminar factura</h1>
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-red-400 cursor-pointer"
@@ -78,15 +78,24 @@ export default function DeleteInventory({
           </div>
 
           <div className="space-y-4">
-            <label className="block mb-1">
-              ¿Esta seguro de eliminar este producto?
+            <label className="block mb-1 text-center">
+              <span>¿Esta seguro de eliminar la factura</span>
+              <br />
+              <span className="font-semibold text-red-500">
+                {" "}
+                "{info.code}"{" "}
+              </span>
+              ?
             </label>
 
             {isDeleteModal ? (
               <div className="flex gap-2">
                 <button
                   className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
-                  onClick={() => handleDeleteProduct()}
+                  onClick={() => {
+                    handleDeleteBilling();
+                    setIsDeleteModal(false);
+                  }}
                 >
                   Si
                 </button>
@@ -105,7 +114,7 @@ export default function DeleteInventory({
                 className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
                 onClick={() => setIsDeleteModal(true)}
               >
-                Eliminar producto
+                Eliminar factura
               </button>
             )}
           </div>
