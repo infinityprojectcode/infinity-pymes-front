@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import AppProvider from "@context/app/app-provider.jsx";
+import { useAppContext } from "@context/app/app-provider.jsx";
 import Modal from "react-modal";
 import { toast } from "sonner";
 import axios from "axios";
 
 export default function AddSupplier({ isOpen, onClose, getMySuppliers }) {
-  const context = useContext(AppProvider);
+  const context = useAppContext();
   const urlApi = context.urlApi;
   const apiKey = context.apiKey;
   const [categories, setCategories] = useState([]);
@@ -35,7 +35,7 @@ export default function AddSupplier({ isOpen, onClose, getMySuppliers }) {
 
   async function fetchStates() {
     try {
-      const response = await axios.get(`${urlApi}/suppliers/g/supplier-status`, {
+      const response = await axios.get(`${urlApi}suppliers/g/supplier-status`, {
         headers: {
           "Content-Type": "application/json",
           "api-key": apiKey,
@@ -53,7 +53,7 @@ export default function AddSupplier({ isOpen, onClose, getMySuppliers }) {
 
   async function fetchCategories() {
     try {
-      const response = await axios.get(`${urlApi}/suppliers/g/supplier-categories`, {
+      const response = await axios.get(`${urlApi}suppliers/g/supplier-categories`, {
         headers: {
           "Content-Type": "application/json",
           "api-key": apiKey,
@@ -161,14 +161,9 @@ export default function AddSupplier({ isOpen, onClose, getMySuppliers }) {
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
           content: {
             width: "fit-content",
-            maxHeight: "95vh",
+            maxHeight: "90vh",
             margin: "auto",
             padding: "20px",
-            inset: 0, // permite centrar vertical/horizontal
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0",
             border: "none",
             backgroundColor: "transparent",
           },

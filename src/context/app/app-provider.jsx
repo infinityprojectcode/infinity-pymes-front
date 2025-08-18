@@ -1,9 +1,10 @@
-import { createContext, useState, useEffect } from "react";
+// app-provider.jsx
+import { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 
 const AppContext = createContext();
 
-const AppProvider = ({ children }) => {
+export const AppProvider = ({ children }) => {
   AppProvider.propTypes = {
     children: PropTypes.node.isRequired,
   };
@@ -21,31 +22,24 @@ const AppProvider = ({ children }) => {
     if (storedLang) setLanguage(storedLang);
   }, []);
 
-  function changeTheme(newTheme) {
+  const changeTheme = (newTheme) => {
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
-  }
+  };
 
-  function changeLanguage(newLang) {
+  const changeLanguage = (newLang) => {
     setLanguage(newLang);
     localStorage.setItem("language", newLang);
-  }
+  };
 
   return (
     <AppContext.Provider
-      value={{
-        urlApi,
-        apiKey,
-        theme,
-        changeTheme,
-        language,
-        changeLanguage,
-      }}
+      value={{ urlApi, apiKey, theme, changeTheme, language, changeLanguage }}
     >
       {children}
     </AppContext.Provider>
   );
 };
 
-export default AppProvider;
-export { AppContext };
+// Hook para usar el contexto
+export const useAppContext = () => useContext(AppContext);

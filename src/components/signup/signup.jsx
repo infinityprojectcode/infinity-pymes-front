@@ -1,12 +1,12 @@
 import ImagenFondo from "@assets/images/ImagenConVector.jpg";
-import AppProvider from "@context/app/app-provider.jsx";
+import { useAppContext } from "@context/app/app-provider.jsx";
 import { useEffect, useState, useContext } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 import "./signup.css";
 
 function Signup() {
-  const context = useContext(AppContext);
+  const context = useAppContext();
   const urlApi = context.urlApi;
   const apiKey = context.apiKey;
 
