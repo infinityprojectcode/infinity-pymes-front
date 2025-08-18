@@ -7,7 +7,7 @@ import Billing from "@routes/billing/billing.jsx";
 import Movements from "@routes/movements/movements.jsx";
 import HomeIcon from "@assets/icons/home-icon";
 import expenses from "@routes/expenses/expenses.jsx";
-import Suppliers from "@routes/suppliers/suppliers.jsx";  
+import Suppliers from "@routes/suppliers/suppliers.jsx";
 import Schedule from "../schedule/schedule.jsx";
 import PointOfSale from "@routes/point-of-sale/point-of-sale.jsx";
 import PointOfSaleIcon from "@assets/icons/point-of-sale.jsx";
