@@ -1,7 +1,5 @@
 import ShowSuppliers from "../suppliers/modal-show-suppliers/modal-show-suppliers.jsx";
-import AppContext from "../../../context/app/app-context.jsx";
-import { useEffect, useContext, useState } from "react"
-import axios from "axios"
+import { useState } from "react"
 
 export default function ListSuppliers({ listSuppliers }) {
   const [modalShowSuppFliersIsOpen, setModalShowSuppliersIsOpen] = useState(false);
@@ -42,7 +40,7 @@ export default function ListSuppliers({ listSuppliers }) {
                   <div>{proveedor.contact_name}</div>
                   <div>{proveedor.category}</div>
                   <div>{proveedor.payment_terms}</div>
-                  <div>${proveedor.total_price}</div>
+                  <div>${proveedor.total_price != null ? proveedor.total_price : 0 }</div>
                   <div
                     className={`${status.color} w-fit px-2 text-white text-center font-semibold rounded-lg`}
                   >

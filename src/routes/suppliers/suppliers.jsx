@@ -1,15 +1,15 @@
-import AddSuppliers from "../../components/suppliers/suppliers/modal-add-suppliers/modal-add-suppliers/modal-add-suppliers.jsx";
-import AddOrders from "../../components/suppliers/orders/modal-add-orders/modal-add-orders.jsx";
-import ListSuppliers from "../../components/suppliers/suppliers/list-suppliers.jsx";
-import ListOrders from "../../components/suppliers/orders/list-orders.jsx";
+import AddSuppliers from "@fragments/suppliers/suppliers/modal-add-suppliers/modal-add-suppliers/modal-add-suppliers.jsx";
+import AddOrders from "@fragments/suppliers/orders/modal-add-orders/modal-add-orders.jsx";
+import ListSuppliers from "@fragments/suppliers/suppliers/list-suppliers.jsx";
+import ListOrders from "@fragments/suppliers/orders/list-orders.jsx";
 import PageTemplate from "@layouts/template/page-template.jsx";
-import AppContext from "../../context/app/app-context.jsx";
+import { useAppContext } from "@context/app/app-provider.jsx";
 import { useEffect, useState, useContext } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 
 export default function Suppliers() {
-  const context = useContext(AppContext);
+  const context = useAppContext();
   const urlApi = context.urlApi;
   const apiKey = context.apiKey;
 
@@ -109,6 +109,7 @@ export default function Suppliers() {
 
 
   function filterSuppliers(searchTerm) {
+    setFilteredSuppliers(searchTerm);
     if (!searchTerm.trim()) {
       setListSuppliers(copyListSuppliers);
       return;
@@ -123,6 +124,7 @@ export default function Suppliers() {
   }
 
   function filterOrders(searchTerm) {
+    setFilteredOrders(searchTerm);
     if (!searchTerm.trim()) {
       setListOrders(copyListOrders);
       return;
@@ -130,8 +132,9 @@ export default function Suppliers() {
     const filtered = copyListOrders.filter((order) =>
       order.name_supplier
         .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
+        .includes(searchTerm.toLowerCase()
+          || order.number_order.toLowerCase().includes(searchTerm.toLowerCase())
+        ));
     setListOrders(filtered);
   }
 
@@ -161,48 +164,50 @@ export default function Suppliers() {
               </div>
 
               {/* Botones de acción */}
-              <div className="flex items-center gap-3 mt-4 md:mt-0">
-                <button
-                  onClick={() => setModalAddSuppliersIsOpen(true)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  Nuevo Proveedores
-                </button>
 
-                <button
-                  onClick={() => setModalAddOrdersIsOpen(true)}
-                  className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
+              <div className="flex items-center gap-3 mt-4 md:mt-0">
+                {sectionActived === "proveedores" && (
+                  <button
+                    onClick={() => setModalAddSuppliersIsOpen(true)}
+                    className="flex hover:cursor-pointer items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 12h6m2 8H7a2 2 0 01-2-2V6a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                  Nueva Orden
-                </button>
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                    Nuevo Proveedor
+                  </button>
+                )}
+                {sectionActived === "ordenes" && (
+                  <button
+                    onClick={() => setModalAddOrdersIsOpen(true)}
+                    className="flex hover:cursor-pointer items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
+                  >
+                     <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                    Nueva Orden
+                  </button>
+                )}
               </div>
             </div>
             <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-1 flex w-fit shadow">
@@ -235,7 +240,7 @@ export default function Suppliers() {
                         type="text"
                         placeholder="Buscar proveedores..."
                         className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
-                        onChange={(e) => filterSuppliers(setFilteredSuppliers(e.target.value))}
+                        onChange={(e) => filterSuppliers(e.target.value)}
                       />
                       <svg
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
@@ -255,7 +260,7 @@ export default function Suppliers() {
                       onClick={() => getMySuppliers()}
                       className="flex items-center gap-2 bg-blue-700 hover:bg-blue-500 hover:cursor-pointer text-white text-sm font-medium px-4 py-2 rounded-md"
                     >
-                      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                       </svg>
                     </button>
@@ -272,7 +277,7 @@ export default function Suppliers() {
                         type="text"
                         placeholder="Buscar proveedores..."
                         className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
-                        onChange={(e) => filterOrders(setFilteredOrders(e.target.value))}
+                        onChange={(e) => filterOrders(e.target.value)}
                       />
                       <svg
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
@@ -292,7 +297,7 @@ export default function Suppliers() {
                       onClick={() => getMyOrders()}
                       className="flex items-center gap-2 bg-blue-700 hover:bg-blue-500 hover:cursor-pointer text-white text-sm font-medium px-4 py-2 rounded-md"
                     >
-                      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
                       </svg>
                     </button>
@@ -309,10 +314,12 @@ export default function Suppliers() {
       <AddSuppliers
         isOpen={modalAddSuppliersIsOpen}
         onClose={() => setModalAddSuppliersIsOpen(false)}
+        getMySuppliers={getMySuppliers}
       ></AddSuppliers>
       <AddOrders
         isOpen={modalAddOrdersIsOpen}
         onClose={() => setModalAddOrdersIsOpen(false)}
+        getMyOrders={getMyOrders}
       ></AddOrders>
     </>
   );

@@ -1,9 +1,9 @@
-import { StrictMode } from "react";
+import { AppProvider } from "@context/app/app-provider.jsx";
 import { createRoot } from "react-dom/client";
 import { HashRouter } from "react-router-dom";
-import AppProvider from "./context/app/context-provider";
-import App from "./app/app";
+import { StrictMode } from "react";
 import Modal from "react-modal";
+import App from "./app/app";
 import "./index.css";
 
 Modal.setAppElement("#root");

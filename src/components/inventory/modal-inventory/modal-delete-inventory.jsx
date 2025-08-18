@@ -15,7 +15,6 @@ export default function DeleteInventory({
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   async function handleDeleteProduct() {
-    debugger;
     if (!info) return "Datos incompletos";
 
     toast.promise(

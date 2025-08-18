@@ -16,7 +16,6 @@ export default function DeleteBilling({
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   async function handleDeleteBilling() {
-    debugger;
     if (!info) return "Datos incompletos";
 
     toast.promise(

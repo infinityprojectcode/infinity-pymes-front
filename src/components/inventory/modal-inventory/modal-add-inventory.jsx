@@ -34,7 +34,6 @@ export default function AddInventory({
   }
 
   async function handleAddProduct() {
-    debugger;
     const data_inventory = {
       name: categoryName,
       category_id: categoryId,
