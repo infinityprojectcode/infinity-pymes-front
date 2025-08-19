@@ -78,33 +78,13 @@ export default function Suppliers() {
   function getMySuppliers() {
     setListSuppliers([]);
     setCopyListSuppliers([]);
-    toast.promise(fetchSuppliers(), {
-      loading: "Cargando datos...",
-      success: (ok) => {
-        if (ok) {
-          return "Datos obtenidos correctamente";
-        } else {
-          throw Error("Error al obtener los proveedores");
-        }
-      },
-      error: (msg) => `Error: ${msg}`,
-    });
+    fetchSuppliers();
   }
 
   function getMyOrders() {
     setListOrders([]);
     setCopylistOrders([]);
-    toast.promise(fetchOrders(), {
-      loading: "Cargando datos...",
-      success: (ok) => {
-        if (ok) {
-          return "Datos obtenidos correctamente";
-        } else {
-          throw Error("Error al obtener las ordenes de compra");
-        }
-      },
-      error: (msg) => `Error: ${msg}`,
-    });
+    fetchOrders();
   }
 
 
@@ -238,6 +218,7 @@ export default function Suppliers() {
                     <div className="relative w-full max-w-sm mb-4">
                       <input
                         type="text"
+                        value={filteredSuppliers}
                         placeholder="Buscar proveedores..."
                         className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
                         onChange={(e) => filterSuppliers(e.target.value)}
@@ -275,6 +256,7 @@ export default function Suppliers() {
                     <div className="relative w-full max-w-sm mb-4">
                       <input
                         type="text"
+                        value={filteredOrders}
                         placeholder="Buscar proveedores..."
                         className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
                         onChange={(e) => filterOrders(e.target.value)}
