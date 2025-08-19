@@ -10,7 +10,7 @@ export const AppProvider = ({ children }) => {
   };
   // Variables de entorno
   const urlApi = import.meta.env.VITE_API_URL;
-  const apiKey = import.meta.env.VITE_API_TK;
+  const apiKey = import.meta.env.VITE_API_KEY;
 
   const [theme, setTheme] = useState("light");
   const [language, setLanguage] = useState("es");
