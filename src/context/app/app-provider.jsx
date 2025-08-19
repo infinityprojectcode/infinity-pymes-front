@@ -8,7 +8,7 @@ export const AppProvider = ({ children }) => {
   AppProvider.propTypes = {
     children: PropTypes.node.isRequired,
   };
-
+  // Variables de entorno
   const urlApi = import.meta.env.VITE_API_URL;
   const apiKey = import.meta.env.VITE_API_TK;
 
