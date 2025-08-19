@@ -12,8 +12,6 @@ export const AppProvider = ({ children }) => {
   const urlApi = import.meta.env.VITE_API_URL;
   const apiKey = import.meta.env.VITE_API_TK;
 
-  alert("Api URL: " + urlApi);
-
   const [theme, setTheme] = useState("light");
   const [language, setLanguage] = useState("es");
 
