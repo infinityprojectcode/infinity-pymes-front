@@ -9,6 +9,7 @@ export default function AddBilling({
   onClose,
   urlApi,
   apiKey,
+  contextAuth,
   refresh,
 }) {
   const [customers, setCustomers] = useState([]);
@@ -27,6 +28,7 @@ export default function AddBilling({
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setCustomers(response.data);
@@ -43,6 +45,7 @@ export default function AddBilling({
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setProducts(response.data);
@@ -82,6 +85,7 @@ export default function AddBilling({
     });
 
     const data_inventory = {
+      business_id: contextAuth.user.business_id,
       customer_id: Number(customersId),
       expiration_at: expirationAt,
       details,
