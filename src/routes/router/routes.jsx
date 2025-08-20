@@ -59,7 +59,7 @@ export const appRoutes = [
   {
     id: crypto.randomUUID(),
     path: "/billing",
-    name: "Facturacion",
+    name: "Facturación",
     element: Billing,
     icon: <BillingIcon />,
   },
