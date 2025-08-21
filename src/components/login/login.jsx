@@ -78,7 +78,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col justify-center md:flex-row-reverse h-screen w-full bg-gradient-to-r from-slate-700 relative overflow-hidden">
+    <div className="flex flex-col gap-2 md:gap-0 justify-center md:flex-row-reverse h-screen w-full bg-gradient-to-r from-slate-700 relative overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center w-full">
         <img
           className="absolute inset-0 object-cover h-full w-full -z-10"
@@ -102,19 +102,19 @@ export default function Login() {
       </div>
       <div className="relative flex flex-col items-center md:w-2/5 bg-transparent md:bg-white">
         <div className="flex flex-col items-center justify-around w-full h-full px-8 py-4">
-          <section className="p-4 bg-gradient-to-b from-[#00003e] to-[#020a20] md:bg-white text-white md:text-black md:bg-none rounded-lg">
+          <section className="p-4 bg-transparent md:bg-white text-white md:text-black md:bg-none rounded-lg">
             <h1 className="text-4xl font-bold pb-2 text-center md:text-left"> Iniciar sesión</h1>
-            <div className="pb-2 text-center md:text-left">
+            <div className="hidden md:flex md:flex-col pb-2 text-center md:text-left">
               <p className="text-2xl font-light">Inicia sesión en tu cuenta.</p>
               <p className="text-2xl font-light">
                 Si no tienes cuenta, puedes registrarte aquí.
               </p>
             </div>
             <form className="h-full" onSubmit={handleLogin}>
-              <div className="mb-4">
+              <div className="mb-4 text-white">
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-lg font-medium text-gray-900"
+                  className="block mb-2 text-lg font-medium md:text-gray-900"
                 >
                   Usuario
                 </label>
@@ -131,7 +131,7 @@ export default function Login() {
               <div className="mb-6">
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-lg font-medium text-gray-900"
+                  className="block mb-2 text-lg font-medium md:text-gray-900"
                 >
                   Contraseña
                 </label>
@@ -145,13 +145,13 @@ export default function Login() {
                   required
                 />
               </div>
-              <div className="flex items-start mb-6">
+              <div className="flex flex-col md:flex-row justify-between items-start mb-6">
                 <Link to="#" className="text-white md:text-gray-800 hover:text-blue-700">
                   Olvidaste tu contraseña?
                 </Link>
                 <Link
                   to="/signup"
-                  className="ml-auto text-white md:text-gray-800 hover:text-blue-700"
+                  className="text-white md:text-gray-800 hover:text-blue-700"
                 >
                   Registrate
                 </Link>
@@ -166,7 +166,7 @@ export default function Login() {
                 </div>
                 <label
                   htmlFor="remember"
-                  className="ml-2 text-sm font-medium text-gray-900"
+                  className="ml-2 text-sm font-medium text-white md:text-gray-900"
                 >
                   Recordarme
                 </label>
