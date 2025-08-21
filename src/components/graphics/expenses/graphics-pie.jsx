@@ -1,15 +1,45 @@
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { useState, useEffect } from "react";
+import { useAppContext } from "@context/app/app-provider.jsx";
+import { useAuth } from "@context/auth/auth-provider";
+import axios from "axios";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 export default function GraphicsPie() {
+  const context = useAppContext();
+  const contextAuth = useAuth();
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+  const [chartTwoExpenses, setChartTwoExpenses] = useState([]);
+
+  function getChartTwoExpenses() {
+    axios
+      .get(`${urlApi}expenses/g/expenses-chart-two`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setChartTwoExpenses(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+    getChartTwoExpenses();
+  }, []);
+
   const data = {
-    labels: ["Alquiler", "Sevicios", "Suministros"],
+    labels: chartTwoExpenses.map((item) => item.categoria),
     datasets: [
       {
-        data: [85, 10, 5],
+        data: chartTwoExpenses.map((item) => item.porcentaje),
         backgroundColor: ["#4285F4", "#10B981", "#F59E0B"],
         borderColor: "#fff",
         borderWidth: 2,

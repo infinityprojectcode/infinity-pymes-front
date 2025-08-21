@@ -3,6 +3,7 @@ import DeleteInventory from "./modal-inventory/modal-delete-inventory.jsx";
 import EditInventory from "./modal-inventory/modal-edit-inventory.jsx";
 import AddInventory from "./modal-inventory/modal-add-inventory.jsx";
 import { useAppContext } from "@context/app/app-provider.jsx";
+import { useAuth } from "@context/auth/auth-provider";
 import { useState, useEffect, useContext } from "react";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import bebidas from "@assets/images/bebida.webp";
@@ -10,6 +11,7 @@ import axios from "axios";
 
 export default function ListInventory() {
   const context = useAppContext();
+  const contextAuth = useAuth();
   const urlApi = context.urlApi;
   const apiKey = context.apiKey;
   const [modalIsOpenOne, setModalIsOpenOne] = useState(false);
@@ -27,6 +29,7 @@ export default function ListInventory() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setInventory(response.data);
@@ -150,6 +153,7 @@ export default function ListInventory() {
         onClose={() => setModalIsOpenOne(false)}
         urlApi={urlApi}
         apiKey={apiKey}
+        contextAuth={contextAuth}
         refresh={() => getInventory()}
       ></AddInventory>
 

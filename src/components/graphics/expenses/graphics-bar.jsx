@@ -7,26 +7,69 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useState, useEffect } from "react";
+import { useAppContext } from "@context/app/app-provider.jsx";
+import { useAuth } from "@context/auth/auth-provider";
+import axios from "axios";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function GraphicsBar() {
+  const context = useAppContext();
+  const contextAuth = useAuth();
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+  const [chartOneExpenses, setChartOneExpenses] = useState([]);
+
+  function getChartOneExpenses() {
+    axios
+      .get(`${urlApi}expenses/g/expenses-chart-one`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setChartOneExpenses(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+    getChartOneExpenses();
+  }, []);
+
   const data = {
-    labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+    labels: [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic",
+    ],
     datasets: [
       {
         label: "Ingresos",
-        data: [15000, 18500, 17000, 19500, 17000, 20000],
-        backgroundColor: "#10b981", // verde
+        data: chartOneExpenses.map((item) => item.ingresos),
+        backgroundColor: "#10b981",
         borderRadius: 4,
-        barThickness: 30,
+        barThickness: 15,
       },
       {
         label: "Gastos",
-        data: [9000, 9500, 9200, 9700, 9300, 9800],
-        backgroundColor: "#ef4444", // rojo
+        data: chartOneExpenses.map((item) => item.gastos),
+        backgroundColor: "#ef4444",
         borderRadius: 4,
-        barThickness: 30,
+        barThickness: 15,
       },
     ],
   };
@@ -43,7 +86,10 @@ export default function GraphicsBar() {
         mode: "index",
         intersect: false,
         callbacks: {
-          label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}`,
+          label: (ctx) =>
+            `${ctx.dataset.label}: $${Intl.NumberFormat("es-CO").format(
+              ctx.parsed.y
+            )}`,
         },
       },
     },
@@ -51,15 +97,15 @@ export default function GraphicsBar() {
       y: {
         beginAtZero: true,
         min: 0,
-        max: 20000,
+        max: 50000,
         ticks: {
-          stepSize: 5000,
+          stepSize: 10000,
           color: "rgba(255, 255, 255, 0.7)",
           font: {
             size: 12,
             weight: "bold",
           },
-          callback: (value) => value.toLocaleString(),
+          callback: (value) => `$${Intl.NumberFormat("es-CO").format(value)}`,
         },
         grid: {
           color: "rgba(255, 255, 255, 0.1)",

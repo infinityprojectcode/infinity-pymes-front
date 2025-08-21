@@ -2,6 +2,7 @@ import AddBilling from "./modal-billing/modal-add-billing.jsx";
 import ViewBilling from "./modal-billing/modal-view-billing.jsx";
 import DeleteBilling from "./modal-billing/modal-delete-billing.jsx";
 import { useAppContext } from "@context/app/app-provider.jsx";
+import { useAuth } from "@context/auth/auth-provider";
 import { Plus, Search, Eye, Trash2 } from "lucide-react";
 import { useState, useEffect, useContext } from "react";
 import { toast } from "sonner";
@@ -9,6 +10,7 @@ import axios from "axios";
 
 export default function ListBilling() {
   const context = useAppContext();
+  const contextAuth = useAuth();
   const urlApi = context.urlApi;
   const apiKey = context.apiKey;
 
@@ -26,6 +28,7 @@ export default function ListBilling() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setBilling(response.data);
@@ -145,6 +148,7 @@ export default function ListBilling() {
         onClose={() => setModalAddIsOpen(false)}
         urlApi={urlApi}
         apiKey={apiKey}
+        contextAuth={contextAuth}
         refresh={() => getBilling()}
       ></AddBilling>
 
