@@ -9,6 +9,7 @@ export default function AddInventory({
   onClose,
   urlApi,
   apiKey,
+  contextAuth,
   refresh,
 }) {
   const [category, setCategory] = useState([]);
@@ -35,6 +36,7 @@ export default function AddInventory({
 
   async function handleAddProduct() {
     const data_inventory = {
+      business_id: contextAuth.user.business_id,
       name: categoryName,
       category_id: categoryId,
       price: categoryPrice,
