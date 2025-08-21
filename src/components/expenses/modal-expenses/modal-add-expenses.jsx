@@ -7,6 +7,7 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [funds, setFunds] = useState([]);
 
   function getExpenseTypes() {
     axios
@@ -56,10 +57,27 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
       });
   }
 
+  function getFunds() {
+    axios
+      .get(`${urlApi}expenses/g/funds`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+      })
+      .then((response) => {
+        setFunds(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   useEffect(() => {
     getExpenseTypes();
     getSuppliers();
     getPaymentMethods();
+    getFunds();
   }, []);
 
   return (
@@ -93,7 +111,7 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
           </div>
 
           {/* Formulario */}
-          <form className="space-y-4">
+          <div className="space-y-4">
             {/* Descripción */}
             <div>
               <h2 className="font-medium mb-2">Descripción</h2>
@@ -165,14 +183,29 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
               </div>
             </div>
 
+            <div>
+              <h2 className="font-medium mb-2">Cuentas</h2>
+              <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer">
+                <option value="" disabled>
+                  Seleccionar cuenta
+                </option>
+                {funds.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}: $
+                    {Intl.NumberFormat("es-CO").format(cat.amount)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Botón */}
             <button
-              type="submit"
+              // onClick={}
               className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
             >
               Registrar Gasto
             </button>
-          </form>
+          </div>
         </div>
       </Modal>
     </div>
