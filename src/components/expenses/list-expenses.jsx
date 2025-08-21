@@ -266,6 +266,8 @@ export default function ListExpenses() {
       <AddExpenses
         isOpen={modalAddIsOpen}
         onClose={() => setModalAddIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
       ></AddExpenses>
     </>
   );
