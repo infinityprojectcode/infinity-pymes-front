@@ -2,12 +2,27 @@ import Modal from "react-modal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { X } from "lucide-react";
+import { toast } from "sonner";
 
-export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
+export default function AddExpenses({
+  isOpen,
+  onClose,
+  urlApi,
+  apiKey,
+  contextAuth,
+  refresh,
+}) {
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [funds, setFunds] = useState([]);
+
+  const [fundsId, setFundsId] = useState("");
+  const [supplierId, setSupplierId] = useState("");
+  const [paymentMethodId, setPaymentMethodId] = useState("");
+  const [description, setDescription] = useState("");
+  const [expenseTypeId, setExpenseTypeId] = useState("");
+  const [amount, setAmount] = useState("");
 
   function getExpenseTypes() {
     axios
@@ -73,6 +88,53 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
       });
   }
 
+  async function handleAddExpense() {
+    const data_inventory = {
+      business_id: contextAuth.user.business_id,
+      fund_id: fundsId,
+      user_id: contextAuth.user.id,
+      supplier_id: supplierId,
+      payment_method: paymentMethodId,
+      description: description,
+      state: "pending",
+      expense_type_id: expenseTypeId,
+      amount: amount,
+    };
+
+    toast.promise(
+      axios
+        .post(`${urlApi}expenses/i/expenses`, data_inventory, {
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": apiKey,
+          },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            setFundsId("");
+            setSupplierId("");
+            setPaymentMethodId("");
+            setDescription("");
+            setExpenseTypeId("");
+            setAmount("");
+            // setLoading(false);
+            refresh();
+            onClose();
+            return "Producto agregado con éxito";
+          } else {
+            throw new Error(
+              "Error al agregar el producto: " + response.data.message
+            );
+          }
+        }),
+      {
+        loading: "Guardando cambios...",
+        success: (msg) => msg,
+        error: (err) => err.message || "Error en la solicitud de guardado",
+      }
+    );
+  }
+
   useEffect(() => {
     getExpenseTypes();
     getSuppliers();
@@ -119,6 +181,9 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
                 type="text"
                 placeholder="Descripción del gasto"
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
               />
             </div>
 
@@ -127,7 +192,12 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
               <div className="flex-1 flex flex-col">
                 <h2 className="font-medium mb-2">Categoría</h2>
                 <div className="space-y-2">
-                  <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer">
+                  <select
+                    className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer"
+                    value={expenseTypeId}
+                    onChange={(e) => setExpenseTypeId(e.target.value)}
+                    required
+                  >
                     <option value="" disabled>
                       Seleccionar categoría
                     </option>
@@ -146,6 +216,9 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
                   step="1"
                   placeholder="1.000"
                   className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -154,7 +227,12 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
               <div className="flex flex-col flex-1">
                 <h2 className="font-medium mb-2">Método de Pago</h2>
                 <div className="space-y-2">
-                  <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer">
+                  <select
+                    className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer"
+                    value={paymentMethodId}
+                    onChange={(e) => setPaymentMethodId(e.target.value)}
+                    required
+                  >
                     <option value="" disabled>
                       Seleccionar método
                     </option>
@@ -169,7 +247,12 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
               <div className="flex-1">
                 <h2 className="font-medium mb-2">Proveedor</h2>
                 <div className="space-y-2">
-                  <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer">
+                  <select
+                    className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer"
+                    value={supplierId}
+                    onChange={(e) => setSupplierId(e.target.value)}
+                    required
+                  >
                     <option value="" disabled>
                       Seleccionar proveedor
                     </option>
@@ -185,14 +268,18 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
 
             <div>
               <h2 className="font-medium mb-2">Cuentas</h2>
-              <select className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer">
+              <select
+                className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 cursor-pointer"
+                value={fundsId}
+                onChange={(e) => setFundsId(e.target.value)}
+                required
+              >
                 <option value="" disabled>
                   Seleccionar cuenta
                 </option>
                 {funds.map((cat) => (
                   <option key={cat.id} value={cat.id}>
-                    {cat.name}: $
-                    {Intl.NumberFormat("es-CO").format(cat.amount)}
+                    {cat.name}: ${Intl.NumberFormat("es-CO").format(cat.amount)}
                   </option>
                 ))}
               </select>
@@ -200,8 +287,8 @@ export default function AddExpenses({ isOpen, onClose, urlApi, apiKey }) {
 
             {/* Botón */}
             <button
-              // onClick={}
-              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+              onClick={() => handleAddExpense()}
+              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
             >
               Registrar Gasto
             </button>

@@ -268,6 +268,8 @@ export default function ListExpenses() {
         onClose={() => setModalAddIsOpen(false)}
         urlApi={urlApi}
         apiKey={apiKey}
+        contextAuth={contextAuth}
+        refresh={() => getRecordsExpenses()}
       ></AddExpenses>
     </>
   );
