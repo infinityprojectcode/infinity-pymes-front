@@ -1,7 +1,35 @@
 import Modal from "react-modal";
 import { useState } from "react";
 
-export default function AddCustomer({ isOpen, onClose }) {
+export default function AddCustomer({ isOpen, onClose, onSubmit }) {
+  // Estado local del formulario
+  const [formData, setFormData] = useState({
+  id: "",
+  business_id: "",
+  name: "",
+  lastname: "",
+  email: "",
+  phone: "",
+  address: "",
+  total_purchases: ""
+});
+
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Manejo de envío
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData); // Llama al padre y pasa los datos
+    setFormData({ id: "", business_id: "", name: "", lastname: "", email: "", phone: "", address: "", total_purchases: "" }); // Limpia form
+    onClose(); // Cierra modal
+  };
+
   return (
     <div>
       <Modal
@@ -28,33 +56,21 @@ export default function AddCustomer({ isOpen, onClose }) {
               onClick={onClose}
               className="text-slate-400 hover:text-red-400"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              ✕
             </button>
           </div>
 
           {/* Formulario */}
-          <form action="" className="space-y-4">
-            {/* Nombre */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Nombre y Apellido */}
             <div className="flex gap-4">
               <div>
                 <label className="block mb-1">Nombre de pila</label>
                 <input
                   type="text"
-                  name="nombre"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="John"
                   className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:white"
                   required
@@ -64,44 +80,52 @@ export default function AddCustomer({ isOpen, onClose }) {
                 <label className="block mb-1">Apellido</label>
                 <input
                   type="text"
-                  name="nombre"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleChange}
                   placeholder="Gomez"
                   className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:white"
                   required
                 />
-              </div>
+              </div>  
             </div>
 
-            {/* Categoría */}
+            {/* Email */}
             <div>
               <label className="block mb-1">Email</label>
               <input
-                type="text"
+                type="email"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="john.gomez@email.com"
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:white"
                 required
               />
             </div>
 
-            {/* Cantidad */}
+            {/* Teléfono */}
             <div>
               <label className="block mb-1">Teléfono</label>
               <input
                 type="tel"
                 name="phone"
-                className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 text-white"
+                value={formData.phone}
+                onChange={handleChange}
                 placeholder="+57 301 356 78 98"
+                className="w-full p-2 rounded bg-slate-800 border border-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 text-white"
                 required
               />
             </div>
 
-            {/* Imagen */}
+            {/* Dirección */}
             <div>
               <label className="block mb-1">Dirección</label>
               <input
                 type="text"
                 name="direccion"
+                value={formData.address}
+                onChange={handleChange}
                 placeholder="Calle 45 # 12-30, Bogotá"
                 className="border border-gray-400 p-2 rounded w-full focus:outline-none focus:ring-2 focus:white"
               />
