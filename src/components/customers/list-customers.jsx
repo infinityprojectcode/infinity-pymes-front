@@ -5,9 +5,39 @@ import CustomerIcon from "@assets/icons/customer-icon";
 import CurrencyDolarIcon from "@assets/icons/currency-dolar-icon";
 import AddCustomer from "./modal-add-customer/modal-add-customer.jsx";
 import ShowCustomer from "./modal-show-customer/modal-show-customer.jsx";
-import List from "./list-data/list-data.jsx";
+import { useAppContext } from "@context/app/app-provider.jsx";
+import { useAuth } from "@context/auth/auth-provider";
+import axios from "axios";
 
 export default function ListCustomers() {
+  const context = useAppContext();
+  const contextAuth = useAuth();
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+
+  const [customers, setCustomers] = useState([]);
+
+  function getCustomers() {
+    axios
+      .get(`${urlApi}customers/g/customers-all`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setCustomers(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+    getCustomers();
+  }, []);
+
   const [idCustomer, setIdCustomer] = useState("");
   const [firstNameCustomer, setFirstNameCustomer] = useState("");
   const [lastNameCustomer, setLastNameCustomer] = useState("");
@@ -24,6 +54,10 @@ export default function ListCustomers() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [showIsOpen, setShowIsOpen] = useState(false);
+
+  const handleAddCustomer = (nuevoCliente) => {
+    setCustomers([...customers, nuevoCliente]);
+  };
 
   {
     /*
@@ -84,6 +118,13 @@ export default function ListCustomers() {
   }, [listCustomer]);*/
   }
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredCustomers = customers.filter((customer) => {
+    const fullName = `${customer.name} ${customer.lastname}`.toLowerCase();
+    return fullName.includes(searchTerm.toLowerCase());
+  });
+
   return (
     <>
       <div className="flex flex-col">
@@ -117,8 +158,11 @@ export default function ListCustomers() {
           <input
             type="text"
             placeholder="Buscar clientes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
           />
+
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
             xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +179,7 @@ export default function ListCustomers() {
           </svg>
         </div>
         <div className="grid grid-cols-1 w-full sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {List.map((customer) => (
+          {filteredCustomers.map((customer) => (
             <div
               key={customer.id}
               className="bg-slate-900 text-white p-4 rounded-lg shadow-md w-full space-y-2"
@@ -143,20 +187,19 @@ export default function ListCustomers() {
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-lg font-bold">
-                    {customer.first_name}
-                    {customer.last_name}
+                    {`${customer.name} ${customer.lastname}`}
                   </h2>
                   <p className="text-sm text-slate-400">{customer.email}</p>
                 </div>
                 <div className="bg-green-700 text-sm px-3 py-1 rounded-full font-medium">
-                  ${customer.total_product_price.toLocaleString("es-CO")}
+                  ${customer.total_purchases}
                 </div>
               </div>
               <div className="flex items-center text-slate-400 text-sm gap-2">
                 <span>+57 {customer.phone}</span>
               </div>
               <div className="flex items-center text-slate-400 text-sm gap-2">
-                <span>{customer.direction}</span>
+                <span>{customer.address}</span>
               </div>
               <button
                 onClick={() => {
@@ -170,10 +213,16 @@ export default function ListCustomers() {
             </div>
           ))}
         </div>
+        {filteredCustomers.length === 0 && (
+          <p className="text-white text-center mt-4">
+            No se encontraron clientes con ese nombre.
+          </p>
+        )}
       </div>
       <AddCustomer
         isOpen={modalIsOpen}
         onClose={() => setModalIsOpen(false)}
+        onSubmit={handleAddCustomer}
       ></AddCustomer>
       <ShowCustomer
         isOpen={showIsOpen}
