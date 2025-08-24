@@ -31,6 +31,7 @@ export default function AddExpenses({
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setExpenseTypes(response.data);
@@ -79,6 +80,7 @@ export default function AddExpenses({
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setFunds(response.data);

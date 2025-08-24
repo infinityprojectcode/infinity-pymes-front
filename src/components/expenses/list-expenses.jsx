@@ -34,6 +34,7 @@ export default function ListExpenses() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setTotalExpenses(response.data[0]);
@@ -50,6 +51,7 @@ export default function ListExpenses() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setTotalMonthExpenses(response.data[0]);
@@ -66,6 +68,7 @@ export default function ListExpenses() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setTotalOutstandingExpenses(response.data[0]);
@@ -82,6 +85,7 @@ export default function ListExpenses() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setTotalActiveCategories(response.data[0]);
@@ -98,6 +102,7 @@ export default function ListExpenses() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setRecordsExpenses(response.data);

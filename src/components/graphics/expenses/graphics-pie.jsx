@@ -22,6 +22,7 @@ export default function GraphicsPie() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setChartTwoExpenses(response.data);
@@ -86,10 +87,8 @@ export default function GraphicsPie() {
         Distribución por Categorías
       </h1>
 
-      <div className="w-full flex justify-center items-center h-full">
-        <div className="w-full h-48 ">
-          <Pie data={data} options={options} />
-        </div>
+      <div className="w-full flex justify-center items-center h-64">
+        <Pie data={data} options={options} />
       </div>
     </div>
   );

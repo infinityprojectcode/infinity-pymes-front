@@ -28,6 +28,7 @@ export default function GraphicsBar() {
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setChartOneExpenses(response.data);
