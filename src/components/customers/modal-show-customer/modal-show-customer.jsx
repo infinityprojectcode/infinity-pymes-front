@@ -21,7 +21,7 @@ export default function ShowCustomer({ isOpen, onClose, customer }) {
         }}
       >
         <div className="flex flex-col gap-4 bg-slate-900 text-white p-6 rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-end mb-4">
             <h1 className="font-bold text-2xl">Detalles del cliente</h1>
             <button
               onClick={onClose}
@@ -29,8 +29,8 @@ export default function ShowCustomer({ isOpen, onClose, customer }) {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
+                width="28"
+                height="28"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -47,11 +47,11 @@ export default function ShowCustomer({ isOpen, onClose, customer }) {
           <div className="grid grid-cols-2 w-full">
             <div className="flex flex-col">
               <h3>Nombre de pila</h3>
-              <p>{customer?.first_name || "—"}</p>
+              <p>{customer?.name || "—"}</p>
             </div>
             <div className="flex flex-col">
               <h3>Apellido</h3>
-              <p>{customer?.last_name || "—"}</p>
+              <p>{customer?.lastname || "—"}</p>
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
@@ -113,13 +113,13 @@ export default function ShowCustomer({ isOpen, onClose, customer }) {
                 <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              <p>{customer?.direction || "—"}</p>
+              <p>{customer?.address || "—"}</p>
             </div>
           </div>
           <div className="flex flex-col">
             <h3>Total gastado</h3>
             <p className="text-green-500 font-bold text-2xl">
-              ${customer?.total_product_price?.toLocaleString() || "—"}
+              ${customer?.total_purchases || "—"}
             </p>
           </div>
           <div className="flex flex-col gap-3">
