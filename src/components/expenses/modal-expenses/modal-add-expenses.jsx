@@ -48,6 +48,7 @@ export default function AddExpenses({
           "Content-Type": "application/json",
           "api-key": apiKey,
         },
+        params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
         setSuppliers(response.data);
