@@ -16,7 +16,7 @@ export default function ListMovements() {
 
   const movements = [
     {
-      date: "2025-01-24 10:30",
+      date: "2025-01-24 - 10:30",
       type_movement: "Ingreso",
       description: "Venta de productos electrónicos",
       category: "Ventas",
@@ -25,16 +25,16 @@ export default function ListMovements() {
       reference: "FAC-001",
     },
     {
-      date: "2025-01-24 14:15",
+      date: "2025-01-24 - 14:15",
       type_movement: "Egreso",
       description: "Compra de suministros de oficina",
       category: "Suministros",
       payment_method: "Transferencia",
-      amount: -500,
+      amount: 5000,
       reference: "REC-001",
     },
     {
-      date: "2025-01-24 16:45",
+      date: "2025-01-24 - 16:45",
       type_movement: "Ingreso",
       description: "Pago de cliente",
       category: "Cobros",
@@ -51,8 +51,8 @@ export default function ListMovements() {
       saldoInicial: 5000,
       ingresos: 3200,
       expenses: 1800,
-      saldoFinal: 6400,
-      conteo: 6350,
+      saldoEsperado: 6400,
+      conteoReal: 6350,
       diferencia: -50,
     },
     {
@@ -61,38 +61,62 @@ export default function ListMovements() {
       saldoInicial: 6400,
       ingresos: 2800,
       expenses: 1900,
-      saldoFinal: 7300,
-      conteo: 7300,
+      saldoEsperado: 7300,
+      conteoReal: 7300,
       diferencia: 0,
     },
     {
       id: 3,
       date: "2025-01-25",
-      saldoInicial: 7300,
-      ingresos: 1500,
-      expenses: 700,
-      saldoFinal: 8100,
-      conteo: 8000,
-      diferencia: -100,
+      saldoInicial: 10000,
+      ingresos: 5000,
+      expenses: 3000,
+      saldoEsperado: 12000,
+      conteoReal: 8000,
+      diferencia: -4000,
     },
     {
       id: 4,
       date: "2025-01-26",
-      saldoInicial: 8100,
-      ingresos: 2200,
-      expenses: 1000,
-      saldoFinal: 9300,
-      conteo: 9350,
-      diferencia: 50,
+      saldoInicial: 10000,
+      ingresos: 5000,
+      expenses: 3000,
+      saldoEsperado: 12000,
+      conteoReal: 16000,
+      diferencia: 4000,
     },
   ];
 
-  const getStatus = (status) => {
-    if (status == "Atrasado") return { name: "Atrasado", color: "bg-red-500" };
-    if (status == "Pendiente")
-      return { name: "Pendiente", color: "bg-yellow-500" };
-    return { name: "Pagado", color: "bg-green-500" };
+  const getStatusMovements = (status) => {
+    if (status == "Ingreso")
+      return {
+        name: "Ingreso",
+        bg_color: "bg-green-700",
+        operator: "+",
+        txt_color: "text-green-500",
+      };
+    return {
+      name: "Egreso",
+      bg_color: "bg-red-700",
+      operator: "-",
+      txt_color: "text-red-500",
+    };
   };
+
+  const getStatusDailyClosing = (status) => {
+    if (status >= 0)
+      return {
+        value: status,
+        operator: "+",
+        txt_color: "text-green-500",
+      };
+    return {
+      value: status,
+      operator: "-",
+      txt_color: "text-red-500",
+    };
+  };
+
   return (
     <>
       <div className="w-full h-full space-y-6">
@@ -135,7 +159,7 @@ export default function ListMovements() {
               <TrendingUp className="h-5 w-5 text-green-500" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-green-500">$0.00</h2>
+              <h2 className="text-2xl font-bold text-green-500">$0</h2>
             </div>
           </div>
 
@@ -146,7 +170,7 @@ export default function ListMovements() {
               <TrendingDown className="h-5 w-5 text-red-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-red-500">$0.00</h2>
+              <h2 className="text-2xl font-bold text-red-500">$0</h2>
             </div>
           </div>
 
@@ -157,7 +181,7 @@ export default function ListMovements() {
               <DollarSign className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-green-500">$0.00</h2>
+              <h2 className="text-2xl font-bold text-green-500">$0</h2>
             </div>
           </div>
 
@@ -209,57 +233,51 @@ export default function ListMovements() {
         {/* Secciones dinámicas */}
         <div className="mt-4">
           {sectionActiva === "movimientos" && (
-            <div className="w-full overflow-x-auto bg-[#0d1117] text-white p-6 rounded-lg">
+            <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117] text-white p-6">
               <h2 className="text-xl font-bold mb-4">Movimientos Recientes</h2>
-              <div className="min-w-[680px]">
-                {/* Encabezados */}
-                <div className="grid grid-cols-7 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
-                  <div>Fecha/Hora</div>
-                  <div>Tipo</div>
-                  <div>Descripción</div>
-                  <div>Categoría</div>
-                  <div>Método</div>
-                  <div>Monto</div>
-                  <div>Referencia</div>
-                </div>
-
-                {/* Filas */}
-                {movements.map((item) => {
-                  const colorTipo =
-                    item.type_movement === "Ingreso"
-                      ? "bg-green-700"
-                      : "bg-red-700";
-                  const colorMonto =
-                    item.amount >= 0 ? "text-green-500" : "text-red-500";
-                  const montoFormateado =
-                    item.amount >= 0
-                      ? `+$${item.amount}.00`
-                      : `-$${Math.abs(item.amount)}.00`;
-
-                  return (
-                    <div
-                      key={item.id}
-                      className="grid grid-cols-7 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-                    >
-                      <div>{item.date}</div>
-                      <div>
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-semibold ${colorTipo}`}
-                        >
-                          {item.type_movement}
-                        </span>
-                      </div>
-                      <div>{item.description}</div>
-                      <div>{item.category}</div>
-                      <div>{item.payment_method}</div>
-                      <div className={`font-bold ${colorMonto}`}>
-                        {montoFormateado}
-                      </div>
-                      <div>{item.reference}</div>
-                    </div>
-                  );
-                })}
-              </div>
+              <table className="min-w-full shadow-md rounded-lg">
+                <thead className="text-sm">
+                  <tr>
+                    <th className="px-4 py-2 text-left">Fecha - Hora</th>
+                    <th className="px-4 py-2 text-left">Tipo</th>
+                    <th className="px-4 py-2 text-left">Descripción</th>
+                    <th className="px-4 py-2 text-left">Categoría</th>
+                    <th className="px-4 py-2 text-left">Método</th>
+                    <th className="px-4 py-2 text-left">Monto</th>
+                    <th className="px-4 py-2 text-left">Referencia</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {movements.map((item) => {
+                    const auxiliar = getStatusMovements(item.type_movement);
+                    return (
+                      <tr
+                        key={item.id}
+                        className="text-sm border-t border-gray-700 hover:bg-gray-800 transition"
+                      >
+                        <td className="px-4 py-2">{item.date}</td>
+                        <td className="px-4 py-2">
+                          <span
+                            className={`${auxiliar.bg_color} flex justify-center align-center rounded-sm font-semibold`}
+                          >
+                            {auxiliar.name}
+                          </span>
+                        </td>
+                        <td className="px-4 py-2">{item.description}</td>
+                        <td className="px-4 py-2">{item.category}</td>
+                        <td className="px-4 py-2">{item.payment_method}</td>
+                        <td>
+                          <div className={`font-bold ${auxiliar.txt_color}`}>
+                            {auxiliar.operator}$
+                            {Intl.NumberFormat("es-CO").format(item.amount)}
+                          </div>
+                        </td>
+                        <td className="px-4 py-2">{item.reference}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           )}
 
@@ -275,19 +293,19 @@ export default function ListMovements() {
                   </h3>
                   <div className="flex justify-between mb-2">
                     <span>Efectivo</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span>Transferencia</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span>Tarjeta</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Cheque</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                 </div>
 
@@ -298,19 +316,19 @@ export default function ListMovements() {
                   </h3>
                   <div className="flex justify-between mb-2">
                     <span>Ventas</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span>Cobros</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span>Servicios</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Otros Ingresos</span>
-                    <span className="text-green-400 font-semibold">$0.00</span>
+                    <span className="text-green-400 font-semibold">$0</span>
                   </div>
                 </div>
 
@@ -321,19 +339,19 @@ export default function ListMovements() {
                   </h3>
                   <div className="flex justify-between mb-2">
                     <span>Suministros</span>
-                    <span className="text-red-400 font-semibold">$0.00</span>
+                    <span className="text-red-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span>Servicios</span>
-                    <span className="text-red-400 font-semibold">$0.00</span>
+                    <span className="text-red-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span>Mantenimiento</span>
-                    <span className="text-red-400 font-semibold">$0.00</span>
+                    <span className="text-red-400 font-semibold">$0</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Otros Gastos</span>
-                    <span className="text-red-400 font-semibold">$0.00</span>
+                    <span className="text-red-400 font-semibold">$0</span>
                   </div>
                 </div>
               </div>
@@ -341,55 +359,64 @@ export default function ListMovements() {
           )}
 
           {sectionActiva === "cierre" && (
-            <div className="w-full overflow-x-auto bg-[#0d1117] text-white p-6 rounded-lg">
+            <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117] text-white p-6">
               <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
-              <div className="min-w-[680px]">
-                {/* Encabezados */}
-                <div className="grid grid-cols-7 text-sm text-gray-400 border-b border-gray-600 pb-2 px-4">
-                  <div>Fecha</div>
-                  <div>Saldo Inicial</div>
-                  <div>Ingresos</div>
-                  <div>Egresos</div>
-                  <div>Saldo Final</div>
-                  <div>Conteo</div>
-                  <div>Diferencia</div>
-                </div>
+              <table className="min-w-full shadow-md rounded-lg">
+                <thead className="text-sm">
+                  <tr>
+                    <th className="px-4 py-2 text-left">Fecha</th>
+                    <th className="px-4 py-2 text-left">Saldo Inicial</th>
+                    <th className="px-4 py-2 text-left">Ingresos</th>
+                    <th className="px-4 py-2 text-left">Egresos</th>
+                    <th className="px-4 py-2 text-left">Saldo Esperado</th>
+                    <th className="px-4 py-2 text-left">Conteo Final</th>
+                    <th className="px-4 py-2 text-left">Diferencia</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {closures.map((item) => {
+                    const saldo_esperado =
+                      item.saldoInicial + item.ingresos - item.expenses;
 
-                {/* Filas */}
-                {closures.map((cierre) => {
-                  const colorIngreso = "text-green-500";
-                  const colorEgreso = "text-red-500";
-                  const colorDiferencia =
-                    cierre.diferencia >= 0 ? "text-green-500" : "text-red-500";
-                  const diferenciaFormateada =
-                    cierre.diferencia >= 0
-                      ? `+$${cierre.diferencia}.00`
-                      : `-$${Math.abs(cierre.diferencia)}.00`;
+                    const saldo_final = item.conteoReal - saldo_esperado;
 
-                  return (
-                    <div
-                      key={cierre.id}
-                      className="grid grid-cols-7 items-center text-sm text-white px-4 py-3 border-t border-gray-700 hover:bg-gray-800 transition"
-                    >
-                      <div>{cierre.date}</div>
-                      <div>${cierre.saldoInicial.toFixed(2)}</div>
-                      <div className={colorIngreso}>
-                        ${cierre.ingresos.toFixed(2)}
-                      </div>
-                      <div className={colorEgreso}>
-                        ${cierre.expenses.toFixed(2)}
-                      </div>
-                      <div className="font-bold">
-                        ${cierre.saldoFinal.toFixed(2)}
-                      </div>
-                      <div>${cierre.conteo.toFixed(2)}</div>
-                      <div className={`font-bold ${colorDiferencia}`}>
-                        {diferenciaFormateada}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    const auxiliar = getStatusDailyClosing(saldo_final);
+
+                    return (
+                      <tr
+                        key={item.id}
+                        className="text-sm border-t border-gray-700 hover:bg-gray-800 transition"
+                      >
+                        <td className="px-4 py-2">{item.date}</td>
+                        <td className="px-4 py-2">
+                          $
+                          {Intl.NumberFormat("es-CO").format(item.saldoInicial)}
+                        </td>
+                        <td className="px-4 py-2 text-green-500">
+                          ${Intl.NumberFormat("es-CO").format(item.ingresos)}
+                        </td>
+                        <td className="px-4 py-2 text-red-500">
+                          ${Intl.NumberFormat("es-CO").format(item.expenses)}
+                        </td>
+                        <td className="px-4 py-2 font-bold">
+                          ${Intl.NumberFormat("es-CO").format(saldo_esperado)}
+                        </td>
+                        <td className="px-4 py-2">
+                          ${Intl.NumberFormat("es-CO").format(item.conteoReal)}
+                        </td>
+                        <td
+                          className={`px-4 py-2 font-bold ${auxiliar.txt_color}`}
+                        >
+                          {auxiliar.operator}$
+                          {Intl.NumberFormat("es-CO").format(
+                            Math.abs(auxiliar.value)
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
