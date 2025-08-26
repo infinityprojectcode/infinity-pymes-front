@@ -220,7 +220,7 @@ export default function ListExpenses() {
           <GraphicsPie />
         </div>
       </div>
-      <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117]   text-white p-6">
+      <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117] text-white p-6">
         <h1 className="text-xl font-bold mb-4">
           Registro de Gastos ({recordsExpenses.length})
         </h1>
