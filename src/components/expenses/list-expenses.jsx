@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useAppContext } from "@context/app/app-provider.jsx";
 import { useAuth } from "@context/auth/auth-provider";
-import GraphicsBar from "@fragments/graphics/expenses/graphics-bar.jsx";
-import GraphicsPie from "@fragments/graphics/expenses/graphics-pie.jsx";
+import GraphicsBar from "@fragments/expenses/graphics-expenses/graphics-bar.jsx";
+import GraphicsPie from "@fragments/expenses/graphics-expenses/graphics-pie.jsx";
 import AddExpenses from "@fragments/expenses/modal-expenses/modal-add-expenses.jsx";
 import { useState, useEffect } from "react";
 import {
@@ -220,7 +220,7 @@ export default function ListExpenses() {
           <GraphicsPie />
         </div>
       </div>
-      <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117]   text-white p-6">
+      <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117] text-white p-6">
         <h1 className="text-xl font-bold mb-4">
           Registro de Gastos ({recordsExpenses.length})
         </h1>
