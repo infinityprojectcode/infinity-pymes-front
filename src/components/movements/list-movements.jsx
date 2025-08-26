@@ -1,6 +1,13 @@
 import AddMovements from "@fragments/movements/modal-movements/modal-add-movements.jsx";
 import CloseDailyMovements from "@fragments/movements/modal-movements/modal-add-closing.jsx";
 import { useState } from "react";
+import {
+  Plus,
+  FileMinus,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+} from "lucide-react";
 
 export default function ListMovements() {
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
@@ -104,43 +111,17 @@ export default function ListMovements() {
           <div className="flex items-center gap-3 mt-4 md:mt-0">
             <button
               onClick={() => setModalAddIsOpen(true)}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
+              <Plus className="h-4 w-4" />
               Nuevo Movimiento
             </button>
 
             <button
               onClick={() => setModalCloseDailyIsOpen(true)}
-              className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800"
+              className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800 cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12h6m2 8H7a2 2 0 01-2-2V6a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"
-                />
-              </svg>
+              <FileMinus className="h-4 w-4" />
               Cierre Diario
             </button>
           </div>
@@ -151,16 +132,7 @@ export default function ListMovements() {
           <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between shadow">
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-400">Ingresos Hoy</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-green-500"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M3 17l6-6 4 4 8-8" />
-              </svg>
+              <TrendingUp className="h-5 w-5 text-green-500" />
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-green-500">$0.00</h2>
@@ -171,16 +143,7 @@ export default function ListMovements() {
           <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between shadow">
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-400">Egresos Hoy</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-red-400"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M3 7l6 6 4-4 8 8" />
-              </svg>
+              <TrendingDown className="h-5 w-5 text-red-400" />
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-red-500">$0.00</h2>
@@ -191,7 +154,7 @@ export default function ListMovements() {
           <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between shadow">
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-400">Balance Hoy</span>
-              <span className="text-gray-400 text-base font-medium">$</span>
+              <DollarSign className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-green-500">$0.00</h2>
@@ -202,20 +165,7 @@ export default function ListMovements() {
           <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between shadow">
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-400">Movimientos Hoy</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12h6m2 8H7a2 2 0 01-2-2V6a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"
-                />
-              </svg>
+              <FileMinus className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-white">0</h2>
@@ -226,30 +176,30 @@ export default function ListMovements() {
         <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-1 flex w-fit shadow">
           <button
             onClick={() => setSectionActiva("movimientos")}
-            className={`p-2 rounded-md text-sm ${
+            className={`p-2 rounded-md text-sm mr-[4px] cursor-pointer ${
               sectionActiva === "movimientos"
                 ? "bg-gray-800 text-white"
-                : "bg-transparent text-gray-300"
+                : "bg-transparent hover:bg-gray-900 text-gray-300"
             }`}
           >
             Movimientos
           </button>
           <button
             onClick={() => setSectionActiva("auditoria")}
-            className={`p-2 rounded-md text-sm ${
+            className={`p-2 rounded-md text-sm mr-[4px] cursor-pointer ${
               sectionActiva === "auditoria"
                 ? "bg-gray-800 text-white"
-                : "bg-transparent text-gray-300"
+                : "bg-transparent hover:bg-gray-900 text-gray-300"
             }`}
           >
             Auditoría
           </button>
           <button
             onClick={() => setSectionActiva("cierre")}
-            className={`p-2 rounded-md text-sm ${
+            className={`p-2 rounded-md text-sm cursor-pointer ${
               sectionActiva === "cierre"
                 ? "bg-gray-800 text-white"
-                : "bg-transparent text-gray-300"
+                : "bg-transparent hover:bg-gray-900 text-gray-300"
             }`}
           >
             Cierre Diario
