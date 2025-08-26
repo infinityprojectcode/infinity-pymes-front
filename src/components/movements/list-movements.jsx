@@ -1,6 +1,8 @@
+import { useAppContext } from "@context/app/app-provider.jsx";
+import { useAuth } from "@context/auth/auth-provider";
 import AddMovements from "@fragments/movements/modal-movements/modal-add-movements.jsx";
 import CloseDailyMovements from "@fragments/movements/modal-movements/modal-add-closing.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Plus,
   FileMinus,
@@ -8,11 +10,18 @@ import {
   TrendingDown,
   DollarSign,
 } from "lucide-react";
+import axios from "axios";
 
 export default function ListMovements() {
+  const context = useAppContext();
+  const contextAuth = useAuth();
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
   const [modalCloseDailyIsOpen, setModalCloseDailyIsOpen] = useState(false);
   const [sectionActiva, setSectionActiva] = useState("movimientos");
+  const [dayMovements, setDayMovements] = useState([]);
 
   const movements = [
     {
@@ -87,6 +96,23 @@ export default function ListMovements() {
     },
   ];
 
+  function getDayMovements() {
+    axios
+      .get(`${urlApi}cash-register/g/day-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setDayMovements(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   const getStatusMovements = (status) => {
     if (status == "Ingreso")
       return {
@@ -116,6 +142,10 @@ export default function ListMovements() {
       txt_color: "text-red-500",
     };
   };
+
+  useEffect(() => {
+    getDayMovements();
+  }, []);
 
   return (
     <>
@@ -170,7 +200,9 @@ export default function ListMovements() {
               <TrendingDown className="h-5 w-5 text-red-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-red-500">$0</h2>
+              <h2 className="text-2xl font-bold text-red-500">
+                -${Intl.NumberFormat("es-CO").format(dayMovements.gastos_dia)}
+              </h2>
             </div>
           </div>
 
