@@ -1,5 +1,5 @@
-import AddMovements from "@fragments/movements/modal-add-movements/modal-add-movements.jsx";
-import CloseDailyMovements from "@fragments/movements/modal-closedaily-movements/modal-closedaily-movements.jsx";
+import AddMovements from "@fragments/movements/modal-movements/modal-add-movements.jsx";
+import CloseDailyMovements from "@fragments/movements/modal-movements/modal-add-closing.jsx";
 import { useState } from "react";
 
 export default function ListMovements() {
