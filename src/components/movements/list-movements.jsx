@@ -21,37 +21,9 @@ export default function ListMovements() {
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
   const [modalCloseDailyIsOpen, setModalCloseDailyIsOpen] = useState(false);
   const [sectionActiva, setSectionActiva] = useState("movimientos");
-  const [dayMovements, setDayMovements] = useState([]);
-
-  const movements = [
-    {
-      date: "2025-01-24 - 10:30",
-      type_movement: "Ingreso",
-      description: "Venta de productos electrónicos",
-      category: "Ventas",
-      payment_method: "Efectivo",
-      amount: 1500,
-      reference: "FAC-001",
-    },
-    {
-      date: "2025-01-24 - 14:15",
-      type_movement: "Egreso",
-      description: "Compra de suministros de oficina",
-      category: "Suministros",
-      payment_method: "Transferencia",
-      amount: 5000,
-      reference: "REC-001",
-    },
-    {
-      date: "2025-01-24 - 16:45",
-      type_movement: "Ingreso",
-      description: "Pago de cliente",
-      category: "Cobros",
-      payment_method: "Efectivo",
-      amount: 800,
-      reference: "PAG-001",
-    },
-  ];
+  const [dayExpensesMovements, setDayExpensesMovements] = useState([]);
+  const [dayIncomeMovements, setDayIncomeMovements] = useState([]);
+  const [movementsRecords, setMovementsRecords] = useState([]);
 
   const closures = [
     {
@@ -96,9 +68,9 @@ export default function ListMovements() {
     },
   ];
 
-  function getDayMovements() {
+  function getDayIncomeMovements() {
     axios
-      .get(`${urlApi}cash-register/g/day-movements`, {
+      .get(`${urlApi}cash-register/g/day-income-movements`, {
         headers: {
           "Content-Type": "application/json",
           "api-key": apiKey,
@@ -106,7 +78,41 @@ export default function ListMovements() {
         params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
-        setDayMovements(response.data[0]);
+        setDayIncomeMovements(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getDayExpensesMovements() {
+    axios
+      .get(`${urlApi}cash-register/g/day-expenses-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setDayExpensesMovements(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getMovementsRecords() {
+    axios
+      .get(`${urlApi}cash-register/g/movements-records`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setMovementsRecords(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -144,7 +150,9 @@ export default function ListMovements() {
   };
 
   useEffect(() => {
-    getDayMovements();
+    getDayIncomeMovements();
+    getDayExpensesMovements();
+    getMovementsRecords();
   }, []);
 
   return (
@@ -189,7 +197,12 @@ export default function ListMovements() {
               <TrendingUp className="h-5 w-5 text-green-500" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-green-500">$0</h2>
+              <h2 className="text-2xl font-bold text-green-500">
+                $
+                {Intl.NumberFormat("es-CO").format(
+                  dayIncomeMovements.income_today
+                )}
+              </h2>
             </div>
           </div>
 
@@ -201,7 +214,10 @@ export default function ListMovements() {
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-red-500">
-                -${Intl.NumberFormat("es-CO").format(dayMovements.gastos_dia)}
+                -$
+                {Intl.NumberFormat("es-CO").format(
+                  dayExpensesMovements.gastos_dia
+                )}
               </h2>
             </div>
           </div>
@@ -213,7 +229,29 @@ export default function ListMovements() {
               <DollarSign className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-green-500">$0</h2>
+              {dayIncomeMovements.income_today -
+                dayExpensesMovements.gastos_dia >=
+              0 ? (
+                <h2 className="text-2xl font-bold text-green-500">
+                  +$
+                  {Intl.NumberFormat("es-CO").format(
+                    Math.abs(
+                      dayIncomeMovements.income_today -
+                        dayExpensesMovements.gastos_dia
+                    )
+                  )}
+                </h2>
+              ) : (
+                <h2 className="text-2xl font-bold text-red-500">
+                  -$
+                  {Intl.NumberFormat("es-CO").format(
+                    Math.abs(
+                      dayIncomeMovements.income_today -
+                        dayExpensesMovements.gastos_dia
+                    )
+                  )}
+                </h2>
+              )}
             </div>
           </div>
 
@@ -224,7 +262,7 @@ export default function ListMovements() {
               <FileMinus className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-white">0</h2>
+              <h2 className="text-2xl font-bold text-white">{`${movementsRecords.length}`}</h2>
             </div>
           </div>
         </div>
@@ -280,11 +318,11 @@ export default function ListMovements() {
                   </tr>
                 </thead>
                 <tbody>
-                  {movements.map((item) => {
+                  {movementsRecords.map((item, index) => {
                     const auxiliar = getStatusMovements(item.type_movement);
                     return (
                       <tr
-                        key={item.id}
+                        key={index}
                         className="text-sm border-t border-gray-700 hover:bg-gray-800 transition"
                       >
                         <td className="px-4 py-2">{item.date}</td>
@@ -457,6 +495,10 @@ export default function ListMovements() {
       <AddMovements
         isOpen={modalAddIsOpen}
         onClose={() => setModalAddIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        contextAuth={contextAuth}
+        refresh={() => getMovementsRecords()}
       ></AddMovements>
 
       <CloseDailyMovements
