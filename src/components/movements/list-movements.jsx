@@ -22,6 +22,8 @@ export default function ListMovements() {
   const [modalCloseDailyIsOpen, setModalCloseDailyIsOpen] = useState(false);
   const [sectionActiva, setSectionActiva] = useState("movimientos");
   const [dayMovements, setDayMovements] = useState([]);
+  const [dayIncomeMovements, setDayIncomeMovements] = useState([]);
+  const [movementsRecords, setMovementsRecords] = useState([]);
 
   const movements = [
     {
@@ -96,6 +98,23 @@ export default function ListMovements() {
     },
   ];
 
+  function getDayIncomeMovements() {
+    axios
+      .get(`${urlApi}cash-register/g/day-income-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setDayIncomeMovements(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   function getDayMovements() {
     axios
       .get(`${urlApi}cash-register/g/day-movements`, {
@@ -107,6 +126,23 @@ export default function ListMovements() {
       })
       .then((response) => {
         setDayMovements(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getMovementsRecords() {
+    axios
+      .get(`${urlApi}cash-register/g/movements-records`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setMovementsRecords(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -144,7 +180,9 @@ export default function ListMovements() {
   };
 
   useEffect(() => {
+    getDayIncomeMovements();
     getDayMovements();
+    getMovementsRecords();
   }, []);
 
   return (
@@ -189,7 +227,12 @@ export default function ListMovements() {
               <TrendingUp className="h-5 w-5 text-green-500" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-green-500">$0</h2>
+              <h2 className="text-2xl font-bold text-green-500">
+                $
+                {Intl.NumberFormat("es-CO").format(
+                  dayIncomeMovements.income_today
+                )}
+              </h2>
             </div>
           </div>
 
@@ -213,7 +256,26 @@ export default function ListMovements() {
               <DollarSign className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-green-500">$0</h2>
+              {dayIncomeMovements.income_today - dayMovements.gastos_dia >=
+              0 ? (
+                <h2 className="text-2xl font-bold text-green-500">
+                  +$
+                  {Intl.NumberFormat("es-CO").format(
+                    Math.abs(
+                      dayIncomeMovements.income_today - dayMovements.gastos_dia
+                    )
+                  )}
+                </h2>
+              ) : (
+                <h2 className="text-2xl font-bold text-red-500">
+                  -$
+                  {Intl.NumberFormat("es-CO").format(
+                    Math.abs(
+                      dayIncomeMovements.income_today - dayMovements.gastos_dia
+                    )
+                  )}
+                </h2>
+              )}
             </div>
           </div>
 
@@ -224,7 +286,7 @@ export default function ListMovements() {
               <FileMinus className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-white">0</h2>
+              <h2 className="text-2xl font-bold text-white">{`${movements.length}`}</h2>
             </div>
           </div>
         </div>
@@ -280,11 +342,11 @@ export default function ListMovements() {
                   </tr>
                 </thead>
                 <tbody>
-                  {movements.map((item) => {
+                  {movementsRecords.map((item, index) => {
                     const auxiliar = getStatusMovements(item.type_movement);
                     return (
                       <tr
-                        key={item.id}
+                        key={index}
                         className="text-sm border-t border-gray-700 hover:bg-gray-800 transition"
                       >
                         <td className="px-4 py-2">{item.date}</td>
