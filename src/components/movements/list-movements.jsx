@@ -25,36 +25,6 @@ export default function ListMovements() {
   const [dayIncomeMovements, setDayIncomeMovements] = useState([]);
   const [movementsRecords, setMovementsRecords] = useState([]);
 
-  const movements = [
-    {
-      date: "2025-01-24 - 10:30",
-      type_movement: "Ingreso",
-      description: "Venta de productos electrónicos",
-      category: "Ventas",
-      payment_method: "Efectivo",
-      amount: 1500,
-      reference: "FAC-001",
-    },
-    {
-      date: "2025-01-24 - 14:15",
-      type_movement: "Egreso",
-      description: "Compra de suministros de oficina",
-      category: "Suministros",
-      payment_method: "Transferencia",
-      amount: 5000,
-      reference: "REC-001",
-    },
-    {
-      date: "2025-01-24 - 16:45",
-      type_movement: "Ingreso",
-      description: "Pago de cliente",
-      category: "Cobros",
-      payment_method: "Efectivo",
-      amount: 800,
-      reference: "PAG-001",
-    },
-  ];
-
   const closures = [
     {
       id: 1,
@@ -286,7 +256,7 @@ export default function ListMovements() {
               <FileMinus className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-white">{`${movements.length}`}</h2>
+              <h2 className="text-2xl font-bold text-white">{`${movementsRecords.length}`}</h2>
             </div>
           </div>
         </div>
