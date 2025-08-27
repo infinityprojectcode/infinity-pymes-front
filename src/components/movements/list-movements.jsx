@@ -21,7 +21,7 @@ export default function ListMovements() {
   const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
   const [modalCloseDailyIsOpen, setModalCloseDailyIsOpen] = useState(false);
   const [sectionActiva, setSectionActiva] = useState("movimientos");
-  const [dayMovements, setDayMovements] = useState([]);
+  const [dayExpensesMovements, setDayExpensesMovements] = useState([]);
   const [dayIncomeMovements, setDayIncomeMovements] = useState([]);
   const [movementsRecords, setMovementsRecords] = useState([]);
 
@@ -85,9 +85,9 @@ export default function ListMovements() {
       });
   }
 
-  function getDayMovements() {
+  function getDayExpensesMovements() {
     axios
-      .get(`${urlApi}cash-register/g/day-movements`, {
+      .get(`${urlApi}cash-register/g/day-expenses-movements`, {
         headers: {
           "Content-Type": "application/json",
           "api-key": apiKey,
@@ -95,7 +95,7 @@ export default function ListMovements() {
         params: { business_id: contextAuth.user.business_id },
       })
       .then((response) => {
-        setDayMovements(response.data[0]);
+        setDayExpensesMovements(response.data[0]);
       })
       .catch((error) => {
         console.error(error);
@@ -151,7 +151,7 @@ export default function ListMovements() {
 
   useEffect(() => {
     getDayIncomeMovements();
-    getDayMovements();
+    getDayExpensesMovements();
     getMovementsRecords();
   }, []);
 
@@ -214,7 +214,10 @@ export default function ListMovements() {
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-red-500">
-                -${Intl.NumberFormat("es-CO").format(dayMovements.gastos_dia)}
+                -$
+                {Intl.NumberFormat("es-CO").format(
+                  dayExpensesMovements.gastos_dia
+                )}
               </h2>
             </div>
           </div>
@@ -226,13 +229,15 @@ export default function ListMovements() {
               <DollarSign className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              {dayIncomeMovements.income_today - dayMovements.gastos_dia >=
+              {dayIncomeMovements.income_today -
+                dayExpensesMovements.gastos_dia >=
               0 ? (
                 <h2 className="text-2xl font-bold text-green-500">
                   +$
                   {Intl.NumberFormat("es-CO").format(
                     Math.abs(
-                      dayIncomeMovements.income_today - dayMovements.gastos_dia
+                      dayIncomeMovements.income_today -
+                        dayExpensesMovements.gastos_dia
                     )
                   )}
                 </h2>
@@ -241,7 +246,8 @@ export default function ListMovements() {
                   -$
                   {Intl.NumberFormat("es-CO").format(
                     Math.abs(
-                      dayIncomeMovements.income_today - dayMovements.gastos_dia
+                      dayIncomeMovements.income_today -
+                        dayExpensesMovements.gastos_dia
                     )
                   )}
                 </h2>
@@ -489,6 +495,10 @@ export default function ListMovements() {
       <AddMovements
         isOpen={modalAddIsOpen}
         onClose={() => setModalAddIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        contextAuth={contextAuth}
+        refresh={() => getMovementsRecords()}
       ></AddMovements>
 
       <CloseDailyMovements
