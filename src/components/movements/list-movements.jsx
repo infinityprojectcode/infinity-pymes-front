@@ -23,6 +23,7 @@ export default function ListMovements() {
   const [sectionActiva, setSectionActiva] = useState("movimientos");
   const [dayExpensesMovements, setDayExpensesMovements] = useState([]);
   const [dayIncomeMovements, setDayIncomeMovements] = useState([]);
+  const [todayMovements, setTodayMovements] = useState([]);
   const [movementsRecords, setMovementsRecords] = useState([]);
 
   const closures = [
@@ -102,6 +103,23 @@ export default function ListMovements() {
       });
   }
 
+  function getTodayMovements() {
+    axios
+      .get(`${urlApi}cash-register/g/today-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setTodayMovements(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   function getMovementsRecords() {
     axios
       .get(`${urlApi}cash-register/g/movements-records`, {
@@ -153,6 +171,7 @@ export default function ListMovements() {
     getDayIncomeMovements();
     getDayExpensesMovements();
     getMovementsRecords();
+    getTodayMovements();
   }, []);
 
   return (
@@ -262,7 +281,7 @@ export default function ListMovements() {
               <FileMinus className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-white">{`${movementsRecords.length}`}</h2>
+              <h2 className="text-2xl font-bold text-white">{`${todayMovements.movements_today}`}</h2>
             </div>
           </div>
         </div>
