@@ -23,7 +23,11 @@ export default function ListMovements() {
   const [sectionActiva, setSectionActiva] = useState("movimientos");
   const [dayExpensesMovements, setDayExpensesMovements] = useState([]);
   const [dayIncomeMovements, setDayIncomeMovements] = useState([]);
+  const [todayMovements, setTodayMovements] = useState([]);
   const [movementsRecords, setMovementsRecords] = useState([]);
+  const [auditIncomeCategory, setAuditIncomeCategory] = useState([]);
+  const [auditExpenseCategory, setAuditExpenseCategory] = useState([]);
+  const [auditPaymentMethod, setAuditPaymentMethod] = useState([]);
 
   const closures = [
     {
@@ -102,6 +106,23 @@ export default function ListMovements() {
       });
   }
 
+  function getTodayMovements() {
+    axios
+      .get(`${urlApi}cash-register/g/today-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setTodayMovements(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   function getMovementsRecords() {
     axios
       .get(`${urlApi}cash-register/g/movements-records`, {
@@ -113,6 +134,57 @@ export default function ListMovements() {
       })
       .then((response) => {
         setMovementsRecords(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getAuditIncomeCategory() {
+    axios
+      .get(`${urlApi}cash-register/g/audit-income-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setAuditIncomeCategory(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getAuditExpenseCategory() {
+    axios
+      .get(`${urlApi}cash-register/g/audit-expense-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setAuditExpenseCategory(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getAuditPaymentMethod() {
+    axios
+      .get(`${urlApi}cash-register/g/audit-payment-movements`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setAuditPaymentMethod(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -153,6 +225,10 @@ export default function ListMovements() {
     getDayIncomeMovements();
     getDayExpensesMovements();
     getMovementsRecords();
+    getTodayMovements();
+    getAuditIncomeCategory();
+    getAuditExpenseCategory();
+    getAuditPaymentMethod();
   }, []);
 
   return (
@@ -262,7 +338,7 @@ export default function ListMovements() {
               <FileMinus className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
-              <h2 className="text-2xl font-bold text-white">{`${movementsRecords.length}`}</h2>
+              <h2 className="text-2xl font-bold text-white">{`${todayMovements.movements_today}`}</h2>
             </div>
           </div>
         </div>
@@ -361,22 +437,23 @@ export default function ListMovements() {
                   <h3 className="font-semibold text-lg mb-4">
                     Resumen por Método de Pago
                   </h3>
-                  <div className="flex justify-between mb-2">
-                    <span>Efectivo</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between mb-2">
-                    <span>Transferencia</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between mb-2">
-                    <span>Tarjeta</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Cheque</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
+                  {auditPaymentMethod.map((item, index) => (
+                    <div key={index} className="flex justify-between mb-2">
+                      <span>{item.payment_method}</span>
+                      {item.net_amount >= 0 ? (
+                        <span className="text-green-400 font-semibold">
+                          +${Intl.NumberFormat("es-CO").format(item.net_amount)}
+                        </span>
+                      ) : (
+                        <span className="text-red-400 font-semibold">
+                          -$
+                          {Intl.NumberFormat("es-CO").format(
+                            Math.abs(item.net_amount)
+                          )}
+                        </span>
+                      )}
+                    </div>
+                  ))}
                 </div>
 
                 {/* INGRESOS POR CATEGORÍA */}
@@ -384,22 +461,14 @@ export default function ListMovements() {
                   <h3 className="font-semibold text-lg mb-4">
                     Ingresos por Categoría
                   </h3>
-                  <div className="flex justify-between mb-2">
-                    <span>Ventas</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between mb-2">
-                    <span>Cobros</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between mb-2">
-                    <span>Servicios</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Otros Ingresos</span>
-                    <span className="text-green-400 font-semibold">$0</span>
-                  </div>
+                  {auditIncomeCategory.map((item, index) => (
+                    <div key={index} className="flex justify-between mb-2">
+                      <span>{item.category}</span>
+                      <span className="text-green-400 font-semibold">
+                        +${Intl.NumberFormat("es-CO").format(item.total_amount)}
+                      </span>
+                    </div>
+                  ))}
                 </div>
 
                 {/* EGRESOS POR CATEGORÍA */}
@@ -407,22 +476,14 @@ export default function ListMovements() {
                   <h3 className="font-semibold text-lg mb-4">
                     Egresos por Categoría
                   </h3>
-                  <div className="flex justify-between mb-2">
-                    <span>Suministros</span>
-                    <span className="text-red-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between mb-2">
-                    <span>Servicios</span>
-                    <span className="text-red-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between mb-2">
-                    <span>Mantenimiento</span>
-                    <span className="text-red-400 font-semibold">$0</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Otros Gastos</span>
-                    <span className="text-red-400 font-semibold">$0</span>
-                  </div>
+                  {auditExpenseCategory.map((item, index) => (
+                    <div key={index} className="flex justify-between mb-2">
+                      <span>{item.category}</span>
+                      <span className="text-red-400 font-semibold">
+                        -${Intl.NumberFormat("es-CO").format(item.total_amount)}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
