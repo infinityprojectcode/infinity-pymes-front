@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
+// NOTA: Revisar luego el flujo de datos en auditoria para ver si se hace de un dia o por completo, también revisar el cierre diario para crear un saldo inicial con el cual iniciar la caja, actualmente inicia en 0 pero puede que el local no sea nuevo y tengan que añadir el dinero actual en efectivo, también revisar si todo se esta manejando solo con efectivo en el flujo de datos, porque al final aunque debemos saber el movimiento de todo el dinero, al final el cierre de caja se hace con el dinero en efectivo.
+
 export default function ListMovements() {
   const context = useAppContext();
   const contextAuth = useAuth();
