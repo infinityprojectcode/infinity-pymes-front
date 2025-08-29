@@ -30,49 +30,7 @@ export default function ListMovements() {
   const [auditIncomeCategory, setAuditIncomeCategory] = useState([]);
   const [auditExpenseCategory, setAuditExpenseCategory] = useState([]);
   const [auditPaymentMethod, setAuditPaymentMethod] = useState([]);
-
-  const closures = [
-    {
-      id: 1,
-      date: "2025-01-23",
-      saldoInicial: 5000,
-      ingresos: 3200,
-      expenses: 1800,
-      saldoEsperado: 6400,
-      conteoReal: 6350,
-      diferencia: -50,
-    },
-    {
-      id: 2,
-      date: "2025-01-24",
-      saldoInicial: 6400,
-      ingresos: 2800,
-      expenses: 1900,
-      saldoEsperado: 7300,
-      conteoReal: 7300,
-      diferencia: 0,
-    },
-    {
-      id: 3,
-      date: "2025-01-25",
-      saldoInicial: 10000,
-      ingresos: 5000,
-      expenses: 3000,
-      saldoEsperado: 12000,
-      conteoReal: 8000,
-      diferencia: -4000,
-    },
-    {
-      id: 4,
-      date: "2025-01-26",
-      saldoInicial: 10000,
-      ingresos: 5000,
-      expenses: 3000,
-      saldoEsperado: 12000,
-      conteoReal: 16000,
-      diferencia: 4000,
-    },
-  ];
+  const [dailyClosures, setDailyClosures] = useState([]);
 
   function getDayIncomeMovements() {
     axios
@@ -193,6 +151,23 @@ export default function ListMovements() {
       });
   }
 
+  function getDailyClosures() {
+    axios
+      .get(`${urlApi}cash-register/g/daily-closures`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: { business_id: contextAuth.user.business_id },
+      })
+      .then((response) => {
+        setDailyClosures(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   const getStatusMovements = (status) => {
     if (status == "Ingreso")
       return {
@@ -231,6 +206,7 @@ export default function ListMovements() {
     getAuditIncomeCategory();
     getAuditExpenseCategory();
     getAuditPaymentMethod();
+    getDailyClosures();
   }, []);
 
   return (
@@ -498,6 +474,7 @@ export default function ListMovements() {
                 <thead className="text-sm">
                   <tr>
                     <th className="px-4 py-2 text-left">Fecha</th>
+                    <th className="px-4 py-2 text-left">Hecho por</th>
                     <th className="px-4 py-2 text-left">Saldo Inicial</th>
                     <th className="px-4 py-2 text-left">Ingresos</th>
                     <th className="px-4 py-2 text-left">Egresos</th>
@@ -507,35 +484,41 @@ export default function ListMovements() {
                   </tr>
                 </thead>
                 <tbody>
-                  {closures.map((item) => {
-                    const saldo_esperado =
-                      item.saldoInicial + item.ingresos - item.expenses;
-
-                    const saldo_final = item.conteoReal - saldo_esperado;
-
-                    const auxiliar = getStatusDailyClosing(saldo_final);
+                  {dailyClosures.map((item, index) => {
+                    const auxiliar = getStatusDailyClosing(item.difference);
 
                     return (
+                      // NOTA: Cambiar en la consulta para que traiga también la hora y reemplazar el index por un item.closure_date, ya que se puede usar una fecha y hora como id
                       <tr
-                        key={item.id}
+                        key={index}
                         className="text-sm border-t border-gray-700 hover:bg-gray-800 transition"
                       >
-                        <td className="px-4 py-2">{item.date}</td>
+                        <td className="px-4 py-2">{item.closure_date}</td>
+                        <td className="px-4 py-2">{item.closed_by_user}</td>
                         <td className="px-4 py-2">
                           $
-                          {Intl.NumberFormat("es-CO").format(item.saldoInicial)}
+                          {Intl.NumberFormat("es-CO").format(
+                            item.opening_balance
+                          )}
                         </td>
                         <td className="px-4 py-2 text-green-500">
-                          ${Intl.NumberFormat("es-CO").format(item.ingresos)}
+                          ${Intl.NumberFormat("es-CO").format(item.income_day)}
                         </td>
                         <td className="px-4 py-2 text-red-500">
-                          ${Intl.NumberFormat("es-CO").format(item.expenses)}
+                          $
+                          {Intl.NumberFormat("es-CO").format(item.expenses_day)}
                         </td>
                         <td className="px-4 py-2 font-bold">
-                          ${Intl.NumberFormat("es-CO").format(saldo_esperado)}
+                          $
+                          {Intl.NumberFormat("es-CO").format(
+                            item.total_expected
+                          )}
                         </td>
                         <td className="px-4 py-2">
-                          ${Intl.NumberFormat("es-CO").format(item.conteoReal)}
+                          $
+                          {Intl.NumberFormat("es-CO").format(
+                            item.closing_amount
+                          )}
                         </td>
                         <td
                           className={`px-4 py-2 font-bold ${auxiliar.txt_color}`}
@@ -567,8 +550,12 @@ export default function ListMovements() {
       <CloseDailyMovements
         isOpen={modalCloseDailyIsOpen}
         onClose={() => setModalCloseDailyIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        contextAuth={contextAuth}
         income={dayIncomeMovements.income_today}
         expenses={dayExpensesMovements.gastos_dia}
+        refresh={() => getDailyClosures()}
       ></CloseDailyMovements>
     </>
   );
