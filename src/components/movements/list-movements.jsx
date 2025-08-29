@@ -565,6 +565,8 @@ export default function ListMovements() {
       <CloseDailyMovements
         isOpen={modalCloseDailyIsOpen}
         onClose={() => setModalCloseDailyIsOpen(false)}
+        income={dayIncomeMovements.income_today}
+        expenses={dayExpensesMovements.gastos_dia}
       ></CloseDailyMovements>
     </>
   );

@@ -1,12 +1,15 @@
 import Modal from "react-modal";
 import { useState } from "react";
 
-export default function CloseDailyMovements({ isOpen, onClose}) {
+export default function CloseDailyMovements({
+  isOpen,
+  onClose,
+  income,
+  expenses,
+}) {
   const [conteo, setConteo] = useState("");
   const [notas, setNotas] = useState("");
 
-  const ingresos = 0.0;
-  const egresos = 0.0;
   return (
     <div>
       <Modal
@@ -56,20 +59,22 @@ export default function CloseDailyMovements({ isOpen, onClose}) {
             <div className="bg-slate-800 rounded-lg p-4">
               <h3 className="text-sm text-slate-400">Ingresos del Día</h3>
               <p className="text-green-500 font-bold text-xl">
-                ${ingresos.toFixed(2)}
+                ${Intl.NumberFormat("es-CO").format(income)}
               </p>
             </div>
             <div className="bg-slate-800 rounded-lg p-4">
               <h3 className="text-sm text-slate-400">Egresos del Día</h3>
               <p className="text-red-500 font-bold text-xl">
-                ${egresos.toFixed(2)}
+                ${Intl.NumberFormat("es-CO").format(expenses)}
               </p>
             </div>
           </div>
 
           {/* Conteo de efectivo */}
           <div className="flex flex-col gap-1.5">
-            <h3 className="text-sm font-semibold text-white">Conteo de Efectivo</h3>
+            <h3 className="text-sm font-semibold text-white">
+              Conteo de Efectivo
+            </h3>
             <input
               type="number"
               value={conteo}
@@ -81,7 +86,9 @@ export default function CloseDailyMovements({ isOpen, onClose}) {
 
           {/* Notas opcionales */}
           <div className="flex flex-col gap-1.5">
-            <h3 className="text-sm font-semibold text-white">Notas (Opcional)</h3>
+            <h3 className="text-sm font-semibold text-white">
+              Notas (Opcional)
+            </h3>
             <textarea
               value={notas}
               onChange={(e) => setNotas(e.target.value)}
