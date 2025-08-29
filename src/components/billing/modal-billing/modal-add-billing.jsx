@@ -166,7 +166,7 @@ export default function AddBilling({
                   </option>
                   {customers.map((cat) => (
                     <option key={cat.id} value={cat.id}>
-                      {cat.name}
+                      {cat.name} {cat.lastname}
                     </option>
                   ))}
                 </select>
