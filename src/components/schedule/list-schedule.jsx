@@ -23,7 +23,6 @@ export default function ListSchedule() {
       description: "Recordar cobro de factura vencida",
       priority: "Alta",
       type: "Pago",
-      priority_color: "bg-red-600",
     },
     {
       id: 2,
@@ -33,9 +32,34 @@ export default function ListSchedule() {
       description: "La licencia vence el 30 de enero",
       priority: "Media",
       type: "Tarea",
-      priority_color: "bg-yellow-600",
+    },
+    {
+      id: 3,
+      hour: "10:00",
+      date: "2025-01-28",
+      title: "Renovar licencia de software",
+      description: "La licencia vence el 30 de enero",
+      priority: "Baja",
+      type: "Tarea",
     },
   ];
+
+  const getStatusReminders = (status) => {
+    if (status == "Baja")
+      return {
+        name: "Baja",
+        bg_color: "bg-green-600",
+      };
+    if (status == "Media")
+      return {
+        name: "Media",
+        bg_color: "bg-yellow-600",
+      };
+    return {
+      name: "Alta",
+      bg_color: "bg-red-600",
+    };
+  };
 
   return (
     <>
@@ -115,7 +139,7 @@ export default function ListSchedule() {
         <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex justify-between items-center h-full shadow">
           <div>
             <span className="text-sm text-gray-400">Pagos Pendientes</span>
-            <h2 className="text-2xl font-bold text-red-500 mt-1">1</h2>
+            <h2 className="text-2xl font-bold text-red-500 mt-1">0</h2>
           </div>
           <CircleAlert className="h-6 w-6 text-red-500" />
         </div>
@@ -164,47 +188,50 @@ export default function ListSchedule() {
               Recordatorios
             </h2>
 
-            {reminders.map((item) => (
-              <div
-                key={item.id}
-                className="bg-[#1c2431] rounded-lg p-4 mb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between"
-              >
-                <div className="flex items-center gap-4">
-                  {/* Icono */}
-                  <div className="text-gray-400 mt-1 flex flex-col items-center">
-                    <Bell className="w-4 h-4" />
-                    <span className="text-white font-semibold">
-                      {item.hour}
-                    </span>
-                    <span className="text-sm">{item.date}</span>
+            {reminders.map((item) => {
+              const auxiliar = getStatusReminders(item.priority);
+              return (
+                <div
+                  key={item.id}
+                  className="bg-[#1c2431] rounded-lg p-4 mb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between"
+                >
+                  <div className="flex items-center gap-4">
+                    {/* Icono */}
+                    <div className="text-gray-400 mt-1 flex flex-col items-center">
+                      <Bell className="w-4 h-4" />
+                      <span className="text-white font-semibold">
+                        {item.hour}
+                      </span>
+                      <span className="text-sm">{item.date}</span>
+                    </div>
+
+                    {/* Info principal */}
+                    <div className="flex flex-col gap-1">
+                      <p className="text-md text-white font-semibold">
+                        {item.title}
+                      </p>
+                      <p className="text-sm text-gray-400 mb-1">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Info principal */}
-                  <div className="flex flex-col gap-1">
-                    <p className="text-md text-white font-semibold">
-                      {item.title}
-                    </p>
-                    <p className="text-sm text-gray-400 mb-1">
-                      {item.description}
-                    </p>
+                  {/* Etiquetas */}
+                  <div className="flex items-center">
+                    <div className="flex gap-1">
+                      <span
+                        className={`${auxiliar.bg_color} text-white text-sm px-2 py-0.5 rounded-full font-semibold text-center`}
+                      >
+                        {auxiliar.name}
+                      </span>
+                      <span className="bg-transparent text-white text-sm px-2 py-0.5 rounded-full border border-white text-center">
+                        {item.type}
+                      </span>
+                    </div>
                   </div>
                 </div>
-
-                {/* Etiquetas */}
-                <div className="flex items-center">
-                  <div className="flex gap-1">
-                    <span
-                      className={`${item.priority_color} text-white text-sm px-2 py-0.5 rounded-full font-semibold text-center`}
-                    >
-                      {item.priority}
-                    </span>
-                    <span className="bg-transparent text-white text-sm px-2 py-0.5 rounded-full border border-white text-center">
-                      {item.type}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
