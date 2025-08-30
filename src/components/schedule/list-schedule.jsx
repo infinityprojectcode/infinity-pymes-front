@@ -1,3 +1,5 @@
+import { useAppContext } from "@context/app/app-provider.jsx";
+import { useAuth } from "@context/auth/auth-provider";
 import AddAppointment from "@fragments/schedule/modal-schedule/modal-add-appointment.jsx";
 import AddReminder from "@fragments/schedule/modal-schedule/modal-add-reminder.jsx";
 import {
@@ -7,50 +9,85 @@ import {
   CalendarSearch,
   CircleAlert,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function ListSchedule() {
+  const context = useAppContext();
+  const contextAuth = useAuth();
+  const urlApi = context.urlApi;
+  const apiKey = context.apiKey;
+
   const [addAppointmentIsOpen, setAddAppointmentIsOpen] = useState(false);
   const [addReminderIsOpen, setAddReminderIsOpen] = useState(false);
   const [sectionActiva, setSectionActiva] = useState("citas");
+  const [scheduleReminders, setScheduleReminders] = useState([]);
 
-  const reminders = [
-    {
-      id: 1,
-      hour: "09:00",
-      date: "2025-01-25",
-      title: "Pago pendiente - Factura #001",
-      description: "Recordar cobro de factura vencida",
-      priority: "Alta",
-      type: "Pago",
-    },
-    {
-      id: 2,
-      hour: "10:00",
-      date: "2025-01-28",
-      title: "Renovar licencia de software",
-      description: "La licencia vence el 30 de enero",
-      priority: "Media",
-      type: "Tarea",
-    },
-    {
-      id: 3,
-      hour: "10:00",
-      date: "2025-01-28",
-      title: "Renovar licencia de software",
-      description: "La licencia vence el 30 de enero",
-      priority: "Baja",
-      type: "Tarea",
-    },
-  ];
+  const dateToday = new Date();
+  const fullDate = `${dateToday.getFullYear()}-${(dateToday.getMonth() + 1).toString().padStart(2, "0")}-${dateToday.getDate()}`;
+  const [exampleDate, setExampleDate] = useState(fullDate);
+
+  function getScheduleReminders() {
+    axios
+      .get(`${urlApi}schedule/g/schedule-reminders`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: {
+          business_id: contextAuth.user.business_id,
+          user_id: contextAuth.user.id,
+        },
+      })
+      .then((response) => {
+        setScheduleReminders(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  // const reminders = [
+  //   {
+  //     id: 1,
+  //     title: "Pago pendiente - Factura #001",
+  //     description: "Recordar cobro de factura vencida",
+  //     date: "2025-01-25",
+  //     time: "09:00",
+  //     type: "Pago",
+  //     priority: "Alta",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Renovar licencia de software",
+  //     description: "La licencia vence el 30 de enero",
+  //     date: "2025-01-28",
+  //     time: "10:00",
+  //     type: "Tarea",
+  //     priority: "Media",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Renovar licencia de software",
+  //     description: "La licencia vence el 30 de enero",
+  //     date: "2025-01-28",
+  //     time: "10:00",
+  //     type: "Tarea",
+  //     priority: "Baja",
+  //   },
+  // ];
+
+  useEffect(() => {
+    getScheduleReminders();
+  }, []);
 
   const getStatusReminders = (status) => {
-    if (status == "Baja")
+    if (status == "Bajo")
       return {
         name: "Baja",
         bg_color: "bg-green-600",
       };
-    if (status == "Media")
+    if (status == "Medio")
       return {
         name: "Media",
         bg_color: "bg-yellow-600",
@@ -59,6 +96,24 @@ export default function ListSchedule() {
       name: "Alta",
       bg_color: "bg-red-600",
     };
+  };
+
+  const getStatusTime = (status) => {
+    // status = "23:00" (string)
+    const [hourStr, minuteStr] = status.split(":"); // ["23", "00"]
+    let hour = parseInt(hourStr, 10);
+    const minutes = minuteStr;
+
+    let time_system = "AM";
+    if (hour >= 12) {
+      time_system = "PM";
+      if (hour > 12) hour -= 12; // 13 -> 1, 23 -> 11
+    }
+    if (hour === 0) {
+      hour = 12; // medianoche = 12 AM
+    }
+
+    return { hour, minutes, time_system };
   };
 
   return (
@@ -104,7 +159,8 @@ export default function ListSchedule() {
             id="fecha"
             type="date"
             className="bg-slate-800 text-white border border-gray-700 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2"
-            value="2025-07-25"
+            value={exampleDate}
+            onChange={(e) => setExampleDate(e.target.value)}
           />
         </div>
 
@@ -171,8 +227,15 @@ export default function ListSchedule() {
       <div className="mt-4">
         {sectionActiva === "citas" && (
           <div className="bg-[#0d1117] text-white rounded-lg p-4 mt-4">
-            <h2 className="text-lg font-semibold mb-6">
-              Citas para 2025-07-25
+            <h2 className="flex text-lg font-semibold mb-6">
+              <span className="pr-1">Citas para:</span>
+              <span>
+                {exampleDate === fullDate ? (
+                  <div>Hoy</div>
+                ) : (
+                  <div>{exampleDate}</div>
+                )}
+              </span>
             </h2>
             <div className="flex items-center justify-center">
               <p className="text-center text-md text-gray-400">
@@ -188,8 +251,9 @@ export default function ListSchedule() {
               Recordatorios
             </h2>
 
-            {reminders.map((item) => {
+            {scheduleReminders.map((item) => {
               const auxiliar = getStatusReminders(item.priority);
+              const auxiliar_time = getStatusTime(item.time);
               return (
                 <div
                   key={item.id}
@@ -200,7 +264,8 @@ export default function ListSchedule() {
                     <div className="text-gray-400 mt-1 flex flex-col items-center">
                       <Bell className="w-4 h-4" />
                       <span className="text-white font-semibold">
-                        {item.hour}
+                        {auxiliar_time.hour}:{auxiliar_time.minutes}{" "}
+                        {auxiliar_time.time_system}
                       </span>
                       <span className="text-sm">{item.date}</span>
                     </div>
@@ -244,6 +309,10 @@ export default function ListSchedule() {
       <AddReminder
         isOpen={addReminderIsOpen}
         onClose={() => setAddReminderIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        contextAuth={contextAuth}
+        refresh={() => getScheduleReminders()}
       ></AddReminder>
     </>
   );
