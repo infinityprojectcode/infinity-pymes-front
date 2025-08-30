@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import { useState } from "react";
+import { X } from "lucide-react";
 
 export default function AddAppointment({ isOpen, onClose }) {
   return (
@@ -11,7 +12,7 @@ export default function AddAppointment({ isOpen, onClose }) {
         style={{
           overlay: { backgroundColor: "rgba(0,0,0,0.5)" },
           content: {
-            inset: 0, // permite centrar vertical/horizontal
+            inset: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -27,23 +28,9 @@ export default function AddAppointment({ isOpen, onClose }) {
             <h1 className="font-semibold text-lg">Programar Nueva Cita</h1>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-red-400"
+              className="text-slate-400 hover:text-red-400 cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <X />
             </button>
           </div>
 
@@ -110,7 +97,7 @@ export default function AddAppointment({ isOpen, onClose }) {
             {/* Botón */}
             <button
               type="submit"
-              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+              className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded cursor-pointer"
             >
               Programar Cita
             </button>

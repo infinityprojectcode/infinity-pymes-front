@@ -1,34 +1,39 @@
 import AddAppointment from "@fragments/schedule/modal-schedule/modal-add-appointment.jsx";
 import AddReminder from "@fragments/schedule/modal-schedule/modal-add-reminder.jsx";
-import { List, ListRestart, Bell } from "lucide-react";
+import {
+  Bell,
+  Plus,
+  Calendar,
+  CalendarSearch,
+  CircleAlert,
+} from "lucide-react";
 import { useState } from "react";
 
 export default function ListSchedule() {
-  const [modalAddAppointmentIsOpen, setModalAddAppointmentIsOpen] =
-    useState(false);
-  const [modalAddReminderIsOpen, setModalAddReminderIsOpen] = useState(false);
+  const [addAppointmentIsOpen, setAddAppointmentIsOpen] = useState(false);
+  const [addReminderIsOpen, setAddReminderIsOpen] = useState(false);
   const [sectionActiva, setSectionActiva] = useState("citas");
 
-  const recordatorios = [
+  const reminders = [
     {
       id: 1,
-      hora: "09:00",
-      fecha: "2025-01-25",
-      titulo: "Pago pendiente - Factura #001",
-      descripcion: "Recordar cobro de factura vencida",
-      prioridad: "Alta",
-      tipo: "Pago",
-      colorPrioridad: "bg-red-600",
+      hour: "09:00",
+      date: "2025-01-25",
+      title: "Pago pendiente - Factura #001",
+      description: "Recordar cobro de factura vencida",
+      priority: "Alta",
+      type: "Pago",
+      priority_color: "bg-red-600",
     },
     {
       id: 2,
-      hora: "10:00",
-      fecha: "2025-01-28",
-      titulo: "Renovar licencia de software",
-      descripcion: "La licencia vence el 30 de enero",
-      prioridad: "Media",
-      tipo: "Tarea",
-      colorPrioridad: "bg-yellow-600",
+      hour: "10:00",
+      date: "2025-01-28",
+      title: "Renovar licencia de software",
+      description: "La licencia vence el 30 de enero",
+      priority: "Media",
+      type: "Tarea",
+      priority_color: "bg-yellow-600",
     },
   ];
 
@@ -48,45 +53,18 @@ export default function ListSchedule() {
         {/* Botones de acción */}
         <div className="flex items-center gap-3 mt-4 md:mt-0">
           <button
-            onClick={() => setModalAddAppointmentIsOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md"
+            onClick={() => setAddAppointmentIsOpen(true)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md cursor-pointer"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
+            <Plus className="h-4 w-4" />
             Nueva Cita
           </button>
 
           <button
-            onClick={() => setModalAddReminderIsOpen(true)}
-            className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800"
+            onClick={() => setAddReminderIsOpen(true)}
+            className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800 cursor-pointer"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-bell-icon lucide-bell"
-            >
-              <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-              <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-            </svg>
+            <Bell className="h-4 w-4" />
             Nuevo Recordatorio
           </button>
         </div>
@@ -96,20 +74,7 @@ export default function ListSchedule() {
         {/* Fecha */}
         <div className="flex items-center gap-2">
           <label htmlFor="fecha" className="text-sm text-gray-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 7V3M16 7V3M4 11h16M5 20h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z"
-              />
-            </svg>
+            <CalendarSearch className="h-5 w-5 text-gray-400" />
           </label>
           <input
             id="fecha"
@@ -132,20 +97,7 @@ export default function ListSchedule() {
             <span className="text-sm text-gray-400">Citas Hoy</span>
             <h2 className="text-2xl font-bold text-blue-500 mt-1">0</h2>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-blue-500"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8 7V3M16 7V3M4 11h16M5 20h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z"
-            />
-          </svg>
+          <Calendar className="h-6 w-6 text-blue-500" />
         </div>
 
         {/* Recordatorios Pendientes */}
@@ -156,20 +108,7 @@ export default function ListSchedule() {
             </span>
             <h2 className="text-2xl font-bold text-yellow-400 mt-1">0</h2>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-yellow-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v2m0 4h.01M12 19a7 7 0 100-14 7 7 0 000 14z"
-            />
-          </svg>
+          <CircleAlert className="h-6 w-6 text-yellow-400" />
         </div>
 
         {/* Pagos Pendientes */}
@@ -178,40 +117,27 @@ export default function ListSchedule() {
             <span className="text-sm text-gray-400">Pagos Pendientes</span>
             <h2 className="text-2xl font-bold text-red-500 mt-1">1</h2>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-red-500"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v2m0 4h.01M12 5a7 7 0 100 14 7 7 0 000-14z"
-            />
-          </svg>
+          <CircleAlert className="h-6 w-6 text-red-500" />
         </div>
       </div>
 
       <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-1 flex w-fit shadow mt-4">
         <button
           onClick={() => setSectionActiva("citas")}
-          className={`p-2 rounded-md text-sm ${
+          className={`p-2 rounded-md text-sm mr-[4px] cursor-pointer ${
             sectionActiva === "citas"
               ? "bg-gray-800 text-white"
-              : "bg-transparent text-gray-300"
+              : "bg-transparent hover:bg-gray-900 text-gray-300"
           }`}
         >
           Citas
         </button>
         <button
           onClick={() => setSectionActiva("recordatorios")}
-          className={`p-2 rounded-md text-sm ${
+          className={`p-2 rounded-md text-sm cursor-pointer ${
             sectionActiva === "recordatorios"
               ? "bg-gray-800 text-white"
-              : "bg-transparent text-gray-300"
+              : "bg-transparent hover:bg-gray-900 text-gray-300"
           }`}
         >
           Recordatorios
@@ -238,7 +164,7 @@ export default function ListSchedule() {
               Recordatorios
             </h2>
 
-            {recordatorios.map((item) => (
+            {reminders.map((item) => (
               <div
                 key={item.id}
                 className="bg-[#1c2431] rounded-lg p-4 mb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between"
@@ -248,18 +174,18 @@ export default function ListSchedule() {
                   <div className="text-gray-400 mt-1 flex flex-col items-center">
                     <Bell className="w-4 h-4" />
                     <span className="text-white font-semibold">
-                      {item.hora}
+                      {item.hour}
                     </span>
-                    <span className="text-sm">{item.fecha}</span>
+                    <span className="text-sm">{item.date}</span>
                   </div>
 
                   {/* Info principal */}
                   <div className="flex flex-col gap-1">
                     <p className="text-md text-white font-semibold">
-                      {item.titulo}
+                      {item.title}
                     </p>
                     <p className="text-sm text-gray-400 mb-1">
-                      {item.descripcion}
+                      {item.description}
                     </p>
                   </div>
                 </div>
@@ -268,12 +194,12 @@ export default function ListSchedule() {
                 <div className="flex items-center">
                   <div className="flex gap-1">
                     <span
-                      className={`${item.colorPrioridad} text-white text-sm px-2 py-0.5 rounded-full font-semibold text-center`}
+                      className={`${item.priority_color} text-white text-sm px-2 py-0.5 rounded-full font-semibold text-center`}
                     >
-                      {item.prioridad}
+                      {item.priority}
                     </span>
                     <span className="bg-transparent text-white text-sm px-2 py-0.5 rounded-full border border-white text-center">
-                      {item.tipo}
+                      {item.type}
                     </span>
                   </div>
                 </div>
@@ -285,12 +211,12 @@ export default function ListSchedule() {
 
       {/* Modales */}
       <AddAppointment
-        isOpen={modalAddAppointmentIsOpen}
-        onClose={() => setModalAddAppointmentIsOpen(false)}
+        isOpen={addAppointmentIsOpen}
+        onClose={() => setAddAppointmentIsOpen(false)}
       ></AddAppointment>
       <AddReminder
-        isOpen={modalAddReminderIsOpen}
-        onClose={() => setModalAddReminderIsOpen(false)}
+        isOpen={addReminderIsOpen}
+        onClose={() => setAddReminderIsOpen(false)}
       ></AddReminder>
     </>
   );
