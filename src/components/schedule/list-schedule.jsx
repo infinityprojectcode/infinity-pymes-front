@@ -271,11 +271,11 @@ export default function ListSchedule() {
                 </p>
               ) : (
                 <div className="space-y-4">
-                  {scheduleAppointments.map((time) => {
-                    const auxiliar = getStatusTime(time.time);
+                  {scheduleAppointments.map((item) => {
+                    const auxiliar = getStatusTime(item.time);
                     return (
                       <div
-                        key={time.id}
+                        key={item.id}
                         className="flex items-center justify-between p-4 bg-gray-800 rounded-lg"
                       >
                         <div className="flex items-center space-x-4">
@@ -286,32 +286,32 @@ export default function ListSchedule() {
                               {auxiliar.time_system}
                             </span>
                             <span className="text-sm text-gray-400">
-                              {time.date}
+                              {item.date}
                             </span>
                           </div>
                           <div>
                             <h3 className="font-medium text-gray-100">
-                              {time.title}
+                              {item.title}
                             </h3>
                             <div className="flex items-center space-x-2 mt-1">
                               <User className="h-3 w-3 text-gray-400" />
                               <span className="text-sm text-gray-400">
-                                {time.client}
+                                {item.customer}
                               </span>
                               <span className="text-sm text-gray-400">
                                 • Duración:{" "}
-                                {getStatusTimeMinutes(time.duration)}
+                                {getStatusTimeMinutes(item.duration)}
                               </span>
                             </div>
-                            {time.notes && (
+                            {item.notes && (
                               <p className="text-xs text-gray-500 mt-1">
-                                {time.notes}
+                                {item.notes}
                               </p>
                             )}
                           </div>
                         </div>
                         <div className="flex items-center space-x-2">
-                          {getStatusBadge(time.status)}
+                          {getStatusBadge(item.status)}
                         </div>
                       </div>
                     );
@@ -382,6 +382,10 @@ export default function ListSchedule() {
       <AddAppointment
         isOpen={addAppointmentIsOpen}
         onClose={() => setAddAppointmentIsOpen(false)}
+        urlApi={urlApi}
+        apiKey={apiKey}
+        contextAuth={contextAuth}
+        refresh={() => getScheduleAppointments()}
       ></AddAppointment>
       <AddReminder
         isOpen={addReminderIsOpen}
