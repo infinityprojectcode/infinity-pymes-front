@@ -7,7 +7,7 @@ import {
   Plus,
   Calendar,
   CalendarSearch,
-  CircleAlert,
+  TriangleAlert,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -188,7 +188,7 @@ export default function ListSchedule() {
             </span>
             <h2 className="text-2xl font-bold text-yellow-400 mt-1">0</h2>
           </div>
-          <CircleAlert className="h-6 w-6 text-yellow-400" />
+          <Bell className="h-6 w-6 text-yellow-400" />
         </div>
 
         {/* Pagos Pendientes */}
@@ -197,7 +197,7 @@ export default function ListSchedule() {
             <span className="text-sm text-gray-400">Pagos Pendientes</span>
             <h2 className="text-2xl font-bold text-red-500 mt-1">0</h2>
           </div>
-          <CircleAlert className="h-6 w-6 text-red-500" />
+          <TriangleAlert className="h-6 w-6 text-red-500" />
         </div>
       </div>
 

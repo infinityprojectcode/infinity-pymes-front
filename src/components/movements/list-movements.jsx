@@ -5,7 +5,7 @@ import CloseDailyMovements from "@fragments/movements/modal-movements/modal-add-
 import { useState, useEffect } from "react";
 import {
   Plus,
-  FileMinus,
+  FileText,
   TrendingUp,
   TrendingDown,
   DollarSign,
@@ -237,7 +237,7 @@ export default function ListMovements() {
               onClick={() => setModalCloseDailyIsOpen(true)}
               className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800 cursor-pointer"
             >
-              <FileMinus className="h-4 w-4" />
+              <FileText className="h-4 w-4" />
               Cierre Diario
             </button>
           </div>
@@ -313,7 +313,7 @@ export default function ListMovements() {
           <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between shadow">
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-400">Movimientos Hoy</span>
-              <FileMinus className="h-5 w-5 text-gray-400" />
+              <FileText className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-white">{`${todayMovements.movements_today}`}</h2>
