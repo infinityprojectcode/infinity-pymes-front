@@ -8,6 +8,8 @@ import {
   Calendar,
   CalendarSearch,
   TriangleAlert,
+  Clock,
+  User,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -22,6 +24,7 @@ export default function ListSchedule() {
   const [addReminderIsOpen, setAddReminderIsOpen] = useState(false);
   const [sectionActiva, setSectionActiva] = useState("citas");
   const [scheduleReminders, setScheduleReminders] = useState([]);
+  const [scheduleAppointments, setScheduleAppointments] = useState([]);
 
   const dateToday = new Date();
   const fullDate = `${dateToday.getFullYear()}-${(dateToday.getMonth() + 1).toString().padStart(2, "0")}-${dateToday.getDate()}`;
@@ -47,38 +50,29 @@ export default function ListSchedule() {
       });
   }
 
-  // const reminders = [
-  //   {
-  //     id: 1,
-  //     title: "Pago pendiente - Factura #001",
-  //     description: "Recordar cobro de factura vencida",
-  //     date: "2025-01-25",
-  //     time: "09:00",
-  //     type: "Pago",
-  //     priority: "Alta",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Renovar licencia de software",
-  //     description: "La licencia vence el 30 de enero",
-  //     date: "2025-01-28",
-  //     time: "10:00",
-  //     type: "Tarea",
-  //     priority: "Media",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Renovar licencia de software",
-  //     description: "La licencia vence el 30 de enero",
-  //     date: "2025-01-28",
-  //     time: "10:00",
-  //     type: "Tarea",
-  //     priority: "Baja",
-  //   },
-  // ];
+  function getScheduleAppointments() {
+    axios
+      .get(`${urlApi}schedule/g/schedule-appointments`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: {
+          business_id: contextAuth.user.business_id,
+          user_id: contextAuth.user.id,
+        },
+      })
+      .then((response) => {
+        setScheduleAppointments(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   useEffect(() => {
     getScheduleReminders();
+    getScheduleAppointments();
   }, []);
 
   const getStatusReminders = (status) => {
@@ -99,21 +93,53 @@ export default function ListSchedule() {
   };
 
   const getStatusTime = (status) => {
-    // status = "23:00" (string)
-    const [hourStr, minuteStr] = status.split(":"); // ["23", "00"]
+    const [hourStr, minuteStr] = status.split(":");
     let hour = parseInt(hourStr, 10);
     const minutes = minuteStr;
 
     let time_system = "AM";
     if (hour >= 12) {
       time_system = "PM";
-      if (hour > 12) hour -= 12; // 13 -> 1, 23 -> 11
+      if (hour > 12) hour -= 12;
     }
     if (hour === 0) {
-      hour = 12; // medianoche = 12 AM
+      hour = 12;
     }
 
     return { hour, minutes, time_system };
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case "scheduled":
+        return (
+          <div className="bg-blue-600 font-semibold rounded-lg p-1">
+            Programada
+          </div>
+        );
+      case "completed":
+        return (
+          <div className="bg-green-600 font-semibold rounded-lg p-1">
+            Completada
+          </div>
+        );
+      case "cancelled":
+        return (
+          <div className="bg-red-600 font-semibold rounded-lg p-1">
+            Cancelada
+          </div>
+        );
+    }
+  };
+
+  const getStatusTimeMinutes = (status) => {
+    const hours = Math.floor(status / 60);
+    const minutes = status % 60;
+
+    if (hours === 0) return `${minutes}min`;
+
+    const displayHours = hours > 12 ? hours - 12 : hours;
+    return minutes > 0 ? `${displayHours}h ${minutes}min` : `${displayHours}h`;
   };
 
   return (
@@ -237,10 +263,61 @@ export default function ListSchedule() {
                 )}
               </span>
             </h2>
-            <div className="flex items-center justify-center">
-              <p className="text-center text-md text-gray-400">
-                No hay citas programadas para esta fecha
-              </p>
+
+            <div>
+              {scheduleAppointments.length === 0 ? (
+                <p className="text-center text-md text-gray-400 py-8">
+                  No hay citas programadas para esta fecha
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  {scheduleAppointments.map((time) => {
+                    const auxiliar = getStatusTime(time.time);
+                    return (
+                      <div
+                        key={time.id}
+                        className="flex items-center justify-between p-4 bg-gray-800 rounded-lg"
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className="flex flex-col items-center">
+                            <Clock className="h-4 w-4 text-gray-400" />
+                            <span className="text-sm font-medium text-gray-100">
+                              {auxiliar.hour}:{auxiliar.minutes}{" "}
+                              {auxiliar.time_system}
+                            </span>
+                            <span className="text-sm text-gray-400">
+                              {time.date}
+                            </span>
+                          </div>
+                          <div>
+                            <h3 className="font-medium text-gray-100">
+                              {time.title}
+                            </h3>
+                            <div className="flex items-center space-x-2 mt-1">
+                              <User className="h-3 w-3 text-gray-400" />
+                              <span className="text-sm text-gray-400">
+                                {time.client}
+                              </span>
+                              <span className="text-sm text-gray-400">
+                                • Duración:{" "}
+                                {getStatusTimeMinutes(time.duration)}
+                              </span>
+                            </div>
+                            {time.notes && (
+                              <p className="text-xs text-gray-500 mt-1">
+                                {time.notes}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          {getStatusBadge(time.status)}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         )}
