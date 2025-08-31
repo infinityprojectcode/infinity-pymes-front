@@ -9,6 +9,7 @@ import {
   TrendingUp,
   TrendingDown,
   DollarSign,
+  Download,
 } from "lucide-react";
 import axios from "axios";
 
@@ -469,7 +470,15 @@ export default function ListMovements() {
 
           {sectionActiva === "cierre" && (
             <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117] text-white p-6">
-              <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
+                <button
+                  className="flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 border h-10 px-4 py-2 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent cursor-pointer"
+                  disabled
+                >
+                  <Download className="h-4 w-4 mr-2" /> Exportar
+                </button>
+              </div>
               <table className="min-w-full shadow-md rounded-lg">
                 <thead className="text-sm">
                   <tr>
