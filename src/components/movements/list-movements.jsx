@@ -5,10 +5,11 @@ import CloseDailyMovements from "@fragments/movements/modal-movements/modal-add-
 import { useState, useEffect } from "react";
 import {
   Plus,
-  FileMinus,
+  FileText,
   TrendingUp,
   TrendingDown,
   DollarSign,
+  Download,
 } from "lucide-react";
 import axios from "axios";
 
@@ -237,7 +238,7 @@ export default function ListMovements() {
               onClick={() => setModalCloseDailyIsOpen(true)}
               className="flex items-center gap-2 border border-gray-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-gray-800 cursor-pointer"
             >
-              <FileMinus className="h-4 w-4" />
+              <FileText className="h-4 w-4" />
               Cierre Diario
             </button>
           </div>
@@ -313,7 +314,7 @@ export default function ListMovements() {
           <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex flex-col justify-between shadow">
             <div className="flex justify-between items-start">
               <span className="text-sm text-gray-400">Movimientos Hoy</span>
-              <FileMinus className="h-5 w-5 text-gray-400" />
+              <FileText className="h-5 w-5 text-gray-400" />
             </div>
             <div className="mt-2">
               <h2 className="text-2xl font-bold text-white">{`${todayMovements.movements_today}`}</h2>
@@ -469,7 +470,15 @@ export default function ListMovements() {
 
           {sectionActiva === "cierre" && (
             <div className="w-full overflow-x-auto rounded-lg bg-[#0d1117] text-white p-6">
-              <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold mb-4">Cierres Diarios</h2>
+                <button
+                  className="flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 border h-10 px-4 py-2 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent cursor-pointer"
+                  disabled
+                >
+                  <Download className="h-4 w-4 mr-2" /> Exportar
+                </button>
+              </div>
               <table className="min-w-full shadow-md rounded-lg">
                 <thead className="text-sm">
                   <tr>

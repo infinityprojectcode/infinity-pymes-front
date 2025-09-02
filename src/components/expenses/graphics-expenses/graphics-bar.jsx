@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "@context/app/app-provider.jsx";
 import { useAuth } from "@context/auth/auth-provider";
 import axios from "axios";
+import { Download } from "lucide-react";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -125,12 +126,19 @@ export default function GraphicsBar() {
 
   return (
     <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 shadow col-span-1 md:col-span-2 lg:col-span-2 flex flex-col gap-4">
-      {/* Título alineado a la izquierda */}
-      <h1 className="text-xl font-bold text-white text-left">
-        Ingresos y Gastos
-      </h1>
-
-      {/* Contenedor del gráfico centrado */}
+      {/* Título */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-xl font-bold text-white text-left">
+          Ingresos y Gastos
+        </h1>
+        <button
+          className="flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 border h-10 px-4 py-2 border-gray-700 text-gray-300 hover:bg-gray-800 bg-transparent cursor-pointer"
+          disabled
+        >
+          <Download className="h-4 w-4 mr-2" /> Exportar
+        </button>
+      </div>
+      {/* Contenedor del gráfico */}
       <div className="flex justify-center items-center w-full h-64">
         <Bar data={data} options={options} />
       </div>

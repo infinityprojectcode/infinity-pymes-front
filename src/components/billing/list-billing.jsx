@@ -75,7 +75,7 @@ export default function ListBilling() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         </div>
 
-        <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
+        <div className="w-full overflow-x-auto rounded-lg border border-gray-700 bg-[#0d1117] text-white p-3">
           <h1 className="text-2xl font-bold mb-1 ">
             Facturas ({billing.length})
           </h1>
