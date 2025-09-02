@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 export default function ListSchedule() {
   const context = useAppContext();
@@ -26,6 +27,7 @@ export default function ListSchedule() {
   const [scheduleReminders, setScheduleReminders] = useState([]);
   const [scheduleAppointments, setScheduleAppointments] = useState([]);
   const [appointmentsToday, setAppointmentsToday] = useState([]);
+  const [loadingId, setLoadingId] = useState(null);
 
   const dateToday = new Date();
   const fullDate = `${dateToday.getFullYear()}-${(dateToday.getMonth() + 1).toString().padStart(2, "0")}-${dateToday.getDate().toString().padStart(2, "0")}`;
@@ -90,6 +92,44 @@ export default function ListSchedule() {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  async function toggleReminderComplete(reminder_id, reminder_status) {
+    setLoadingId(reminder_id);
+
+    const data_reminder = {
+      completed: reminder_status ? 1 : 0,
+      business_id: contextAuth.user.business_id,
+      user_id: contextAuth.user.id,
+    };
+
+    toast.promise(
+      axios
+        .put(
+          `${urlApi}schedule/u/schedule-reminders-completed/${reminder_id}`,
+          data_reminder,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "api-key": apiKey,
+            },
+          }
+        )
+        .then((response) => {
+          if (response.data.success) {
+            setLoadingId(null);
+            getScheduleReminders();
+            return "Recordatorio actualizado con éxito";
+          } else {
+            throw new Error("Error al actualizar el recordatorio");
+          }
+        }),
+      {
+        loading: "Actualizando el recordatorio...",
+        success: (msg) => msg,
+        error: (err) => err.message || "Error en la solicitud de actualización",
+      }
+    );
   }
 
   useEffect(() => {
@@ -257,10 +297,21 @@ export default function ListSchedule() {
         </div>
 
         {/* Pagos Pendientes */}
+
+        {/* Agregar en las secciones de gastos o facturación que al momento de agregar uno de esos se agregue automáticamente un recordatorio */}
+
+        {/* Agregar que se borren periódicamente los recordatorios, que esto sea por default o que se pueda cambiar esta opción desde configuración */}
+
         <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex justify-between items-center h-full shadow">
           <div>
             <span className="text-sm text-gray-400">Pagos Pendientes</span>
-            <h2 className="text-2xl font-bold text-red-500 mt-1">0</h2>
+            <h2 className="text-2xl font-bold text-red-500 mt-1">
+              {
+                scheduleReminders.filter(
+                  (item) => item.type === "Pago" && item.completed === 0
+                ).length
+              }
+            </h2>
           </div>
           <TriangleAlert className="h-6 w-6 text-red-500" />
         </div>
@@ -361,6 +412,8 @@ export default function ListSchedule() {
           </div>
         )}
 
+        {/* Agregar el condicional de contenido */}
+
         {sectionActiva === "recordatorios" && (
           <div className="bg-[#0d1117] p-4 rounded-lg">
             <h2 className="text-lg font-semibold text-white mb-2">
@@ -373,10 +426,26 @@ export default function ListSchedule() {
               return (
                 <div
                   key={item.id}
-                  className="bg-[#1c2431] rounded-lg p-4 mb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between"
+                  className={`rounded-lg p-4 mb-2 flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between ${
+                    item.completed ? "bg-gray-800 opacity-60" : "bg-gray-800"
+                  }`}
                 >
                   <div className="flex items-center gap-4">
-                    {/* Icono */}
+                    {loadingId === item.id ? (
+                      <Clock className="text-gray-400 h-4 w-4" />
+                    ) : (
+                      <input
+                        type="checkbox"
+                        checked={item.completed === 1}
+                        disabled={loadingId === item.id}
+                        onChange={(e) =>
+                          toggleReminderComplete(
+                            item.id,
+                            e.target.checked ? 1 : 0
+                          )
+                        }
+                      />
+                    )}
                     <div className="text-gray-400 mt-1 flex flex-col items-center">
                       <Bell className="w-4 h-4" />
                       <span className="text-white font-semibold">
@@ -388,9 +457,11 @@ export default function ListSchedule() {
 
                     {/* Info principal */}
                     <div className="flex flex-col gap-1">
-                      <p className="text-md text-white font-semibold">
+                      <h3
+                        className={`text-md font-semibold ${item.completed ? "line-through text-gray-500" : "text-gray-100"}`}
+                      >
                         {item.title}
-                      </p>
+                      </h3>
                       <p className="text-sm text-gray-400 mb-1">
                         {item.description}
                       </p>
