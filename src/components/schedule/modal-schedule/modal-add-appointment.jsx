@@ -16,7 +16,7 @@ export default function AddAppointment({
   const [customerId, setCustomerId] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [duration, setDuration] = useState("");
+  const [duration, setDuration] = useState("15");
   const [notes, setNotes] = useState("");
 
   const [customers, setCustomers] = useState([]);
@@ -69,7 +69,7 @@ export default function AddAppointment({
             setCustomerId("");
             setDate("");
             setTime("");
-            setDuration("30");
+            setDuration("15");
             setNotes("");
             // setLoading(false);
             refresh();
@@ -187,6 +187,7 @@ export default function AddAppointment({
                 className="w-full p-2 rounded bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
+                defaultValue={"15"}
               >
                 <option value={"15"}>15 minutos</option>
                 <option value={"30"}>30 minutos</option>
