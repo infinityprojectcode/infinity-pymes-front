@@ -25,10 +25,11 @@ export default function ListSchedule() {
   const [sectionActiva, setSectionActiva] = useState("citas");
   const [scheduleReminders, setScheduleReminders] = useState([]);
   const [scheduleAppointments, setScheduleAppointments] = useState([]);
+  const [appointmentsToday, setAppointmentsToday] = useState([]);
 
   const dateToday = new Date();
-  const fullDate = `${dateToday.getFullYear()}-${(dateToday.getMonth() + 1).toString().padStart(2, "0")}-${dateToday.getDate()}`;
-  const [exampleDate, setExampleDate] = useState(fullDate);
+  const fullDate = `${dateToday.getFullYear()}-${(dateToday.getMonth() + 1).toString().padStart(2, "0")}-${dateToday.getDate().toString().padStart(2, "0")}`;
+  const [filterDate, setFilterDate] = useState(fullDate);
 
   function getScheduleReminders() {
     axios
@@ -60,6 +61,7 @@ export default function ListSchedule() {
         params: {
           business_id: contextAuth.user.business_id,
           user_id: contextAuth.user.id,
+          date: filterDate,
         },
       })
       .then((response) => {
@@ -70,10 +72,34 @@ export default function ListSchedule() {
       });
   }
 
+  function getAppointmentsToday() {
+    axios
+      .get(`${urlApi}schedule/g/schedule-appointments-today`, {
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": apiKey,
+        },
+        params: {
+          business_id: contextAuth.user.business_id,
+          user_id: contextAuth.user.id,
+        },
+      })
+      .then((response) => {
+        setAppointmentsToday(response.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   useEffect(() => {
     getScheduleReminders();
-    getScheduleAppointments();
+    getAppointmentsToday();
   }, []);
+
+  useEffect(() => {
+    getScheduleAppointments();
+  }, [filterDate]);
 
   const getStatusReminders = (status) => {
     if (status == "Bajo")
@@ -185,14 +211,23 @@ export default function ListSchedule() {
             id="fecha"
             type="date"
             className="bg-slate-800 text-white border border-gray-700 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2"
-            value={exampleDate}
-            onChange={(e) => setExampleDate(e.target.value)}
+            value={filterDate || ""}
+            onChange={(e) => setFilterDate(e.target.value)}
           />
+
+          <button
+            type="date"
+            className="bg-slate-800 text-white border border-gray-700 rounded px-3 py-1 text-sm hover:bg-slate-700 cursor-pointer"
+            onClick={() => setFilterDate(null)}
+          >
+            Mostrar Todos
+          </button>
         </div>
 
         {/* Resumen */}
         <div className="font-semibold text-gray-300 mt-2 md:mt-0">
-          0 citas, 0 recordatorios
+          {scheduleAppointments.length} citas, {scheduleReminders.length}{" "}
+          recordatorios
         </div>
       </div>
 
@@ -201,7 +236,9 @@ export default function ListSchedule() {
         <div className="bg-[#0d1117] border border-gray-800 rounded-lg p-4 flex justify-between items-center h-full shadow">
           <div>
             <span className="text-sm text-gray-400">Citas Hoy</span>
-            <h2 className="text-2xl font-bold text-blue-500 mt-1">0</h2>
+            <h2 className="text-2xl font-bold text-blue-500 mt-1">
+              {appointmentsToday.total_appointments_today}
+            </h2>
           </div>
           <Calendar className="h-6 w-6 text-blue-500" />
         </div>
@@ -212,7 +249,9 @@ export default function ListSchedule() {
             <span className="text-sm text-gray-400">
               Recordatorios Pendientes
             </span>
-            <h2 className="text-2xl font-bold text-yellow-400 mt-1">0</h2>
+            <h2 className="text-2xl font-bold text-yellow-400 mt-1">
+              {scheduleReminders.length}
+            </h2>
           </div>
           <Bell className="h-6 w-6 text-yellow-400" />
         </div>
@@ -254,14 +293,14 @@ export default function ListSchedule() {
         {sectionActiva === "citas" && (
           <div className="bg-[#0d1117] text-white rounded-lg p-4 mt-4">
             <h2 className="flex text-lg font-semibold mb-6">
-              <span className="pr-1">Citas para:</span>
-              <span>
-                {exampleDate === fullDate ? (
-                  <div>Hoy</div>
-                ) : (
-                  <div>{exampleDate}</div>
-                )}
-              </span>
+              {filterDate === null ? (
+                <span>Todas las citas:</span>
+              ) : (
+                <>
+                  <span className="pr-1">Citas para:</span>
+                  <span>{filterDate === fullDate ? "Hoy" : filterDate}</span>
+                </>
+              )}
             </h2>
 
             <div>
