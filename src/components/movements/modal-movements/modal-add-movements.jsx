@@ -276,23 +276,9 @@ export default function AddMovements({
             <h1 className="font-semibold text-lg">Registrar Movimiento</h1>
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-red-400"
+              className="text-slate-400 hover:text-red-400 cursor-pointer"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-x"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <X />
             </button>
           </div>
 
@@ -346,7 +332,7 @@ export default function AddMovements({
                       </option>
                       {customers.map((cat) => (
                         <option key={cat.id} value={cat.id}>
-                          {cat.name}
+                          {cat.name} {cat.lastname}
                         </option>
                       ))}
                     </select>
@@ -360,7 +346,7 @@ export default function AddMovements({
                       id="fecha"
                       name="fecha"
                       value={expirationAt}
-                      onChange={(e) => setExpirationAt(e.target.value)} // 🔹 Guardamos en el estado
+                      onChange={(e) => setExpirationAt(e.target.value)}
                       className="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>

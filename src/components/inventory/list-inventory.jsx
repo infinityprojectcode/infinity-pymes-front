@@ -5,7 +5,7 @@ import AddInventory from "./modal-inventory/modal-add-inventory.jsx";
 import { useAppContext } from "@context/app/app-provider.jsx";
 import { useAuth } from "@context/auth/auth-provider";
 import { useState, useEffect, useContext } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2, Search } from "lucide-react";
 import bebidas from "@assets/images/bebida.webp";
 import axios from "axios";
 
@@ -73,22 +73,9 @@ export default function ListInventory() {
             placeholder="Buscar productos..."
             className="w-full pl-10 pr-4 py-2 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white focus:border-white text-sm"
           />
-          <svg
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1116.65 2a7.5 7.5 0 010 15z"
-            />
-          </svg>
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         </div>
-        <div className="w-full overflow-x-auto rounded-lg border border-gray-700  bg-gray-900 text-white p-3">
+        <div className="w-full overflow-x-auto rounded-lg border border-gray-700 bg-[#0d1117] text-white p-3">
           <h1 className="text-2xl font-bold mb-1 ">
             Productos ({inventory.length})
           </h1>
